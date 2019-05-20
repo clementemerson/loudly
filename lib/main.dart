@@ -1,4 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/Screens/countpoll_screen.dart';
+import 'package:loudly/Screens/group_screen.dart';
+import 'package:loudly/Screens/grouplist_screen.dart';
+import 'package:loudly/Screens/groupparticipants_screen.dart';
+import 'package:loudly/Screens/home_screen.dart';
+import 'package:loudly/Screens/images_screen.dart';
+import 'package:loudly/Screens/need_screen.dart';
+import 'package:loudly/Screens/newcountpoll_screen.dart';
+import 'package:loudly/Screens/newgroup_screen.dart';
+import 'package:loudly/Screens/newneed_screen.dart';
+import 'package:loudly/Screens/newpoll_screen.dart';
+import 'package:loudly/Screens/phonelogin_screen.dart';
+import 'package:loudly/Screens/phoneverify_screen.dart';
+import 'package:loudly/Screens/poll_screen.dart';
+import 'package:loudly/Screens/search_screen.dart';
+import 'package:loudly/Screens/settings_screen.dart';
+import 'package:loudly/Screens/sharecontent_screen.dart';
+import 'package:loudly/Screens/welcome_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,19 +26,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: ThemeData.dark(),
+      initialRoute: WelcomeScreen.id,
+      routes: {
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        CountPollScreen.id: (context) => CountPollScreen(),
+        GroupScreen.id: (context) => GroupScreen(),
+        GroupListScreen.id: (context) => GroupListScreen(),
+        GroupParticipantsScreen.id: (context) => GroupParticipantsScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
+        ImagesScreen.id: (context) => ImagesScreen(),
+        NeedScreen.id: (context) => NeedScreen(),
+        NewCountPollScreen.id: (context) => NewCountPollScreen(),
+        NewGroupScreen.id: (context) => NewGroupScreen(),
+        NewNeedScreen.id: (context) => NewNeedScreen(),
+        NewPollScreen.id: (context) => NewPollScreen(),
+        PhoneLoginScreen.id: (context) => PhoneLoginScreen(),
+        PhoneVerifyScreen.id: (context) => PhoneVerifyScreen(),
+        PollScreen.id: (context) => PollScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
+        SettingsScreen.id: (context) => SettingsScreen(),
+        ShareContentScreen.id: (context) => ShareContentScreen(),
+      },
     );
   }
 }

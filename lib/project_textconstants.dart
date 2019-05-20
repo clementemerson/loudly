@@ -1,0 +1,1 @@
+const String kEnterMobileNumberTxt = 'Enter your mobile number';
