@@ -19,34 +19,29 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
       appBar: AppBar(
         title: Text(kProjectName),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(40.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  kUserInputNumberTextField(
-                      helperText: kEnterMobileNumberTxt, maxLen: 10),
-                  kSizedBox_Medium,
-                  RaisedButton(
-                    child: Text(kLoginRegister),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        PhoneVerifyScreen.id,
-                      );
-                    },
-                  ),
-                ],
+      body: Container(
+        padding: const EdgeInsets.all(40.0),
+        child: Column(
+          children: <Widget>[
+            kUserInputNumberTextField(
+                helperText: kEnterMobileNumberTxt, maxLen: 10),
+            kSizedBox_Medium,
+            RaisedButton(
+              child: Text(kLoginRegister),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  PhoneVerifyScreen.id,
+                );
+              },
+              color: Colors.blue,
+              padding: EdgeInsets.all(15.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

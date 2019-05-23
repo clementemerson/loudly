@@ -34,11 +34,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Icon(
               kProjectIcon,
               size: kIcon_Big,
+              color: Colors.blue,
             ),
             Text(
               kProjectName,
               style: TextStyle(
                 fontSize: kText_Big,
+                color: Colors.blue,
               ),
             ),
             kGetActivityIndicator(),

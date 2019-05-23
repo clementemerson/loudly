@@ -11,6 +11,7 @@ import 'package:loudly/project_textconstants.dart';
 
 TextField kUserInputNumberTextField({int maxLen, @required String helperText}) {
   return TextField(
+    autofocus: true,
     maxLength: maxLen ?? null,
     style: TextStyle(
       fontSize: kText_Big,
@@ -18,7 +19,6 @@ TextField kUserInputNumberTextField({int maxLen, @required String helperText}) {
     ),
     decoration: InputDecoration(
       helperText: helperText,
-      prefixIcon: Icon(Icons.phone),
     ),
     keyboardType: TextInputType.phone,
     textInputAction: TextInputAction.go,

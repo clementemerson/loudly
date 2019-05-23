@@ -29,7 +29,6 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
             child: Container(
               padding: const EdgeInsets.all(40.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   kUserInputNumberTextField(
                       helperText: kEnterOTPTxt, maxLen: 6),
@@ -40,13 +39,15 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           HomeScreen.id, (Route<dynamic> route) => false);
                     },
+                    color: Colors.blue,
+                    padding: EdgeInsets.all(15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-          Expanded(
-            child: Container(),
           ),
         ],
       ),
