@@ -10,6 +10,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> _products = ['Do you vote?', 'Where we go tomorrow?', 'Whats the plan?'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
           kPopupMenuItem(context),
         ],
       ),
-      body: Container(),
+      body: ListTile(),
     );
   }
 }
