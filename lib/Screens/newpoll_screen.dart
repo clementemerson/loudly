@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_textconstants.dart';
 
 class NewPollScreen extends StatefulWidget {
@@ -16,106 +18,110 @@ class _NewPollScreenState extends State<NewPollScreen> {
         title: Text(kNewPoll),
       ),
       body: Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(
+          12.0,
+        ),
         child: ListView(
           children: <Widget>[
+            SizedBox(
+              height: 8.0,
+            ),
             TextField(
-              maxLength: 160,
               maxLines: null,
+              textCapitalization: TextCapitalization.sentences,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(140),
+              ],
               decoration: InputDecoration(
-                hintText: 'Describe about your poll',
+                labelText: kAskSomething,
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  //borderSide: BorderSide.none,
+                ),
+              ),
+              style: TextStyle(
+                fontSize: 16.0,
               ),
             ),
             SizedBox(
               height: 20.0,
             ),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.green,
-                hintText: 'Option 1',
-                hintStyle: TextStyle(
-                  color: Colors.black,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
+            Container(
+              padding: const EdgeInsets.only(
+                left: 20.0,
               ),
-              maxLength: 40,
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.red,
-                hintText: 'Option 2',
-                hintStyle: TextStyle(
-                  color: Colors.black,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              maxLength: 40,
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.yellow,
-                hintText: 'Option 3',
-                hintStyle: TextStyle(
-                  color: Colors.black,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              maxLength: 40,
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.pink,
-                hintText: 'Option 4',
-                hintStyle: TextStyle(
-                  color: Colors.black,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              maxLength: 40,
-              style: TextStyle(
-                fontSize: 20.0,
+              child: ListView(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                children: <Widget>[
+                  TextField(
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(25),
+                    ],
+                    decoration: kGetOptionsInputDecorator(kOption1),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  Divider(),
+                  TextField(
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(25),
+                    ],
+                    decoration: kGetOptionsInputDecorator(kOption2),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  Divider(),
+                  TextField(
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(25),
+                    ],
+                    decoration: kGetOptionsInputDecorator(kOption3),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  Divider(),
+                  TextField(
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(25),
+                    ],
+                    decoration: kGetOptionsInputDecorator(kOption4),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 40.0,
             ),
             RaisedButton(
               onPressed: () {},
               child: Text(
-                'Create',
+                kCreate,
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                 ),
               ),
               color: Colors.blue,
               padding: EdgeInsets.all(20.0),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(8.0),
               ),
             ),
           ],

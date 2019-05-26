@@ -85,3 +85,17 @@ Widget kPopupMenuItem(BuildContext context) {
     },
   );
 }
+
+InputDecoration kGetOptionsInputDecorator(String labelText) {
+  return InputDecoration(
+    contentPadding: EdgeInsets.all(14.0),
+    labelText: labelText,
+    hintStyle: TextStyle(
+      color: Colors.grey,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8.0),
+      //borderSide: BorderSide.none,
+    ),
+  );
+}

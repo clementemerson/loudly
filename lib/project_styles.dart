@@ -9,4 +9,6 @@ const double kText_Big = 40.0;
 
 const double kText_Medium = 24.0;
 
-const SizedBox kSizedBox_Medium = SizedBox(height: 40.0,);
+const SizedBox kSizedBox_Medium = SizedBox(
+  height: 40.0,
+);
