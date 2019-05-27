@@ -19,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     //TODO1: check whether the device has valid credentials, if yes goto home_screen, else goto phonelogin_screen
 
     //Mock Code
-    new Future.delayed(new Duration(seconds: 3), () {
+    new Future.delayed(new Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     });
   }
