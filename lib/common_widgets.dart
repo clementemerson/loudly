@@ -88,8 +88,8 @@ Widget kPopupMenuItem(BuildContext context) {
 
 InputDecoration kGetOptionsInputDecorator(String labelText) {
   return InputDecoration(
-    contentPadding: EdgeInsets.all(14.0),
-    labelText: labelText,
+    contentPadding: EdgeInsets.all(10.0),
+    hintText: labelText,
     hintStyle: TextStyle(
       color: Colors.grey,
     ),
@@ -97,5 +97,11 @@ InputDecoration kGetOptionsInputDecorator(String labelText) {
       borderRadius: BorderRadius.circular(8.0),
       //borderSide: BorderSide.none,
     ),
+  );
+}
+
+Divider kGetOptionsDivider() {
+  return Divider(
+    height: 8.0,
   );
 }

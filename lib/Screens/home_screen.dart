@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'dart:core';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:loudly/Lists/group_list.dart';
 import 'package:loudly/Lists/poll_list.dart';
 
 import 'package:loudly/common_widgets.dart';
@@ -19,14 +18,31 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(kProjectName),
-          actions: <Widget>[
-            kSearchWidget(context),
-            kPopupMenuItem(context),
-          ],
-        ),
-        body: PollList(PollListType.All));
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Tab(text: 'HOME'),
+                Tab(text: 'GROUPS'),
+                Tab(text: 'MY POLLS'),
+              ],
+            ),
+            title: Text(kProjectName),
+            actions: <Widget>[
+              kSearchWidget(context),
+              kPopupMenuItem(context),
+            ],
+          ),
+          body: TabBarView(
+            children: [
+              PollList(PollListType.All),
+              GroupList(),
+              PollList(PollListType.All),
+            ],
+          ),
+      ),
+    );
   }
 }

@@ -46,8 +46,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
                 fontSize: 16.0,
               ),
             ),
-            SizedBox(
-              height: 20.0,
+            Divider(
+              height: 12.0,
             ),
             Container(
               padding: const EdgeInsets.only(
@@ -65,10 +65,10 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption1),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 12.0,
                     ),
                   ),
-                  Divider(),
+                  kGetOptionsDivider(),
                   TextField(
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
@@ -77,10 +77,10 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption2),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 12.0,
                     ),
                   ),
-                  Divider(),
+                  kGetOptionsDivider(),
                   TextField(
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
@@ -89,10 +89,10 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption3),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 12.0,
                     ),
                   ),
-                  Divider(),
+                  kGetOptionsDivider(),
                   TextField(
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
@@ -101,14 +101,14 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption4),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 12.0,
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 40.0,
+              height: 20.0,
             ),
             RaisedButton(
               onPressed: () {},
@@ -119,7 +119,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                 ),
               ),
               color: Colors.blue,
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(16.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),

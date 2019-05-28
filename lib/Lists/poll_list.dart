@@ -26,7 +26,7 @@ class _PollListState extends State<PollList> {
   void initState() {
     getPollData();
 
-    super.initState();    
+    super.initState();
   }
 
   getChartData(List<int> votesInAllCategories) {
@@ -77,9 +77,11 @@ class _PollListState extends State<PollList> {
               votes: getVoteList(pollData['votes']),
               image: pollData['image']);
 
-          setState(() {
-            _pollList.add(poll);
-          });
+          if (this.mounted == true) {
+            setState(() {
+              _pollList.add(poll);
+            });
+          }
         }
       }
     } catch (e) {
