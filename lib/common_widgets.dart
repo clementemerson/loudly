@@ -90,12 +90,9 @@ InputDecoration kGetOptionsInputDecorator(String labelText) {
   return InputDecoration(
     contentPadding: EdgeInsets.all(10.0),
     hintText: labelText,
-    hintStyle: TextStyle(
-      color: Colors.grey,
-    ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
-      //borderSide: BorderSide.none,
+      borderSide: BorderSide(color: Colors.red, width: 1.0,),
     ),
   );
 }

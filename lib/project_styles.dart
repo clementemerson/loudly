@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const double kIcon_Big = 150;
-const double kIcon_Medium = 100;
+const double kIcon_Medium = 80;
 const double kIcon_Small = 50;
 const double kIcon_Mini = 20;
 

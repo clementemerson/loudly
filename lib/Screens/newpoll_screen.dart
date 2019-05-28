@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loudly/common_widgets.dart';
+import 'package:loudly/project_settings.dart';
+import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
 
 class NewPollScreen extends StatefulWidget {
@@ -11,6 +13,9 @@ class NewPollScreen extends StatefulWidget {
 }
 
 class _NewPollScreenState extends State<NewPollScreen> {
+  bool canBeShared = true;
+  bool resultIsPublic = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,28 +31,37 @@ class _NewPollScreenState extends State<NewPollScreen> {
             SizedBox(
               height: 8.0,
             ),
-            TextField(
-              maxLines: null,
-              textCapitalization: TextCapitalization.sentences,
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(140),
+            Row(
+              children: <Widget>[
+                Icon(
+                  kProjectIcon,
+                  size: kIcon_Small,
+                  color: Colors.blue,
+                ),
+                Expanded(
+                  child: TextField(
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(140),
+                    ],
+                    decoration: InputDecoration(
+                      hintText: kAskSomething,
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    style: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
               ],
-              decoration: InputDecoration(
-                labelText: kAskSomething,
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  //borderSide: BorderSide.none,
-                ),
-              ),
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-            Divider(
-              height: 12.0,
             ),
             Container(
               padding: const EdgeInsets.only(
@@ -65,7 +79,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption1),
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                     ),
                   ),
                   kGetOptionsDivider(),
@@ -77,7 +91,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption2),
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                     ),
                   ),
                   kGetOptionsDivider(),
@@ -89,7 +103,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption3),
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                     ),
                   ),
                   kGetOptionsDivider(),
@@ -101,14 +115,48 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption4),
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 12.0,
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text('Anyone can share this poll in their groups'),
+                ),
+                Switch(
+                  value: canBeShared,
+                  onChanged: (value) {
+                    setState(() {
+                      canBeShared = value;
+                    });
+                  },
+                  activeTrackColor: Colors.lightBlueAccent,
+                  activeColor: Colors.blue,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text('Everyone can see the poll results'),
+                ),
+                Switch(
+                  value: resultIsPublic,
+                  onChanged: (value) {
+                    setState(() {
+                      resultIsPublic = value;
+                    });
+                  },
+                  activeTrackColor: Colors.lightBlueAccent,
+                  activeColor: Colors.blue,
+                ),
+              ],
             ),
             RaisedButton(
               onPressed: () {},
