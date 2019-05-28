@@ -4,3 +4,8 @@ enum PopupMenuValue {
   CreateNewGroup,
   Settings,
 }
+
+enum PollListType {
+  All,
+  Group,
+}

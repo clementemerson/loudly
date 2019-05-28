@@ -12,3 +12,20 @@ const double kText_Medium = 24.0;
 const SizedBox kSizedBox_Medium = SizedBox(
   height: 40.0,
 );
+
+  Color kGetColor(int index) {
+    switch (index) {
+      case 0:
+        return Colors.redAccent;
+        break;
+      case 1:
+        return Colors.greenAccent;
+        break;
+      case 2:
+        return Colors.blueAccent;
+        break;
+      default:
+        return Colors.yellow;
+        break;
+    }
+  }
