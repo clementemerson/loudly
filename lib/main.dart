@@ -18,7 +18,9 @@ import 'package:loudly/Screens/settings_screen.dart';
 import 'package:loudly/Screens/sharecontent_screen.dart';
 import 'package:loudly/Screens/welcome_screen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

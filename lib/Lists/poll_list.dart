@@ -99,6 +99,7 @@ class _PollListState extends State<PollList> {
       itemCount: _pollList.length,
       itemBuilder: (context, index) {
         return ListTile(
+          contentPadding: EdgeInsets.all(0.0),
           title: Text(
             '${_pollList[index].title}',
             overflow: TextOverflow.ellipsis,
@@ -111,6 +112,9 @@ class _PollListState extends State<PollList> {
             size: const Size(80.0, 80.0),
             initialChartData: getChartData(_pollList[index].votes),
             chartType: CircularChartType.Pie,
+            duration: Duration(
+              seconds: 1,
+            ),
           ),
         );
       },

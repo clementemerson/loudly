@@ -88,11 +88,14 @@ Widget kPopupMenuItem(BuildContext context) {
 
 InputDecoration kGetOptionsInputDecorator(String labelText) {
   return InputDecoration(
-    contentPadding: EdgeInsets.all(10.0),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8.0),
+      borderSide: BorderSide(color: Colors.blue,),
+    ),
+    contentPadding: EdgeInsets.all(12.0),
     hintText: labelText,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: Colors.red, width: 1.0,),
     ),
   );
 }

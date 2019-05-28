@@ -30,6 +30,14 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
               padding: const EdgeInsets.all(40.0),
               child: Column(
                 children: <Widget>[
+                  Hero(
+                    tag: 'ProjectIcon',
+                    child: Icon(
+                      kProjectIcon,
+                      size: kIcon_Small,
+                      color: Colors.blue,
+                    ),
+                  ),
                   kUserInputNumberTextField(
                       helperText: kEnterOTPTxt, maxLen: 6),
                   kSizedBox_Medium,

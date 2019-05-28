@@ -20,7 +20,20 @@ class _NewPollScreenState extends State<NewPollScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(kNewPoll),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {},
+            child: Text(
+              kCreate,
+              style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(
@@ -28,9 +41,6 @@ class _NewPollScreenState extends State<NewPollScreen> {
         ),
         child: ListView(
           children: <Widget>[
-            SizedBox(
-              height: 8.0,
-            ),
             Row(
               children: <Widget>[
                 Icon(
@@ -57,7 +67,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ),
                     style: TextStyle(
                       color: Color(0xFFFFFFFF),
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                     ),
                   ),
                 ),
@@ -65,7 +75,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
             ),
             Container(
               padding: const EdgeInsets.only(
-                left: 20.0,
+                left: 40.0,
+                right: 10.0,
               ),
               child: ListView(
                 shrinkWrap: true,
@@ -79,7 +90,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption1),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 16.0,
                     ),
                   ),
                   kGetOptionsDivider(),
@@ -91,7 +102,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption2),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 16.0,
                     ),
                   ),
                   kGetOptionsDivider(),
@@ -103,7 +114,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption3),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 16.0,
                     ),
                   ),
                   kGetOptionsDivider(),
@@ -115,7 +126,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     ],
                     decoration: kGetOptionsInputDecorator(kOption4),
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 16.0,
                     ),
                   ),
                 ],
@@ -157,20 +168,6 @@ class _NewPollScreenState extends State<NewPollScreen> {
                   activeColor: Colors.blue,
                 ),
               ],
-            ),
-            RaisedButton(
-              onPressed: () {},
-              child: Text(
-                kCreate,
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-              ),
-              color: Colors.blue,
-              padding: EdgeInsets.all(16.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
             ),
           ],
         ),

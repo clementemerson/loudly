@@ -19,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     //TODO1: check whether the device has valid credentials, if yes goto home_screen, else goto phonelogin_screen
 
     //Mock Code
-    new Future.delayed(new Duration(seconds: 1), () {
+    new Future.delayed(new Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     });
   }
@@ -31,10 +31,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              kProjectIcon,
-              size: kIcon_Big,
-              color: Colors.blue,
+            Hero(
+              tag: 'ProjectIcon',
+              child: Icon(
+                kProjectIcon,
+                size: kIcon_Big,
+                color: Colors.blue,
+              ),
             ),
             Text(
               kProjectName,

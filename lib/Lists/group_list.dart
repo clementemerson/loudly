@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:loudly/Screens/group_screen.dart';
 
 class GroupList extends StatefulWidget {
   @override
@@ -66,6 +67,12 @@ class _GroupListState extends State<GroupList> {
             overflow: TextOverflow.ellipsis,
           ),
           leading: Image.network(_groupList[index].image),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              GroupScreen.id,
+            );
+          },
         );
       },
     );
