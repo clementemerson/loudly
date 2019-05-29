@@ -23,14 +23,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
         padding: const EdgeInsets.all(40.0),
         child: ListView(
           children: <Widget>[
-            Hero(
-              tag: 'ProjectIcon',
-              child: Icon(
-                kProjectIcon,
-                size: kIcon_Small,
-                color: Colors.blue,
-              ),
-            ),
             kUserInputNumberTextField(
                 helperText: kEnterMobileNumberTxt, maxLen: 10),
             kSizedBox_Medium,
