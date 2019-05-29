@@ -23,41 +23,35 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
       appBar: AppBar(
         title: Text(kProjectName),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(40.0),
-              child: Column(
-                children: <Widget>[
-                  Hero(
-                    tag: 'ProjectIcon',
-                    child: Icon(
-                      kProjectIcon,
-                      size: kIcon_Small,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  kUserInputNumberTextField(
-                      helperText: kEnterOTPTxt, maxLen: 6),
-                  kSizedBox_Medium,
-                  RaisedButton(
-                    child: Text(kVerifyOTP),
-                    onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          HomeScreen.id, (Route<dynamic> route) => false);
-                    },
-                    color: Colors.blue,
-                    padding: EdgeInsets.all(15.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ],
+      body: Container(
+        padding: const EdgeInsets.all(40.0),
+        child: ListView(
+          children: <Widget>[
+            Hero(
+              tag: 'ProjectIcon',
+              child: Icon(
+                kProjectIcon,
+                size: kIcon_Small,
+                color: Colors.blue,
               ),
             ),
-          ),
-        ],
+            kUserInputNumberTextField(
+                helperText: kEnterOTPTxt, maxLen: 6),
+            kSizedBox_Medium,
+            RaisedButton(
+              child: Text(kVerifyOTP),
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    HomeScreen.id, (Route<dynamic> route) => false);
+              },
+              color: Colors.blue,
+              padding: EdgeInsets.all(15.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

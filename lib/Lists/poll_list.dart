@@ -61,9 +61,20 @@ class _PollListState extends State<PollList> {
   }
 
   getPollData() async {
+    List<String> urls = [];
+    urls.add('https://my.api.mockaroo.com/polls.json?key=17d9cc40');
+    urls.add('https://my.api.mockaroo.com/polls.json?key=3b82acd0');
+    urls.add('https://my.api.mockaroo.com/polls.json?key=873a3a70');
+
+    http.Response response;
+    for (var url in urls) {
+      response = await http.get(url);
+      if (response.statusCode == 200) {
+        break;
+      }
+    }
+
     try {
-      http.Response response =
-          await http.get('https://my.api.mockaroo.com/polls.json?key=17d9cc40');
       if (response.statusCode == 200) {
         String pollDataCollection = response.body;
         var decodedData = jsonDecode(pollDataCollection);

@@ -21,7 +21,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
       ),
       body: Container(
         padding: const EdgeInsets.all(40.0),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Hero(
               tag: 'ProjectIcon',
