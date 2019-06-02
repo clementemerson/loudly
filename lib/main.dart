@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/Screens/countpoll_screen.dart';
-import 'package:loudly/Screens/group_screen.dart';
-import 'package:loudly/Screens/grouplist_screen.dart';
+import 'package:loudly/Screens/grouppolllist_screen.dart';
 import 'package:loudly/Screens/groupparticipants_screen.dart';
 import 'package:loudly/Screens/home_screen.dart';
 import 'package:loudly/Screens/images_screen.dart';
@@ -33,8 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         CountPollScreen.id: (context) => CountPollScreen(),
-        GroupScreen.id: (context) => GroupScreen(),
-        GroupListScreen.id: (context) => GroupListScreen(),
+        GroupPollListScreen.id: (context) => GroupPollListScreen(),
         GroupParticipantsScreen.id: (context) => GroupParticipantsScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         ImagesScreen.id: (context) => ImagesScreen(),

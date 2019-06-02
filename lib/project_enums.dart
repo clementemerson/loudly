@@ -2,6 +2,7 @@ enum PopupMenuValue {
   NewPoll,
   NewCountPoll,
   CreateNewGroup,
+  EditGroup,
   Settings,
 }
 

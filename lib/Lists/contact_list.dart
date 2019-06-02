@@ -4,28 +4,27 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:loudly/Screens/grouppolllist_screen.dart';
 
-class GroupList extends StatefulWidget {
+class ContactList extends StatefulWidget {
   @override
-  _GroupListState createState() => _GroupListState();
+  _ContactListState createState() => _ContactListState();
 }
 
-class _GroupListState extends State<GroupList> {
-  List<Group> _groupList = [];
+class _ContactListState extends State<ContactList> {
+  List<Contact> _contactList = [];
 
   @override
   void initState() {
-    getGroupData();
+    getContactsData();
 
     super.initState();
   }
 
-  getGroupData() async {
+  getContactsData() async {
     List<String> urls = [];
-    urls.add('https://my.api.mockaroo.com/groups.json?key=17d9cc40');
-    urls.add('https://my.api.mockaroo.com/groups.json?key=3b82acd0');
-    urls.add('https://my.api.mockaroo.com/groups.json?key=873a3a70');
+    urls.add('https://my.api.mockaroo.com/contacts.json?key=17d9cc40');
+    urls.add('https://my.api.mockaroo.com/contacts.json?key=3b82acd0');
+    urls.add('https://my.api.mockaroo.com/contacts.json?key=873a3a70');
 
     http.Response response;
     for (var url in urls) {
@@ -40,16 +39,15 @@ class _GroupListState extends State<GroupList> {
         String groupDataCollection = response.body;
         var decodedData = jsonDecode(groupDataCollection);
         for (var groupData in decodedData) {
-          Group group = new Group(
+          Contact group = new Contact(
               id: groupData['id'],
               name: groupData['name'],
-              latestPollTitle: groupData['latestpolltitle'],
-              createdBy: groupData['createdby'],
+              statusMsg: groupData['statusmsg'],
               image: groupData['image']);
 
           if (this.mounted == true) {
             setState(() {
-              _groupList.add(group);
+              _contactList.add(group);
             });
           }
         }
@@ -66,45 +64,37 @@ class _GroupListState extends State<GroupList> {
             height: 4.0,
             color: Colors.grey,
           ),
-      itemCount: _groupList.length,
+      itemCount: _contactList.length,
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(
-            '${_groupList[index].name}',
+            '${_contactList[index].name}',
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            '${_groupList[index].latestPollTitle}',
+            '${_contactList[index].statusMsg}',
             overflow: TextOverflow.ellipsis,
           ),
-          leading: Image.network(_groupList[index].image),
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              GroupPollListScreen.id,
-            );
-          },
+          leading: Image.network(_contactList[index].image),
         );
       },
     );
   }
 }
 
-class Group {
-  String id;
+class Contact {
+  int id;
   String name;
-  String latestPollTitle;
-  String createdBy;
+  String statusMsg;
+  String image;
   int createdAt;
   int updatedAt;
-  String image;
 
-  Group(
+  Contact(
       {this.id,
       this.name,
-      this.latestPollTitle,
-      this.createdBy,
+      this.statusMsg,
+      this.image,
       this.createdAt,
-      this.updatedAt,
-      this.image});
+      this.updatedAt});
 }

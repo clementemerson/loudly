@@ -5,6 +5,7 @@ const String kVerifyOTP = 'Verify OTP';
 const String kNewPoll = 'New Poll';
 const String kNewCountPoll = 'New Count Poll';
 const String kCreateNewGroup = 'New Group';
+const String kEditGroup = 'Edit Group';
 const String kSettings = 'Settings';
 
 //Text constanst poll

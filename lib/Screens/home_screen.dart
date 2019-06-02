@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:loudly/Lists/contact_list.dart';
 import 'package:loudly/Lists/group_list.dart';
 import 'package:loudly/Lists/poll_list.dart';
 
@@ -32,13 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text(kProjectName),
             actions: <Widget>[
               kSearchWidget(context),
-              kPopupMenuItem(context),
+              kMainScreenPopupMenu(context),
             ],
           ),
           body: TabBarView(
             children: [
               PollList(PollListType.All),
-              GroupList(),
+              ContactList(),
               PollList(PollListType.All),
             ],
           ),

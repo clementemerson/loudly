@@ -35,7 +35,7 @@ Widget kSearchWidget(BuildContext context) {
   );
 }
 
-Widget kPopupMenuItem(BuildContext context) {
+Widget kMainScreenPopupMenu(BuildContext context) {
   return PopupMenuButton(
     icon: Icon(Icons.more_vert),
     itemBuilder: (context) => [
@@ -48,6 +48,57 @@ Widget kPopupMenuItem(BuildContext context) {
           PopupMenuItem(
             child: Text(kCreateNewGroup),
             value: PopupMenuValue.CreateNewGroup,
+          ),
+          PopupMenuItem(
+            child: Text(kSettings),
+            value: PopupMenuValue.Settings,
+          ),
+        ],
+    onSelected: (PopupMenuValue value) {
+      switch (value) {
+        case PopupMenuValue.NewPoll:
+          Navigator.pushNamed(
+            context,
+            NewPollScreen.id,
+          );
+          break;
+        case PopupMenuValue.NewCountPoll:
+          Navigator.pushNamed(
+            context,
+            NewCountPollScreen.id,
+          );
+          break;
+        case PopupMenuValue.CreateNewGroup:
+          Navigator.pushNamed(
+            context,
+            NewGroupScreen.id,
+          );
+          break;
+        case PopupMenuValue.Settings:
+          Navigator.pushNamed(
+            context,
+            SettingsScreen.id,
+          );
+          break;
+        default:
+      }
+    },
+  );
+}
+
+Widget kGroupScreenPopupMenu(BuildContext context) {
+  return PopupMenuButton(
+    icon: Icon(Icons.more_vert),
+    itemBuilder: (context) => [
+          PopupMenuItem(
+            child: Text(kNewPoll),
+            value: PopupMenuValue.NewPoll,
+          ),
+          PopupMenuItem(
+              child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
+          PopupMenuItem(
+            child: Text(kEditGroup),
+            value: PopupMenuValue.EditGroup,
           ),
           PopupMenuItem(
             child: Text(kSettings),
