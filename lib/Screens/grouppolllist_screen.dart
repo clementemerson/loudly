@@ -19,7 +19,7 @@ class GroupPollListScreen extends StatelessWidget {
               kMainScreenPopupMenu(context),
             ],
           ),
-          body: PollList(PollListType.All),
+          body: PollList(pollListType: PollListType.All),
       ),
     );
   }

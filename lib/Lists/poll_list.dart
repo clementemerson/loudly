@@ -10,10 +10,10 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
 
 class PollList extends StatefulWidget {
-  final PollListType _pollListType;
+  final PollListType pollListType;
   final String groupId;
 
-  PollList(this._pollListType, {this.groupId});
+  PollList({@required this.pollListType, this.groupId});
 
   @override
   _PollListState createState() => _PollListState();

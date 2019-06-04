@@ -137,14 +137,14 @@ Widget kGroupScreenPopupMenu(BuildContext context) {
   );
 }
 
-InputDecoration kGetOptionsInputDecorator(String labelText) {
+InputDecoration kGetOptionsInputDecorator(String hintText) {
   return InputDecoration(
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
       borderSide: BorderSide(color: Colors.blue,),
     ),
     contentPadding: EdgeInsets.all(12.0),
-    hintText: labelText,
+    hintText: hintText,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
     ),

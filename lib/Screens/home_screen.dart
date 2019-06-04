@@ -38,9 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: TabBarView(
             children: [
-              PollList(PollListType.All),
-              ContactList(),
-              PollList(PollListType.All),
+              PollList(pollListType: PollListType.All),
+              ContactList(contactListType: ContactListType.AllPhone),
+              PollList(pollListType: PollListType.All),
             ],
           ),
       ),

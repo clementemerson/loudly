@@ -10,3 +10,9 @@ enum PollListType {
   All,
   Group,
 }
+
+enum ContactListType {
+  AllPhone,
+  AllLoudly,
+  Group,
+}

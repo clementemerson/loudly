@@ -16,25 +16,107 @@ class _NewPollScreenState extends State<NewPollScreen> {
   bool canBeShared = true;
   bool resultIsPublic = true;
 
+  AppBar _getAppBar() {
+    return AppBar(
+      actions: <Widget>[
+        FlatButton(
+          textColor: Colors.white,
+          onPressed: () {},
+          child: Text(
+            kCreate,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  TextField _getVoteTitleTextField() {
+    return TextField(
+      maxLines: null,
+      textCapitalization: TextCapitalization.sentences,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(140),
+      ],
+      decoration: InputDecoration(
+        hintText: kAskSomething,
+        hintStyle: TextStyle(
+          color: Colors.grey,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      style: TextStyle(
+        color: Color(0xFFFFFFFF),
+        fontSize: 20.0,
+      ),
+    );
+  }
+
+  TextField _getOptionsTextField({String hintText}) {
+    return TextField(
+      maxLines: null,
+      textCapitalization: TextCapitalization.sentences,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(25),
+      ],
+      decoration: kGetOptionsInputDecorator(hintText),
+      style: TextStyle(
+        fontSize: 16.0,
+      ),
+    );
+  }
+
+  Row _getShareControls() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text('Anyone can share this poll in their groups'),
+        ),
+        Switch(
+          value: canBeShared,
+          onChanged: (value) {
+            setState(() {
+              canBeShared = value;
+            });
+          },
+          activeTrackColor: Colors.lightBlueAccent,
+          activeColor: Colors.blue,
+        ),
+      ],
+    );
+  }
+
+  Row _getPublicResultControls() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text('Everyone can see the poll results'),
+        ),
+        Switch(
+          value: resultIsPublic,
+          onChanged: (value) {
+            setState(() {
+              resultIsPublic = value;
+            });
+          },
+          activeTrackColor: Colors.lightBlueAccent,
+          activeColor: Colors.blue,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {},
-            child: Text(
-              kCreate,
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: _getAppBar(),
       body: Container(
         padding: const EdgeInsets.all(
           12.0,
@@ -49,27 +131,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
                   color: Colors.blue,
                 ),
                 Expanded(
-                  child: TextField(
-                    maxLines: null,
-                    textCapitalization: TextCapitalization.sentences,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(140),
-                    ],
-                    decoration: InputDecoration(
-                      hintText: kAskSomething,
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: Color(0xFFFFFFFF),
-                      fontSize: 20.0,
-                    ),
-                  ),
+                  child: _getVoteTitleTextField(),
                 ),
               ],
             ),
@@ -82,93 +144,21 @@ class _NewPollScreenState extends State<NewPollScreen> {
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 children: <Widget>[
-                  TextField(
-                    maxLines: null,
-                    textCapitalization: TextCapitalization.sentences,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(25),
-                    ],
-                    decoration: kGetOptionsInputDecorator(kOption1),
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  _getOptionsTextField(hintText: kOption1),
                   kGetOptionsDivider(),
-                  TextField(
-                    maxLines: null,
-                    textCapitalization: TextCapitalization.sentences,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(25),
-                    ],
-                    decoration: kGetOptionsInputDecorator(kOption2),
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  _getOptionsTextField(hintText: kOption2),
                   kGetOptionsDivider(),
-                  TextField(
-                    maxLines: null,
-                    textCapitalization: TextCapitalization.sentences,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(25),
-                    ],
-                    decoration: kGetOptionsInputDecorator(kOption3),
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  _getOptionsTextField(hintText: kOption3),
                   kGetOptionsDivider(),
-                  TextField(
-                    maxLines: null,
-                    textCapitalization: TextCapitalization.sentences,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(25),
-                    ],
-                    decoration: kGetOptionsInputDecorator(kOption4),
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  _getOptionsTextField(hintText: kOption4),
                 ],
               ),
             ),
             SizedBox(
               height: 12.0,
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text('Anyone can share this poll in their groups'),
-                ),
-                Switch(
-                  value: canBeShared,
-                  onChanged: (value) {
-                    setState(() {
-                      canBeShared = value;
-                    });
-                  },
-                  activeTrackColor: Colors.lightBlueAccent,
-                  activeColor: Colors.blue,
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text('Everyone can see the poll results'),
-                ),
-                Switch(
-                  value: resultIsPublic,
-                  onChanged: (value) {
-                    setState(() {
-                      resultIsPublic = value;
-                    });
-                  },
-                  activeTrackColor: Colors.lightBlueAccent,
-                  activeColor: Colors.blue,
-                ),
-              ],
-            ),
+            _getShareControls(),
+            _getPublicResultControls(),
           ],
         ),
       ),

@@ -5,7 +5,14 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'package:loudly/project_enums.dart';
+
 class ContactList extends StatefulWidget {
+  final ContactListType contactListType;
+  final String groupId;
+
+  ContactList({@required this.contactListType, this.groupId});
+
   @override
   _ContactListState createState() => _ContactListState();
 }

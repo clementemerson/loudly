@@ -11,7 +11,7 @@ import 'package:loudly/Screens/newneed_screen.dart';
 import 'package:loudly/Screens/newpoll_screen.dart';
 import 'package:loudly/Screens/phonelogin_screen.dart';
 import 'package:loudly/Screens/phoneverify_screen.dart';
-import 'package:loudly/Screens/poll_screen.dart';
+import 'package:loudly/Screens/pollvote_screen.dart';
 import 'package:loudly/Screens/search_screen.dart';
 import 'package:loudly/Screens/settings_screen.dart';
 import 'package:loudly/Screens/sharecontent_screen.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         NewPollScreen.id: (context) => NewPollScreen(),
         PhoneLoginScreen.id: (context) => PhoneLoginScreen(),
         PhoneVerifyScreen.id: (context) => PhoneVerifyScreen(),
-        PollScreen.id: (context) => PollScreen(),
+        PollVoteScreen.id: (context) => PollVoteScreen(),
         SearchScreen.id: (context) => SearchScreen(),
         SettingsScreen.id: (context) => SettingsScreen(),
         ShareContentScreen.id: (context) => ShareContentScreen(),
