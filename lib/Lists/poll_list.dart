@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:loudly/Screens/pollvote_screen.dart';
 
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
@@ -127,6 +128,12 @@ class _PollListState extends State<PollList> {
               seconds: 1,
             ),
           ),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              PollVoteScreen.id,
+            );
+          },
         );
       },
     );
