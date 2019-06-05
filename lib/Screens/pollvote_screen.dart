@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
@@ -21,13 +25,64 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
   String selectedOption = null;
 
+  PollData pollData = PollData(
+      id: 0,
+      pollTitle: 'Ask Something',
+      option1: '',
+      option2: '',
+      option3: '',
+      option4: '');
+
+  @override
+  void initState() {
+    getPollData();
+
+    super.initState();
+  }
+
+  getPollData() async {
+    List<String> urls = [];
+    urls.add('https://my.api.mockaroo.com/polldata.json?key=17d9cc40');
+    urls.add('https://my.api.mockaroo.com/polldata.json?key=3b82acd0');
+    urls.add('https://my.api.mockaroo.com/polldata.json?key=873a3a70');
+
+    http.Response response;
+    for (var url in urls) {
+      response = await http.get(url);
+      if (response.statusCode == 200) {
+        break;
+      }
+    }
+
+    try {
+      if (response.statusCode == 200) {
+        String pollDataCollection = response.body;
+        var jsonPollData = jsonDecode(pollDataCollection);
+        if (this.mounted == true) {
+          setState(() {
+            print(jsonPollData);
+            print(pollData.option1);
+            pollData.pollTitle = jsonPollData['polltitle'];
+            pollData.option1 = jsonPollData['option1'];
+            pollData.option2 = jsonPollData['option2'];
+            pollData.option3 = jsonPollData['option3'];
+            pollData.option4 = jsonPollData['option4'];
+          });
+          print(pollData.option1);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   AppBar _getAppBar() {
     return AppBar(
       actions: <Widget>[
         FlatButton(
           textColor: Colors.blue,
           disabledTextColor: Colors.grey,
-          onPressed: null,
+          onPressed: selectedOption == null ? null : () {},
           child: Text(
             'Vote',
             style: TextStyle(
@@ -64,27 +119,48 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     );
   }
 
-  Widget _getOptionsField({String hintText, String id, Color color}) {
-    return InkWell(
-      child: Container(
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: selectedOption == id ? color : null,
-          border: Border.all(color: Colors.blueAccent),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Text(
-          hintText,
-          style: TextStyle(
-            fontSize: 16.0,
+  Widget _getOptionsField({String optionText, int index, String id}) {
+    return Row(
+      children: <Widget>[
+        kGetColorBox(index: index),
+        Expanded(
+          child: InkWell(
+            child: Container(
+              padding: EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                border: selectedOption == id
+                    ? Border.all(color: Colors.blueAccent)
+                    : Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      optionText,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  selectedOption == id
+                      ? Icon(
+                          Icons.done,
+                          color: Colors.blueAccent,
+                          size: 16.0,
+                        )
+                      : Container(width: 0, height: 0),
+                ],
+              ),
+            ),
+            onTap: () {
+              setState(() {
+                selectedOption = id;
+              });
+            },
           ),
         ),
-      ),
-      onTap: () {
-        setState(() {
-          selectedOption = id;
-        });
-      },
+      ],
     );
   }
 
@@ -92,7 +168,12 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: Text('My vote is secret'),
+          child: Text(
+            'Secret Voting',
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
         ),
         Switch(
           value: secretVoting,
@@ -132,20 +213,24 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
             ),
             Container(
               padding: const EdgeInsets.only(
-                left: 40.0,
-                right: 10.0,
+                left: 16.0,
+                right: 8.0,
               ),
               child: ListView(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 children: <Widget>[
-                  _getOptionsField(hintText: kOption1, id: kOption1, color: kGetColor(0)),
+                  _getOptionsField(
+                      optionText: pollData.option1, index: 0, id: kOption1),
                   kGetOptionsDivider(),
-                  _getOptionsField(hintText: kOption2, id: kOption2, color: kGetColor(1)),
+                  _getOptionsField(
+                      optionText: pollData.option2, index: 1, id: kOption2),
                   kGetOptionsDivider(),
-                  _getOptionsField(hintText: kOption3, id: kOption3, color: kGetColor(2)),
+                  _getOptionsField(
+                      optionText: pollData.option3, index: 2, id: kOption3),
                   kGetOptionsDivider(),
-                  _getOptionsField(hintText: kOption4, id: kOption4, color: kGetColor(3)),
+                  _getOptionsField(
+                      optionText: pollData.option4, index: 3, id: kOption4),
                 ],
               ),
             ),
@@ -158,4 +243,21 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
       ),
     );
   }
+}
+
+class PollData {
+  int id;
+  String pollTitle;
+  String option1;
+  String option2;
+  String option3;
+  String option4;
+
+  PollData(
+      {this.id,
+      this.pollTitle,
+      this.option1,
+      this.option2,
+      this.option3,
+      this.option4});
 }

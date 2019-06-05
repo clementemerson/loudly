@@ -45,12 +45,12 @@ class _ContactListState extends State<ContactList> {
       if (response.statusCode == 200) {
         String groupDataCollection = response.body;
         var decodedData = jsonDecode(groupDataCollection);
-        for (var groupData in decodedData) {
+        for (var contactData in decodedData) {
           Contact group = new Contact(
-              id: groupData['id'],
-              name: groupData['name'],
-              statusMsg: groupData['statusmsg'],
-              image: groupData['image']);
+              id: contactData['id'],
+              name: contactData['name'],
+              statusMsg: contactData['statusmsg'],
+              image: contactData['image']);
 
           if (this.mounted == true) {
             setState(() {

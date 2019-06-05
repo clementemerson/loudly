@@ -60,14 +60,14 @@ class _NewPollScreenState extends State<NewPollScreen> {
     );
   }
 
-  TextField _getOptionsTextField({String hintText}) {
+  TextField _getOptionsTextField({int index}) {
     return TextField(
       maxLines: null,
       textCapitalization: TextCapitalization.sentences,
       inputFormatters: [
         LengthLimitingTextInputFormatter(25),
       ],
-      decoration: kGetOptionsInputDecorator(hintText),
+      decoration: kGetOptionsInputDecorator(kGetOptionText(index)),
       style: TextStyle(
         fontSize: 16.0,
       ),
@@ -78,7 +78,12 @@ class _NewPollScreenState extends State<NewPollScreen> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: Text('Anyone can share this poll in their groups'),
+          child: Text(
+            'Anyone can share this poll in their groups',
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
         ),
         Switch(
           value: canBeShared,
@@ -98,7 +103,12 @@ class _NewPollScreenState extends State<NewPollScreen> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: Text('Everyone can see the poll results'),
+          child: Text(
+            'Everyone can see the poll results',
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
         ),
         Switch(
           value: resultIsPublic,
@@ -138,20 +148,48 @@ class _NewPollScreenState extends State<NewPollScreen> {
             ),
             Container(
               padding: const EdgeInsets.only(
-                left: 40.0,
-                right: 10.0,
+                left: 12.0,
+                right: 8.0,
               ),
               child: ListView(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 children: <Widget>[
-                  _getOptionsTextField(hintText: kOption1),
+                  Row(
+                    children: <Widget>[
+                      kGetColorBox(index: 0),
+                      Flexible(
+                        child: _getOptionsTextField(index: 0),
+                      ),
+                    ],
+                  ),
                   kGetOptionsDivider(),
-                  _getOptionsTextField(hintText: kOption2),
+                  Row(
+                    children: <Widget>[
+                      kGetColorBox(index: 1),
+                      Flexible(
+                        child: _getOptionsTextField(index: 1),
+                      ),
+                    ],
+                  ),
                   kGetOptionsDivider(),
-                  _getOptionsTextField(hintText: kOption3),
+                  Row(
+                    children: <Widget>[
+                      kGetColorBox(index: 2),
+                      Flexible(
+                        child: _getOptionsTextField(index: 2),
+                      ),
+                    ],
+                  ),
                   kGetOptionsDivider(),
-                  _getOptionsTextField(hintText: kOption4),
+                  Row(
+                    children: <Widget>[
+                      kGetColorBox(index: 3),
+                      Flexible(
+                        child: _getOptionsTextField(index: 3),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -36,7 +36,7 @@ class _PollListState extends State<PollList> {
     int colorIndex = 0;
     for (int votesInEachCategory in votesInAllCategories) {
       entries.add(new CircularSegmentEntry(
-          votesInEachCategory.toDouble(), kGetColor(colorIndex)));
+          votesInEachCategory.toDouble(), kGetOptionColor(colorIndex)));
       colorIndex++;
     }
 

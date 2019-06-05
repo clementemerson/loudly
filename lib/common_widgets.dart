@@ -141,7 +141,9 @@ InputDecoration kGetOptionsInputDecorator(String hintText) {
   return InputDecoration(
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: Colors.blue,),
+      borderSide: BorderSide(
+        color: Colors.blue,
+      ),
     ),
     contentPadding: EdgeInsets.all(12.0),
     hintText: hintText,
@@ -154,5 +156,17 @@ InputDecoration kGetOptionsInputDecorator(String hintText) {
 Divider kGetOptionsDivider() {
   return Divider(
     height: 8.0,
+  );
+}
+
+Widget kGetColorBox({int index}) {
+  return Container(
+    margin: EdgeInsets.all(8.0),
+    padding: EdgeInsets.all(12.0),
+    decoration: BoxDecoration(
+      color: kGetOptionColor(index),
+      border: Border.all(color: Colors.blueAccent),
+      borderRadius: BorderRadius.circular(8.0),
+    ),
   );
 }
