@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:loudly/Screens/pollresult_screen.dart';
 import 'package:loudly/Screens/pollvote_screen.dart';
 
 import 'package:loudly/project_enums.dart';
@@ -87,7 +88,8 @@ class _PollListState extends State<PollList> {
               canBeShared: pollData['canbeshared'],
               createdBy: pollData['createdby'],
               votes: getVoteList(pollData['votes']),
-              image: pollData['image']);
+              image: pollData['image'],
+              voted: pollData['voted']);
 
           if (this.mounted == true) {
             setState(() {
@@ -120,19 +122,36 @@ class _PollListState extends State<PollList> {
             '${_pollList[index].createdBy} - ${getTotalVotes(_pollList[index].votes)} Votes',
           ),
           leading: Image.network(_pollList[index].image),
-          trailing: AnimatedCircularChart(
-            size: const Size(80.0, 80.0),
-            initialChartData: getChartData(_pollList[index].votes),
-            chartType: CircularChartType.Pie,
-            duration: Duration(
-              seconds: 1,
-            ),
-          ),
+          trailing: _pollList[index].voted == true
+              ? AnimatedCircularChart(
+                  size: const Size(80.0, 80.0),
+                  initialChartData: getChartData(_pollList[index].votes),
+                  chartType: CircularChartType.Pie,
+                  duration: Duration(
+                    seconds: 1,
+                  ),
+                )
+              : Container(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                    'Vote',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              PollVoteScreen.id,
-            );
+            _pollList[index].voted == true
+                ? Navigator.pushNamed(
+                    context,
+                    PollResultScreen.id,
+                  )
+                : Navigator.pushNamed(
+                    context,
+                    PollVoteScreen.id,
+                  );
           },
         );
       },
@@ -150,6 +169,7 @@ class Poll {
   int updatedAt;
   List<int> votes;
   String image;
+  bool voted;
 
   Poll(
       {this.id,
@@ -160,5 +180,6 @@ class Poll {
       this.createdAt,
       this.updatedAt,
       this.votes,
-      this.image});
+      this.image,
+      this.voted});
 }

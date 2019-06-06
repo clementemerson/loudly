@@ -11,7 +11,7 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
 
 class PollVoteScreen extends StatefulWidget {
-  static const String id = 'poll_screen';
+  static const String id = 'pollvote_screen';
 
   final int pollId;
 
@@ -95,26 +95,20 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     );
   }
 
-  TextField _getVoteTitleTextField() {
-    return TextField(
-      maxLines: null,
-      textCapitalization: TextCapitalization.sentences,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(140),
-      ],
-      decoration: InputDecoration(
-        hintText: kAskSomething,
-        hintStyle: TextStyle(
-          color: Colors.grey,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide.none,
-        ),
+  Widget _getVoteTitleTextField() {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 12.0,
+        right: 12.0,
       ),
-      style: TextStyle(
-        color: Color(0xFFFFFFFF),
-        fontSize: 20.0,
+      child: Text(
+        pollData.pollTitle,
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+          color: Colors.blueAccent,
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -166,13 +160,12 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
 
   Row _getSecretVoteControls() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Expanded(
-          child: Text(
-            'Secret Voting',
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
+        Text(
+          'Secret Voting',
+          style: TextStyle(
+            fontSize: 16.0,
           ),
         ),
         Switch(
@@ -210,6 +203,9 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
                   child: _getVoteTitleTextField(),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20.0,
             ),
             Container(
               padding: const EdgeInsets.only(

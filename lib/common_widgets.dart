@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Screens/newcountpoll_screen.dart';
+
 import 'package:loudly/Screens/newgroup_screen.dart';
 import 'package:loudly/Screens/newpoll_screen.dart';
 import 'package:loudly/Screens/search_screen.dart';
@@ -43,8 +43,8 @@ Widget kMainScreenPopupMenu(BuildContext context) {
             child: Text(kNewPoll),
             value: PopupMenuValue.NewPoll,
           ),
-          PopupMenuItem(
-              child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
+          // PopupMenuItem(
+          //     child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
           PopupMenuItem(
             child: Text(kCreateNewGroup),
             value: PopupMenuValue.CreateNewGroup,
@@ -62,12 +62,12 @@ Widget kMainScreenPopupMenu(BuildContext context) {
             NewPollScreen.id,
           );
           break;
-        case PopupMenuValue.NewCountPoll:
-          Navigator.pushNamed(
-            context,
-            NewCountPollScreen.id,
-          );
-          break;
+        // case PopupMenuValue.NewCountPoll:
+        //   Navigator.pushNamed(
+        //     context,
+        //     NewCountPollScreen.id,
+        //   );
+        //   break;
         case PopupMenuValue.CreateNewGroup:
           Navigator.pushNamed(
             context,
@@ -94,8 +94,8 @@ Widget kGroupScreenPopupMenu(BuildContext context) {
             child: Text(kNewPoll),
             value: PopupMenuValue.NewPoll,
           ),
-          PopupMenuItem(
-              child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
+          // PopupMenuItem(
+          //     child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
           PopupMenuItem(
             child: Text(kEditGroup),
             value: PopupMenuValue.EditGroup,
@@ -113,12 +113,12 @@ Widget kGroupScreenPopupMenu(BuildContext context) {
             NewPollScreen.id,
           );
           break;
-        case PopupMenuValue.NewCountPoll:
-          Navigator.pushNamed(
-            context,
-            NewCountPollScreen.id,
-          );
-          break;
+        // case PopupMenuValue.NewCountPoll:
+        //   Navigator.pushNamed(
+        //     context,
+        //     NewCountPollScreen.id,
+        //   );
+        //   break;
         case PopupMenuValue.CreateNewGroup:
           Navigator.pushNamed(
             context,

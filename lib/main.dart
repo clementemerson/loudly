@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Screens/countpoll_screen.dart';
+
 import 'package:loudly/Screens/grouppolllist_screen.dart';
 import 'package:loudly/Screens/groupparticipants_screen.dart';
 import 'package:loudly/Screens/home_screen.dart';
 import 'package:loudly/Screens/images_screen.dart';
-import 'package:loudly/Screens/need_screen.dart';
-import 'package:loudly/Screens/newcountpoll_screen.dart';
 import 'package:loudly/Screens/newgroup_screen.dart';
-import 'package:loudly/Screens/newneed_screen.dart';
 import 'package:loudly/Screens/newpoll_screen.dart';
 import 'package:loudly/Screens/phonelogin_screen.dart';
 import 'package:loudly/Screens/phoneverify_screen.dart';
+import 'package:loudly/Screens/pollresult_screen.dart';
 import 'package:loudly/Screens/pollvote_screen.dart';
 import 'package:loudly/Screens/search_screen.dart';
 import 'package:loudly/Screens/settings_screen.dart';
@@ -31,18 +29,15 @@ class MyApp extends StatelessWidget {
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
-        CountPollScreen.id: (context) => CountPollScreen(),
         GroupPollListScreen.id: (context) => GroupPollListScreen(),
         GroupParticipantsScreen.id: (context) => GroupParticipantsScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         ImagesScreen.id: (context) => ImagesScreen(),
-        NeedScreen.id: (context) => NeedScreen(),
-        NewCountPollScreen.id: (context) => NewCountPollScreen(),
         NewGroupScreen.id: (context) => NewGroupScreen(),
-        NewNeedScreen.id: (context) => NewNeedScreen(),
         NewPollScreen.id: (context) => NewPollScreen(),
         PhoneLoginScreen.id: (context) => PhoneLoginScreen(),
         PhoneVerifyScreen.id: (context) => PhoneVerifyScreen(),
+        PollResultScreen.id: (context) => PollResultScreen(),
         PollVoteScreen.id: (context) => PollVoteScreen(),
         SearchScreen.id: (context) => SearchScreen(),
         SettingsScreen.id: (context) => SettingsScreen(),
