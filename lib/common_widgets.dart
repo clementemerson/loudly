@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:loudly/Screens/newgroup_screen.dart';
-import 'package:loudly/Screens/newpoll_screen.dart';
-import 'package:loudly/Screens/search_screen.dart';
-import 'package:loudly/Screens/settings_screen.dart';
+import 'package:loudly/ui/Screens/newgroup_screen.dart';
+import 'package:loudly/ui/Screens/newpoll_screen.dart';
+import 'package:loudly/ui/Screens/search_screen.dart';
+import 'package:loudly/ui/Screens/settings_screen.dart';
 import 'package:loudly/project_enums.dart';
 
 import 'package:loudly/project_styles.dart';

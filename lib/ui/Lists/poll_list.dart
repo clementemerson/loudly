@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
-import 'package:loudly/Screens/pollresult_screen.dart';
-import 'package:loudly/Screens/pollvote_screen.dart';
+import 'package:loudly/ui/Screens/pollresult_screen.dart';
+import 'package:loudly/ui/Screens/pollvote_screen.dart';
 
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
+
+import 'package:loudly/Models/polldata.dart';
 
 class PollList extends StatefulWidget {
   final PollListType pollListType;
@@ -22,7 +24,7 @@ class PollList extends StatefulWidget {
 }
 
 class _PollListState extends State<PollList> {
-  List<Poll> _pollList = [];
+  List<PollData> _pollList = [];
 
   @override
   void initState() {
@@ -31,13 +33,13 @@ class _PollListState extends State<PollList> {
     super.initState();
   }
 
-  getChartData(List<int> votesInAllCategories) {
+  getChartData(List<Option> options) {
     List<CircularSegmentEntry> entries = [];
 
     int colorIndex = 0;
-    for (int votesInEachCategory in votesInAllCategories) {
+    for (Option option in options) {
       entries.add(new CircularSegmentEntry(
-          votesInEachCategory.toDouble(), kGetOptionColor(colorIndex)));
+          option.openVotes.toDouble(), kGetOptionColor(colorIndex)));
       colorIndex++;
     }
 
@@ -54,10 +56,10 @@ class _PollListState extends State<PollList> {
     return votes;
   }
 
-  int getTotalVotes(List<int> votes) {
+  int getTotalVotes(List<Option> options) {
     int sum = 0;
-    for (var receivedVotes in votes) {
-      sum += receivedVotes;
+    for (Option option in options) {
+      sum += option.openVotes;
     }
     return sum;
   }
@@ -81,15 +83,7 @@ class _PollListState extends State<PollList> {
         String pollDataCollection = response.body;
         var decodedData = jsonDecode(pollDataCollection);
         for (var pollData in decodedData) {
-          Poll poll = new Poll(
-              id: pollData['id'],
-              title: pollData['title'],
-              isSecret: pollData['issecret'],
-              canBeShared: pollData['canbeshared'],
-              createdBy: pollData['createdby'],
-              votes: getVoteList(pollData['votes']),
-              image: pollData['image'],
-              voted: pollData['voted']);
+          PollData poll = pollDataFromJson(pollData);
 
           if (this.mounted == true) {
             setState(() {
@@ -113,19 +107,18 @@ class _PollListState extends State<PollList> {
       itemCount: _pollList.length,
       itemBuilder: (context, index) {
         return ListTile(
-          contentPadding: EdgeInsets.all(0.0),
+          contentPadding: EdgeInsets.only(left: 10.0),
           title: Text(
             '${_pollList[index].title}',
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            '${_pollList[index].createdBy} - ${getTotalVotes(_pollList[index].votes)} Votes',
+            '${_pollList[index].createdBy} - ${getTotalVotes(_pollList[index].options)} Votes',
           ),
-          leading: Image.network(_pollList[index].image),
           trailing: _pollList[index].voted == true
               ? AnimatedCircularChart(
                   size: const Size(80.0, 80.0),
-                  initialChartData: getChartData(_pollList[index].votes),
+                  initialChartData: getChartData(_pollList[index].options),
                   chartType: CircularChartType.Pie,
                   duration: Duration(
                     seconds: 1,
@@ -157,29 +150,4 @@ class _PollListState extends State<PollList> {
       },
     );
   }
-}
-
-class Poll {
-  String id;
-  String title;
-  bool isSecret;
-  bool canBeShared;
-  String createdBy;
-  int createdAt;
-  int updatedAt;
-  List<int> votes;
-  String image;
-  bool voted;
-
-  Poll(
-      {this.id,
-      this.title,
-      this.isSecret,
-      this.canBeShared,
-      this.createdBy,
-      this.createdAt,
-      this.updatedAt,
-      this.votes,
-      this.image,
-      this.voted});
 }

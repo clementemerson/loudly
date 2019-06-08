@@ -25,7 +25,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
   String selectedOption = null;
 
-  PollData pollData = PollData(
+  Poll pollData = Poll(
       id: 0,
       pollTitle: 'Ask Something',
       option1: '',
@@ -241,7 +241,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   }
 }
 
-class PollData {
+class Poll {
   int id;
   String pollTitle;
   String option1;
@@ -249,7 +249,7 @@ class PollData {
   String option3;
   String option4;
 
-  PollData(
+  Poll(
       {this.id,
       this.pollTitle,
       this.option1,

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-PollData pollDataFromJson(String str) => PollData.fromJson(json.decode(str));
+PollData pollDataFromJson(Map<String, dynamic> map) => PollData.fromJson(map);
 
 String pollDataToJson(PollData data) => json.encode(data.toJson());
 
@@ -14,9 +14,10 @@ class PollData {
     List<Option> options;
     bool canBeShared;
     bool resultIsPublic;
-    int createdBy;
+    String createdBy;
     int createdAt;
     int updatedAt;
+    bool voted;
 
     PollData({
         this.id,
@@ -27,6 +28,7 @@ class PollData {
         this.createdBy,
         this.createdAt,
         this.updatedAt,
+        this.voted
     });
 
     factory PollData.fromJson(Map<String, dynamic> json) => new PollData(
@@ -36,8 +38,9 @@ class PollData {
         canBeShared: json["canBeShared"],
         resultIsPublic: json["resultIsPublic"],
         createdBy: json["createdBy"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        createdAt: int.parse(json["createdAt"]),
+        updatedAt: int.parse(json["updatedAt"]),
+        voted: json["voted"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -49,6 +52,7 @@ class PollData {
         "createdBy": createdBy,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
+        "voted": voted,
     };
 }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Screens/phoneverify_screen.dart';
+import 'package:loudly/ui/Screens/phoneverify_screen.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';

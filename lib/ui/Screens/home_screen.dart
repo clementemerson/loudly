@@ -1,9 +1,9 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:loudly/Lists/contact_list.dart';
-import 'package:loudly/Lists/group_list.dart';
-import 'package:loudly/Lists/poll_list.dart';
+import 'package:loudly/ui/Lists/contact_list.dart';
+import 'package:loudly/ui/Lists/group_list.dart';
+import 'package:loudly/ui/Lists/poll_list.dart';
 
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';

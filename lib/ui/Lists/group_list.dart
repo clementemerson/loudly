@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:loudly/Screens/grouppolllist_screen.dart';
+import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
 
 class GroupList extends StatefulWidget {
   @override

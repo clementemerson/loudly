@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'package:loudly/Screens/grouppolllist_screen.dart';
-import 'package:loudly/Screens/groupparticipants_screen.dart';
-import 'package:loudly/Screens/home_screen.dart';
-import 'package:loudly/Screens/images_screen.dart';
-import 'package:loudly/Screens/newgroup_screen.dart';
-import 'package:loudly/Screens/newpoll_screen.dart';
-import 'package:loudly/Screens/phonelogin_screen.dart';
-import 'package:loudly/Screens/phoneverify_screen.dart';
-import 'package:loudly/Screens/pollresult_screen.dart';
-import 'package:loudly/Screens/pollvote_screen.dart';
-import 'package:loudly/Screens/search_screen.dart';
-import 'package:loudly/Screens/settings_screen.dart';
-import 'package:loudly/Screens/sharecontent_screen.dart';
-import 'package:loudly/Screens/welcome_screen.dart';
+import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
+import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
+import 'package:loudly/ui/Screens/home_screen.dart';
+import 'package:loudly/ui/Screens/images_screen.dart';
+import 'package:loudly/ui/Screens/newgroup_screen.dart';
+import 'package:loudly/ui/Screens/newpoll_screen.dart';
+import 'package:loudly/ui/Screens/phonelogin_screen.dart';
+import 'package:loudly/ui/Screens/phoneverify_screen.dart';
+import 'package:loudly/ui/Screens/pollresult_screen.dart';
+import 'package:loudly/ui/Screens/pollvote_screen.dart';
+import 'package:loudly/ui/Screens/search_screen.dart';
+import 'package:loudly/ui/Screens/settings_screen.dart';
+import 'package:loudly/ui/Screens/sharecontent_screen.dart';
+import 'package:loudly/ui/Screens/welcome_screen.dart';
 
 void main() {
   runApp(MyApp());
