@@ -39,7 +39,7 @@ class _PollListState extends State<PollList> {
     int colorIndex = 0;
     for (Option option in options) {
       entries.add(new CircularSegmentEntry(
-          option.openVotes.toDouble(), kGetOptionColor(colorIndex)));
+          option.openVotes.toDouble() + option.secretVotes.toDouble(), kGetOptionColor(colorIndex)));
       colorIndex++;
     }
 
@@ -59,7 +59,7 @@ class _PollListState extends State<PollList> {
   int getTotalVotes(List<Option> options) {
     int sum = 0;
     for (Option option in options) {
-      sum += option.openVotes;
+      sum += option.openVotes + option.secretVotes;
     }
     return sum;
   }
@@ -140,6 +140,7 @@ class _PollListState extends State<PollList> {
                 ? Navigator.pushNamed(
                     context,
                     PollResultScreen.id,
+                    arguments: _pollList[index]
                   )
                 : Navigator.pushNamed(
                     context,
