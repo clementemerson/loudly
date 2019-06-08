@@ -34,8 +34,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
         textAlign: TextAlign.justify,
         style: TextStyle(
           color: Colors.blueAccent,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
+          fontSize: 16.0,
         ),
       ),
     );
@@ -115,37 +114,124 @@ class _PollResultScreenState extends State<PollResultScreen> {
     final List<Widget> widgets = [];
     int index = 0;
     for (Option option in pollData.options) {
-      widgets.add(_getTotalVoteShareForOption(option: option, index: index));
+      final bool isMax = _isMaxInAllOptions(option);
+      widgets.add(_getTotalVoteShareForOption(
+          option: option, index: index, isMax: isMax));
       index++;
     }
     return widgets;
   }
 
-  Widget _getTotalVoteShareForOption({Option option, int index}) {
+  Widget _getTotalVoteShareForOption({Option option, int index, bool isMax}) {
     return Row(
       children: <Widget>[
-        kGetColorBox(index: index),
-        Text((option.secretVotes + option.openVotes).toString()),
+        _getColorBox(index: index),
+        Text(
+          (option.secretVotes + option.openVotes).toString(),
+          style: isMax == true
+              ? TextStyle(
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.bold,
+                )
+              : TextStyle(),
+        ),
       ],
     );
   }
 
-  List<Widget> _getCategorizedVoteShare() {
+  bool _isMaxInAllOptions(Option option) {
+    for (Option itrOption in pollData.options) {
+      if ((option.openVotes + option.secretVotes) <
+          (itrOption.openVotes + itrOption.secretVotes)) return false;
+    }
+    return true;
+  }
+
+  bool _isMaxInOpenVotes(Option option) {
+    for (Option itrOption in pollData.options) {
+      if ((option.openVotes) < (itrOption.openVotes)) return false;
+    }
+    return true;
+  }
+
+  bool _isMaxInSecretVotes(Option option) {
+    for (Option itrOption in pollData.options) {
+      if ((option.secretVotes) < (itrOption.secretVotes)) return false;
+    }
+    return true;
+  }
+
+  List<Widget> _getOpenVotesWidgets() {
+    final List<Widget> widgets = [];
+    for (Option option in pollData.options) {
+      final bool isMax = _isMaxInOpenVotes(option);
+      widgets.add(_getOpenVotesWidgetsForOption(option: option, isMax: isMax));
+    }
+    return widgets;
+  }
+
+  Widget _getOpenVotesWidgetsForOption({Option option, bool isMax}) {
+    return Row(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(5.0),
+          child: Text(
+            option.openVotes.toString(),
+            style: isMax == true
+                ? TextStyle(
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.bold,
+                  )
+                : TextStyle(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _getColorBoxWidgets() {
     final List<Widget> widgets = [];
     int index = 0;
     for (Option option in pollData.options) {
-      widgets.add(_getVoteShareForOption(option: option, index: index));
+      widgets.add(_getColorBoxWidgetsForOption(index: index));
       index++;
     }
     return widgets;
   }
 
-  Widget _getVoteShareForOption({Option option, int index}) {
+  Widget _getColorBoxWidgetsForOption({int index}) {
     return Row(
       children: <Widget>[
-        Text(option.openVotes.toString()),
-        kGetColorBox(index: index),
-        Text(option.secretVotes.toString()),
+        _getColorBox2(index: index),
+      ],
+    );
+  }
+
+  List<Widget> _getSecretVotesWidgets() {
+    final List<Widget> widgets = [];
+    for (Option option in pollData.options) {
+      final bool isMax = _isMaxInSecretVotes(option);
+      widgets
+          .add(_getSecretVotesWidgetsForOption(option: option, isMax: isMax));
+    }
+    return widgets;
+  }
+
+  Widget _getSecretVotesWidgetsForOption({Option option, bool isMax}) {
+    return Row(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(5.0),
+          child: Text(
+            option.secretVotes.toString(),
+            style: isMax == true
+                ? TextStyle(
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.bold,
+                  )
+                : TextStyle(),
+          ),
+        ),
       ],
     );
   }
@@ -163,14 +249,40 @@ class _PollResultScreenState extends State<PollResultScreen> {
   Widget _getOptionsField({String optionText, int index}) {
     return Row(
       children: <Widget>[
-        kGetColorBox(index: index),
-        Text(
-          optionText,
-          style: TextStyle(
-            fontSize: 16.0,
+        _getColorBox(index: index),
+        Expanded(
+          child: Text(
+            optionText,
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _getColorBox({int index}) {
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: kGetOptionColor(index),
+        border: Border.all(color: Colors.blueAccent),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+  }
+
+  Widget _getColorBox2({int index}) {
+    return Container(
+      margin: EdgeInsets.all(3.0),
+      padding: EdgeInsets.all(9.0),
+      decoration: BoxDecoration(
+        color: kGetOptionColor(index),
+        border: Border.all(color: Colors.blueAccent),
+        borderRadius: BorderRadius.circular(6.0),
+      ),
     );
   }
 
@@ -181,11 +293,15 @@ class _PollResultScreenState extends State<PollResultScreen> {
     return Scaffold(
       appBar: _getAppBar(),
       body: Container(
-        padding: const EdgeInsets.all(
-          12.0,
+        padding: const EdgeInsets.only(
+          left: 8.0,
+          right: 8.0,
         ),
         child: ListView(
           children: [
+            SizedBox(
+              height: 10.0,
+            ),
             Row(
               children: <Widget>[
                 Icon(
@@ -199,11 +315,13 @@ class _PollResultScreenState extends State<PollResultScreen> {
               ],
             ),
             SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
             Center(
-              child: Text('Consolidated - ' +
-                  getTotalVotes(pollData.options).toString()),
+              child: Text(
+                'Consolidated - ' + getTotalVotes(pollData.options).toString(),
+                style: TextStyle(fontSize: 16.0),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -212,14 +330,26 @@ class _PollResultScreenState extends State<PollResultScreen> {
                   size: const Size(200.0, 200.0),
                   initialChartData: getConsolidatedChartData(pollData.options),
                   chartType: CircularChartType.Pie,
+                  //percentageValues: true,
                   duration: Duration(
                     seconds: 1,
                   ),
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: _getTotalVoteShare(),
                 )
               ],
+            ),
+            Divider(),
+            Center(
+              child: Text(
+                'Details',
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Row(
               children: <Widget>[
@@ -245,8 +375,16 @@ class _PollResultScreenState extends State<PollResultScreen> {
                   ),
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: _getCategorizedVoteShare(),
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: _getOpenVotesWidgets(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: _getColorBoxWidgets(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _getSecretVotesWidgets(),
                 ),
                 Expanded(
                   child: Column(
@@ -272,7 +410,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
               ],
             ),
             SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
             Column(
               children: _getAllOptions(),
