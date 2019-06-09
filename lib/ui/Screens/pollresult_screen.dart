@@ -6,6 +6,7 @@ import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
+import 'package:loudly/ui/Lists/pollresults_groups.dart';
 
 class PollResultScreen extends StatefulWidget {
   static const String id = 'pollresult_screen';
@@ -18,15 +19,15 @@ class _PollResultScreenState extends State<PollResultScreen> {
   PollData pollData;
 
   AppBar _getAppBar() {
-    return AppBar(
-      title: Text('Poll Result'),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.reply, textDirection: TextDirection.rtl,),
-          onPressed: () {},
-        )
-      ]
-    );
+    return AppBar(title: Text('Poll Result'), actions: <Widget>[
+      IconButton(
+        icon: Icon(
+          Icons.reply,
+          textDirection: TextDirection.rtl,
+        ),
+        onPressed: () {},
+      )
+    ]);
   }
 
   Widget _getVoteTitleTextField() {
@@ -292,6 +293,10 @@ class _PollResultScreenState extends State<PollResultScreen> {
     );
   }
 
+  Widget _getPollResultsFromGroups() {
+    return GroupPollResults(pollId: pollData.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     pollData = ModalRoute.of(context).settings.arguments;
@@ -323,10 +328,13 @@ class _PollResultScreenState extends State<PollResultScreen> {
             SizedBox(
               height: 10.0,
             ),
+            Divider(
+              color: Colors.blueAccent,
+            ),
             Center(
               child: Text(
                 'Consolidated - ' + getTotalVotes(pollData.options).toString(),
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),
             Row(
@@ -347,11 +355,13 @@ class _PollResultScreenState extends State<PollResultScreen> {
                 )
               ],
             ),
-            Divider(),
+            Divider(
+              color: Colors.blueAccent,
+            ),
             Center(
               child: Text(
-                'Details',
-                style: TextStyle(fontSize: 16.0),
+                'Vote Share',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
@@ -421,6 +431,19 @@ class _PollResultScreenState extends State<PollResultScreen> {
             Column(
               children: _getAllOptions(),
             ),
+            Divider(
+              color: Colors.blueAccent,
+            ),
+            Center(
+              child: Text(
+                'Poll results from your groups',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            _getPollResultsFromGroups(),
           ],
         ),
       ),
