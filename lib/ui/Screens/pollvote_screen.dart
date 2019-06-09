@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:loudly/Models/polldata.dart';
 
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
@@ -24,73 +25,20 @@ class PollVoteScreen extends StatefulWidget {
 class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
   String selectedOption = null;
-
-  Poll pollData = Poll(
-      id: 0,
-      pollTitle: 'Ask Something',
-      option1: '',
-      option2: '',
-      option3: '',
-      option4: '');
+  PollData pollData;
 
   @override
   void initState() {
-    getPollData();
-
     super.initState();
-  }
-
-  getPollData() async {
-    List<String> urls = [];
-    urls.add('https://my.api.mockaroo.com/polldata.json?key=17d9cc40');
-    urls.add('https://my.api.mockaroo.com/polldata.json?key=3b82acd0');
-    urls.add('https://my.api.mockaroo.com/polldata.json?key=873a3a70');
-
-    http.Response response;
-    for (var url in urls) {
-      response = await http.get(url);
-      if (response.statusCode == 200) {
-        break;
-      }
-    }
-
-    try {
-      if (response.statusCode == 200) {
-        String pollDataCollection = response.body;
-        var jsonPollData = jsonDecode(pollDataCollection);
-        if (this.mounted == true) {
-          setState(() {
-            print(jsonPollData);
-            print(pollData.option1);
-            pollData.pollTitle = jsonPollData['polltitle'];
-            pollData.option1 = jsonPollData['option1'];
-            pollData.option2 = jsonPollData['option2'];
-            pollData.option3 = jsonPollData['option3'];
-            pollData.option4 = jsonPollData['option4'];
-          });
-          print(pollData.option1);
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 
   AppBar _getAppBar() {
     return AppBar(
       actions: <Widget>[
-        FlatButton(
-          textColor: Colors.blue,
-          disabledTextColor: Colors.grey,
-          onPressed: selectedOption == null ? null : () {},
-          child: Text(
-            'Vote',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        IconButton(
+          icon: Icon(Icons.reply, textDirection: TextDirection.rtl,),
+          onPressed: () {},
+        )
       ],
     );
   }
@@ -102,7 +50,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
         right: 12.0,
       ),
       child: Text(
-        pollData.pollTitle,
+        pollData.title,
         textAlign: TextAlign.justify,
         style: TextStyle(
           color: Colors.blueAccent,
@@ -110,51 +58,6 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
-
-  Widget _getOptionsField({String optionText, int index, String id}) {
-    return Row(
-      children: <Widget>[
-        kGetColorBox(index: index),
-        Expanded(
-          child: InkWell(
-            child: Container(
-              padding: EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                border: selectedOption == id
-                    ? Border.all(color: Colors.blueAccent)
-                    : Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      optionText,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                  selectedOption == id
-                      ? Icon(
-                          Icons.done,
-                          color: Colors.blueAccent,
-                          size: 16.0,
-                        )
-                      : Container(width: 0, height: 0),
-                ],
-              ),
-            ),
-            onTap: () {
-              setState(() {
-                selectedOption = id;
-              });
-            },
-          ),
-        ),
-      ],
     );
   }
 
@@ -182,8 +85,98 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     );
   }
 
+  List<Widget> _getAllOptions() {
+    final List<Widget> widgets = [];
+    int index = 0;
+    for (Option option in pollData.options) {
+      widgets.add(_getOptionsField(
+          optionText: option.desc, index: index, id: index.toString()));
+      widgets.add(kGetOptionsDivider());
+      index++;
+    }
+    return widgets;
+  }
+
+  Widget _getOptionsField({String optionText, int index, String id}) {
+    return Row(
+      children: <Widget>[
+        _getColorBox(index: index),
+        Expanded(
+          child: InkWell(
+            child: Container(
+              padding: EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                border: selectedOption == id
+                    ? Border.all(color: Colors.blueAccent)
+                    : Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      optionText,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  selectedOption == id
+                      ? Icon(
+                          Icons.done,
+                          color: Colors.blueAccent,
+                          size: 16.0,
+                        )
+                      : Container(width: 16.0, height: 16.0),
+                ],
+              ),
+            ),
+            onTap: () {
+              setState(() {
+                selectedOption = id;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getColorBox({int index}) {
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: kGetOptionColor(index),
+        border: Border.all(color: Colors.blueAccent),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+  }
+
+  Widget _getVoteButton() {
+    return RaisedButton(
+      padding: EdgeInsets.all(10.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      textColor: Colors.white,
+      disabledTextColor: Colors.grey,
+      onPressed: selectedOption == null ? null : () {},
+      child: Text(
+        'Vote',
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    pollData = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       appBar: _getAppBar(),
       body: Container(
@@ -215,25 +208,17 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
               child: ListView(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
-                children: <Widget>[
-                  _getOptionsField(
-                      optionText: pollData.option1, index: 0, id: kOption1),
-                  kGetOptionsDivider(),
-                  _getOptionsField(
-                      optionText: pollData.option2, index: 1, id: kOption2),
-                  kGetOptionsDivider(),
-                  _getOptionsField(
-                      optionText: pollData.option3, index: 2, id: kOption3),
-                  kGetOptionsDivider(),
-                  _getOptionsField(
-                      optionText: pollData.option4, index: 3, id: kOption4),
-                ],
+                children: _getAllOptions(),
               ),
             ),
             SizedBox(
               height: 12.0,
             ),
             _getSecretVoteControls(),
+            SizedBox(
+              height: 12.0,
+            ),
+            _getVoteButton(),
           ],
         ),
       ),

@@ -145,6 +145,7 @@ class _PollListState extends State<PollList> {
                 : Navigator.pushNamed(
                     context,
                     PollVoteScreen.id,
+                    arguments: _pollList[index]
                   );
           },
         );

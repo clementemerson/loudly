@@ -20,6 +20,12 @@ class _PollResultScreenState extends State<PollResultScreen> {
   AppBar _getAppBar() {
     return AppBar(
       title: Text('Poll Result'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.reply, textDirection: TextDirection.rtl,),
+          onPressed: () {},
+        )
+      ]
     );
   }
 
