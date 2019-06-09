@@ -10,8 +10,10 @@ import 'package:loudly/project_enums.dart';
 class ContactList extends StatefulWidget {
   final ContactListType contactListType;
   final String groupId;
+  final ContactListAction actionRequired;
 
-  ContactList({@required this.contactListType, this.groupId});
+  ContactList(
+      {@required this.contactListType, this.groupId, this.actionRequired});
 
   @override
   _ContactListState createState() => _ContactListState();
@@ -50,7 +52,8 @@ class _ContactListState extends State<ContactList> {
               id: contactData['id'],
               name: contactData['name'],
               statusMsg: contactData['statusmsg'],
-              image: contactData['image']);
+              image: contactData['image'],
+              selected: false);
 
           if (this.mounted == true) {
             setState(() {
@@ -83,6 +86,29 @@ class _ContactListState extends State<ContactList> {
             overflow: TextOverflow.ellipsis,
           ),
           leading: Image.network(_contactList[index].image),
+          trailing: widget.actionRequired == ContactListAction.Select
+              ? Checkbox(
+                  value: _contactList[index].selected,
+                  onChanged: (value) {
+                    if (this.mounted) {
+                      setState(() {
+                        _contactList[index].selected = value;
+                      });
+                    }
+                  },
+                )
+              : Container(
+                  width: 0,
+                  height: 0,
+                ),
+          onTap:
+              widget.actionRequired == ContactListAction.Select ? () {
+                if (this.mounted) {
+                      setState(() {
+                        _contactList[index].selected = !_contactList[index].selected;
+                      });
+                    }
+              } : null,
         );
       },
     );
@@ -96,6 +122,7 @@ class Contact {
   String image;
   int createdAt;
   int updatedAt;
+  bool selected;
 
   Contact(
       {this.id,
@@ -103,5 +130,6 @@ class Contact {
       this.statusMsg,
       this.image,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.selected = false});
 }

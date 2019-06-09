@@ -27,7 +27,7 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
         padding: const EdgeInsets.all(40.0),
         child: ListView(
           children: <Widget>[
-            kUserInputNumberTextField(
+            kUserInputTextField(
                 helperText: kEnterOTPTxt, maxLen: 6),
             kSizedBox_Medium,
             RaisedButton(

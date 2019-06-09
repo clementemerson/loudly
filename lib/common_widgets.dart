@@ -9,18 +9,18 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
 
-TextField kUserInputNumberTextField({int maxLen, @required String helperText}) {
+TextField kUserInputTextField({int maxLen, @required String helperText, double fontSize, TextInputType keyboardType}) {
   return TextField(
     autofocus: true,
     maxLength: maxLen ?? null,
     style: TextStyle(
-      fontSize: kText_Big,
+      fontSize: fontSize ?? kText_Big,
       letterSpacing: 3.0,
     ),
     decoration: InputDecoration(
       helperText: helperText,
     ),
-    keyboardType: TextInputType.phone,
+    keyboardType: keyboardType ?? TextInputType.phone,
     textInputAction: TextInputAction.go,
     textAlign: TextAlign.center,
   );

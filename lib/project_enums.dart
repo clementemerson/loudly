@@ -16,3 +16,8 @@ enum ContactListType {
   AllLoudly,
   Group,
 }
+
+enum ContactListAction {
+  None,
+  Select,
+}

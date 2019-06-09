@@ -23,7 +23,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
         padding: const EdgeInsets.all(40.0),
         child: ListView(
           children: <Widget>[
-            kUserInputNumberTextField(
+            kUserInputTextField(
                 helperText: kEnterMobileNumberTxt, maxLen: 10),
             kSizedBox_Medium,
             RaisedButton(
