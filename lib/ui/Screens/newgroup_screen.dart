@@ -6,6 +6,7 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/ui/Lists/contact_list.dart';
 import 'package:loudly/ui/Lists/poll_list.dart';
+import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 
 class NewGroupScreen extends StatelessWidget {
   static const String id = 'newgroup_screen';
@@ -46,12 +47,14 @@ class NewGroupScreen extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            Text('Select Members'),
-            SizedBox(
-              height: 10.0,
-            ),
-            Expanded(
-              child: _getParticipantsList(),
+            IconButton(
+              icon: Icon(Icons.group),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  GroupParticipantsScreen.id,
+                );
+              },
             ),
           ],
         ),
