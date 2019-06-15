@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:loudly/Models/polldata.dart';
+
 GroupPollResult groupPollResultFromJson(Map<String, dynamic> json) => GroupPollResult.fromJson(json);
 
 String groupPollResultToJson(GroupPollResult data) => json.encode(data.toJson());
@@ -33,25 +35,5 @@ class GroupPollResult {
         "groupId": groupId,
         "groupName": groupName,
         "options": new List<dynamic>.from(options.map((x) => x.toJson())),
-    };
-}
-
-class Option {
-    int index;
-    int openVotes;
-
-    Option({
-        this.index,
-        this.openVotes,
-    });
-
-    factory Option.fromJson(Map<String, dynamic> json) => new Option(
-        index: json["index"],
-        openVotes: json["openVotes"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "index": index,
-        "openVotes": openVotes,
     };
 }

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+
 import 'package:loudly/Models/grouppollresult.dart';
-import 'package:loudly/project_styles.dart';
+import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/ui/widgets/consolidatedvotechart.dart';
+import 'package:loudly/ui/widgets/voteshare.dart';
 
 class GroupPollResults extends StatefulWidget {
   final int pollId;
@@ -68,21 +69,6 @@ class _GroupPollResultsState extends State<GroupPollResults> {
     return sum;
   }
 
-  getConsolidatedChartData(List<Option> options) {
-    List<CircularSegmentEntry> entries = [];
-
-    int colorIndex = 0;
-    for (Option option in options) {
-      entries.add(new CircularSegmentEntry(
-          option.openVotes.toDouble(), kGetOptionColor(colorIndex)));
-      colorIndex++;
-    }
-
-    return <CircularStackEntry>[
-      new CircularStackEntry(entries),
-    ];
-  }
-
   Widget _getPollResultGroup(GroupPollResult pollResult) {
     return Column(children: <Widget>[
       Center(
@@ -96,83 +82,15 @@ class _GroupPollResultsState extends State<GroupPollResults> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          AnimatedCircularChart(
-            size: const Size(200.0, 200.0),
-            initialChartData: getConsolidatedChartData(pollResult.options),
-            chartType: CircularChartType.Pie,
-            //percentageValues: true,
-            duration: Duration(
-              seconds: 1,
-            ),
+          ConsolidatedVoteChart(
+            pollResultOptions: pollResult.options,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _getTotalVoteShare(pollResult),
-          )
+          VoteShare(
+            pollResultOptions: pollResult.options,
+          ),
         ],
       ),
     ]);
-  }
-
-  List<Widget> _getTotalVoteShare(GroupPollResult pollResult) {
-    final List<Widget> widgets = [];
-    int index = 0;
-    for (Option option in pollResult.options) {
-      final bool isMax = _isMaxInAllOptions(pollResult, option);
-      widgets.add(_getTotalVoteShareForOption(
-          option: option, index: index, isMax: isMax));
-      index++;
-    }
-    return widgets;
-  }
-
-  Widget _getTotalVoteShareForOption({Option option, int index, bool isMax}) {
-    return Row(
-      children: <Widget>[
-        _getColorBox(index: index),
-        Text(
-          option.openVotes.toString(),
-          style: isMax == true
-              ? TextStyle(
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold,
-                )
-              : TextStyle(),
-        ),
-        SizedBox(
-          width: 8.0,
-        ),
-        isMax == true
-            ? Icon(
-                Icons.thumb_up,
-                color: Colors.yellow,
-                size: 20.0,
-              )
-            : Container(
-                height: 0.0,
-                width: 0.0,
-              ),
-      ],
-    );
-  }
-
-  bool _isMaxInAllOptions(GroupPollResult pollResult, Option option) {
-    for (Option itrOption in pollResult.options) {
-      if (option.openVotes < itrOption.openVotes) return false;
-    }
-    return true;
-  }
-
-  Widget _getColorBox({int index}) {
-    return Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: kGetOptionColor(index),
-        border: Border.all(color: Colors.blueAccent),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-    );
   }
 
   List<Widget> _getResultsOfAllGroups() {

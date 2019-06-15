@@ -71,9 +71,9 @@ class Option {
 
     factory Option.fromJson(Map<String, dynamic> json) => new Option(
         index: json["index"],
-        desc: json["desc"],
+        desc: json["desc"] ?? '',
         openVotes: json["openVotes"],
-        secretVotes: json["secretVotes"],
+        secretVotes: json["secretVotes"] ?? 0,
     );
 
     Map<String, dynamic> toJson() => {
