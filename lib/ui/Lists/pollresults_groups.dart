@@ -139,6 +139,19 @@ class _GroupPollResultsState extends State<GroupPollResults> {
                 )
               : TextStyle(),
         ),
+        SizedBox(
+          width: 8.0,
+        ),
+        isMax == true
+            ? Icon(
+                Icons.thumb_up,
+                color: Colors.yellow,
+                size: 20.0,
+              )
+            : Container(
+                height: 0.0,
+                width: 0.0,
+              ),
       ],
     );
   }
