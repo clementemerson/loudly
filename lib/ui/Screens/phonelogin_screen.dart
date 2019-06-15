@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/resources/rest/login_service.dart';
 import 'package:loudly/ui/Screens/phoneverify_screen.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
@@ -13,6 +14,18 @@ class PhoneLoginScreen extends StatefulWidget {
 }
 
 class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
+  String phoneNumber;
+
+  onPressed() async {
+    phoneNumber = '+91$phoneNumber';
+    String sessionId = await LoginService.getOTP(phoneNumber: phoneNumber);
+    Navigator.pushNamed(
+      context,
+      PhoneVerifyScreen.id,
+      arguments: sessionId
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +37,15 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
         child: ListView(
           children: <Widget>[
             kUserInputTextField(
-                helperText: kEnterMobileNumberTxt, maxLen: 10),
+                helperText: kEnterMobileNumberTxt,
+                maxLen: 10,
+                onChanged: (value) {
+                  phoneNumber = value;
+                }),
             kSizedBox_Medium,
             RaisedButton(
               child: Text(kLoginRegister),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  PhoneVerifyScreen.id,
-                );
-              },
+              onPressed: onPressed,
               color: Colors.blue,
               padding: EdgeInsets.all(15.0),
               shape: RoundedRectangleBorder(

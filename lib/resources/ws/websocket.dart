@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -11,19 +12,20 @@ class WebSocketListener {
 
   WebSocketListener._internal() {
     // init things inside this
+    bConnectionEstablished = false;
+  }
+
+  void initConnection({@required String token}) {
     try {
-      final storage = new FlutterSecureStorage();
-      storage.read(key: 'token').then((onValue) {
-        var headers = {'token': onValue};
+      var headers = {'token': token};
 
-        this.channel = IOWebSocketChannel.connect(
-            'wss://loudly.loudspeakerdev.net',
-            headers: headers);
+      this.channel = IOWebSocketChannel.connect(
+          'wss://loudly.loudspeakerdev.net',
+          headers: headers);
 
-        bConnectionEstablished = true;
-        channel.stream.listen((dynamic message) {
-          print(message);
-        });
+      bConnectionEstablished = true;
+      channel.stream.listen((dynamic message) {
+        print(message);
       });
     } catch (Exception) {
       throw Exception('Failed to instantiate websocket connection');

@@ -9,7 +9,12 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
 
-TextField kUserInputTextField({int maxLen, @required String helperText, double fontSize, TextInputType keyboardType}) {
+TextField kUserInputTextField(
+    {int maxLen,
+    @required String helperText,
+    double fontSize,
+    TextInputType keyboardType,
+    ValueChanged<String> onChanged}) {
   return TextField(
     autofocus: true,
     maxLength: maxLen ?? null,
@@ -23,6 +28,7 @@ TextField kUserInputTextField({int maxLen, @required String helperText, double f
     keyboardType: keyboardType ?? TextInputType.phone,
     textInputAction: TextInputAction.go,
     textAlign: TextAlign.center,
+    onChanged: onChanged,
   );
 }
 

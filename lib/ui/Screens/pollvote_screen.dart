@@ -174,8 +174,14 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     pollData = ModalRoute.of(context).settings.arguments;
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: _getAppBar(),

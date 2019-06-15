@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'package:loudly/resources/ws/websocket.dart';
+import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/ui/Screens/phonelogin_screen.dart';
-import 'package:loudly/ui/Screens/phoneverify_screen.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/platform_widgets.dart';
@@ -14,14 +17,21 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     //TODO1: check whether the device has valid credentials, if yes goto home_screen, else goto phonelogin_screen
 
-    //Mock Code
-    new Future.delayed(new Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
-    });
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    if (token == null) {
+      new Future.delayed(new Duration(seconds: 3), () {
+        Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
+      });
+    } else {
+      WebSocketListener().initConnection(token: token);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          HomeScreen.id, (Route<dynamic> route) => false);
+    }
   }
 
   @override
