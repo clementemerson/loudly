@@ -4,42 +4,42 @@
 
 import 'dart:convert';
 
-UserInfo userInfoFromJson(String str) => UserInfo.fromJson(json.decode(str));
+List<UserInfo> userInfoFromJson(String str) => new List<UserInfo>.from(json.decode(str).map((x) => UserInfo.fromJson(x)));
 
-String userInfoToJson(UserInfo data) => json.encode(data.toJson());
+String userInfoToJson(List<UserInfo> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserInfo {
     int userId;
     String name;
     String statusMsg;
     String phoneNumber;
-    int createdAt;
-    int updatedAt;
+    String displayNameAsInPhone;
+    String phoneNumberAsInPhone;
 
     UserInfo({
         this.userId,
         this.name,
         this.statusMsg,
         this.phoneNumber,
-        this.createdAt,
-        this.updatedAt,
+        this.displayNameAsInPhone,
+        this.phoneNumberAsInPhone,
     });
 
     factory UserInfo.fromJson(Map<String, dynamic> json) => new UserInfo(
-        userId: json["user_id"],
+        userId: json["userId"],
         name: json["name"],
         statusMsg: json["statusMsg"],
         phoneNumber: json["phoneNumber"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        displayNameAsInPhone: json["displayNameAsInPhone"],
+        phoneNumberAsInPhone: json["phoneNumberAsInPhone"],
     );
 
     Map<String, dynamic> toJson() => {
-        "user_id": userId,
+        "userId": userId,
         "name": name,
         "statusMsg": statusMsg,
         "phoneNumber": phoneNumber,
-        "createdAt": createdAt,
-        "updatedAt": updatedAt,
+        "displayNameAsInPhone": displayNameAsInPhone,
+        "phoneNumberAsInPhone": phoneNumberAsInPhone,
     };
 }
