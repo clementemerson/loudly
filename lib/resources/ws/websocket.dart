@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:loudly/resources/ws/message_listener.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -25,7 +26,7 @@ class WebSocketListener {
 
       bConnectionEstablished = true;
       channel.stream.listen((dynamic message) {
-        print(message);
+        MessageListener().processMessageFromWebsocketConnection(message);
       });
     } catch (Exception) {
       throw Exception('Failed to instantiate websocket connection');
