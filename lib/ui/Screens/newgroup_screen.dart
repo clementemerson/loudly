@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loudly/project_enums.dart';
 
-import 'package:loudly/project_styles.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/ui/Lists/contact_list.dart';
-import 'package:loudly/ui/Lists/poll_list.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 
 class NewGroupScreen extends StatelessWidget {
