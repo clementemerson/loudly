@@ -12,7 +12,7 @@ class LoginService {
     try {
       String requestUrl = serverName + '/getotp/$phoneNumber';
 
-      var data = await NetworkHelper.getData(url: requestUrl);
+      dynamic data = await NetworkHelper.getData(url: requestUrl);
       if (data && data.Status) {
         if (data.Status == 'Success') {
           sessionId = data.Data;

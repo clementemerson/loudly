@@ -17,21 +17,13 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     //TODO1: check whether the device has valid credentials, if yes goto home_screen, else goto phonelogin_screen
 
-    final storage = new FlutterSecureStorage();
-    String token = await storage.read(key: 'token');
-    if (token == null) {
-      new Future.delayed(new Duration(seconds: 3), () {
-        Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
-      });
-    } else {
-      WebSocketListener().initConnection(token: token);
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          HomeScreen.id, (Route<dynamic> route) => false);
-    }
+    new Future.delayed(new Duration(seconds: 3), () {
+      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
+    });
   }
 
   @override
