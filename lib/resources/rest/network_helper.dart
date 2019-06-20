@@ -17,7 +17,16 @@ class NetworkHelper {
   }
 
   static Future postData({@required String url, @required dynamic body}) async {
-    http.Response response = await http.post(url, body: body);
+    final headers = {
+      "accept": "application/json",
+      "content-type": "application/json"
+    };
+    final encoding = Encoding.getByName("utf-8");
+
+    http.Response response = await http.post(url,
+        headers: headers,
+        encoding: encoding,
+        body: json.encode(body));
 
     if (response.statusCode == 200) {
       String data = response.body;

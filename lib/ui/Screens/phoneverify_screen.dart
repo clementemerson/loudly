@@ -23,12 +23,17 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
   String otp;
 
   onPressed() async {
-    String token = await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
-    final storage = new FlutterSecureStorage();
-    await storage.write(key: 'token', value: token);
-    WebSocketListener().initConnection(token: token);
+    try {
+      String token =
+          await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
+      final storage = new FlutterSecureStorage();
+      await storage.write(key: 'token', value: token);
+      WebSocketListener().initConnection(token: token);
 
-    Navigator.pushNamed(context, HomeScreen.id);
+      Navigator.pushNamed(context, HomeScreen.id);
+    } catch (Exception) {
+      print(Exception);
+    }
   }
 
   @override
@@ -48,14 +53,20 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
         padding: const EdgeInsets.all(40.0),
         child: ListView(
           children: <Widget>[
-            kUserInputTextField(helperText: kEnterOTPTxt, maxLen: 6),
+            kUserInputTextField(
+                helperText: kEnterOTPTxt,
+                maxLen: 6,
+                onChanged: (value) {
+                  otp = value;
+                }),
             kSizedBox_Medium,
             RaisedButton(
               child: Text(kVerifyOTP),
-              onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    HomeScreen.id, (Route<dynamic> route) => false);
-              },
+              onPressed: onPressed,
+              // onPressed: () {
+              //   Navigator.of(context).pushNamedAndRemoveUntil(
+              //       HomeScreen.id, (Route<dynamic> route) => false);
+              // },
               color: Colors.blue,
               padding: EdgeInsets.all(15.0),
               shape: RoundedRectangleBorder(

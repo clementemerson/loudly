@@ -7,6 +7,7 @@ import 'package:loudly/ui/Screens/phonelogin_screen.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/platform_widgets.dart';
+import 'package:loudly/ui/Screens/phoneverify_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static final String id = 'welcome_screen';
@@ -20,10 +21,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
     //TODO1: check whether the device has valid credentials, if yes goto home_screen, else goto phonelogin_screen
-
+    checkToken();
     new Future.delayed(new Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     });
+  }
+
+  checkToken() async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    print(token);
   }
 
   @override
