@@ -12,6 +12,7 @@ class MessageListener {
   }
 
   void processMessageFromWebsocketConnection(dynamic message) {
+    print(message);
     final GeneralMessageFormat genFormatMessage = generalMessageFormatFromJson(message.toString());
     switch(genFormatMessage.module) {
       case WebSocketMessageModules.userModule:

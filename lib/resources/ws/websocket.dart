@@ -4,7 +4,7 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketHelper {
-    //static String serverName = 'wss://loudly.loudspeakerdev.net:8080';
+  //static String serverName = 'wss://loudly.loudspeakerdev.net:8080';
   static String serverName = 'ws://10.0.2.2:8080';
   WebSocketChannel channel;
   bool bConnectionEstablished = false;
@@ -17,13 +17,16 @@ class WebSocketHelper {
     bConnectionEstablished = false;
   }
 
-  void initConnection({@required String token}) {
+  bool isConnectionEstablished() {
+    return this.bConnectionEstablished;
+  }
+
+  void initConnection({@required String token}) async {
     try {
       var headers = {'token': token};
+      String connectionString = WebSocketHelper.serverName + '?token=$token';
 
-      this.channel = IOWebSocketChannel.connect(
-          WebSocketHelper.serverName,
-          headers: headers);
+      this.channel = await IOWebSocketChannel.connect(connectionString);
 
       bConnectionEstablished = true;
       channel.stream.listen((dynamic message) {

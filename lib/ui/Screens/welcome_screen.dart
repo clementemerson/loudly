@@ -31,6 +31,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
     print(token);
+    WebSocketHelper().initConnection(token: token);
+    if (WebSocketHelper().isConnectionEstablished == true) {
+      Navigator.pushReplacementNamed(context, HomeScreen.id);
+    } else {
+      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
+    }
   }
 
   @override
