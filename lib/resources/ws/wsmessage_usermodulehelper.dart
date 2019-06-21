@@ -21,7 +21,7 @@ class WebSocketUsersModuleHelper {
         'messageid': messageid,
         'phoneNumbers': phoneNumbers
       };
-      WebSocketListener().sendMessage(json.encode(message));
+      WebSocketHelper().sendMessage(json.encode(message));
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
     }
@@ -36,7 +36,7 @@ class WebSocketUsersModuleHelper {
         'event': getGroups_event,
         'messageid': messageid
       };
-      WebSocketListener().sendMessage(json.encode(message));
+      WebSocketHelper().sendMessage(json.encode(message));
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
     }

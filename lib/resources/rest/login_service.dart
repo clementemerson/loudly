@@ -12,7 +12,7 @@ class LoginService {
     try {
       String requestUrl = serverName + '/getotp/$phoneNumber';
 
-      dynamic data = await NetworkHelper.getData(url: requestUrl);
+      dynamic data = await RestAPIHelper.getData(url: requestUrl);
       print(data);
       if (data != null && data['Status'] == 'Success') {
         sessionId = data['Details'];
@@ -33,7 +33,7 @@ class LoginService {
       String requestUrl = serverName + '/signin';
       dynamic body = {"sessionid": sessionId, "otp": otp};
 
-      dynamic data = await NetworkHelper.postData(url: requestUrl, body: body);
+      dynamic data = await RestAPIHelper.postData(url: requestUrl, body: body);
       print(data);
       if (data != null && data['Status'] == 'Success') {
         token = data['Details'];

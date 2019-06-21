@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class NetworkHelper {
+class RestAPIHelper {
   static Future getData({@required String url}) async {
     http.Response response = await http.get(url);
 

@@ -2,16 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:loudly/resources/ws/message_listener.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class WebSocketListener {
+class WebSocketHelper {
+    //static String serverName = 'wss://loudly.loudspeakerdev.net:8080';
+  static String serverName = 'ws://10.0.2.2:8080';
   WebSocketChannel channel;
   bool bConnectionEstablished = false;
 
-  static final WebSocketListener _instance = WebSocketListener._internal();
-  factory WebSocketListener() => _instance;
+  static final WebSocketHelper _instance = WebSocketHelper._internal();
+  factory WebSocketHelper() => _instance;
 
-  WebSocketListener._internal() {
+  WebSocketHelper._internal() {
     // init things inside this
     bConnectionEstablished = false;
   }
@@ -21,7 +22,7 @@ class WebSocketListener {
       var headers = {'token': token};
 
       this.channel = IOWebSocketChannel.connect(
-          'wss://loudly.loudspeakerdev.net',
+          WebSocketHelper.serverName,
           headers: headers);
 
       bConnectionEstablished = true;

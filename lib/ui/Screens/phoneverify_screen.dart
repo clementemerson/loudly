@@ -28,7 +28,7 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
           await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
       final storage = new FlutterSecureStorage();
       await storage.write(key: 'token', value: token);
-      WebSocketListener().initConnection(token: token);
+      WebSocketHelper().initConnection(token: token);
 
       Navigator.pushNamed(context, HomeScreen.id);
     } catch (Exception) {
