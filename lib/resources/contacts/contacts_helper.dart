@@ -18,16 +18,6 @@ class ContactsHelper {
   static List<PhoneContacts> phoneContacts;
   static DateTime lastSynchedTime;
 
-  static void updateContacts() {
-    getPhoneContacts().then((phoneContacts) async {
-      List<String> phoneNumbers;
-      for (var contact in phoneContacts) {
-        phoneNumbers.add(await PhoneNumber.parse(contact.phoneNumber));
-      }
-      WebSocketUsersModuleHelper.getUsersFromPhoneNumbers(phoneNumbers);
-    });
-  }
-
   static Future<List<PhoneContacts>> getPhoneContacts() async {
     try {
       bool hasPermission = await PermissionManager.checkPermission(

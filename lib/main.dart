@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/ui/Screens/SetupScreen.dart';
 
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         SearchScreen.id: (context) => SearchScreen(),
         SettingsScreen.id: (context) => SettingsScreen(),
         ShareContentScreen.id: (context) => ShareContentScreen(),
+        SetupScreen.id: (context) => SetupScreen(),
       },
     );
   }

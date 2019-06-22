@@ -12,7 +12,8 @@ class WebSocketUsersModuleHelper {
       'getUsersFromPhoneNumbers';
   static const String getGroups_event = 'getGroups';
 
-  static Future<int> getUsersFromPhoneNumbers(List<String> phoneNumbers) async {
+  static Future<int> getUsersFromPhoneNumbers(List<String> phoneNumbers,
+      {Function callback}) async {
     int messageid = await WebSocketMessageModules.getNextMessageId();
     try {
       var message = {
@@ -44,7 +45,7 @@ class WebSocketUsersModuleHelper {
   }
 
   static void onReceivedMessage(GeneralMessageFormat genFormatMessage) {
-    switch (genFormatMessage.event) {
+    switch (genFormatMessage.details.event) {
       case getUsersFromPhoneNumbers_event:
         onReceivedUsersFromPhoneNumbers(genFormatMessage);
         break;
@@ -58,7 +59,8 @@ class WebSocketUsersModuleHelper {
       GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
-      List<UserInfoDB> userInfo = userInfoFromJson(genFormatMessage.data.toString());
+      List<UserInfoDB> userInfo =
+          userInfoFromList(genFormatMessage.details.data);
       ContactsHelper.createLoudlyContacts(userInfo);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
+import 'package:loudly/ui/Screens/SetupScreen.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/ui/Screens/phonelogin_screen.dart';
 import 'package:loudly/project_settings.dart';
@@ -21,19 +22,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
     //TODO1: check whether the device has valid credentials, if yes goto home_screen, else goto phonelogin_screen
-    checkToken();
-    new Future.delayed(new Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
-    });
+    checkForCredentials();
   }
 
-  checkToken() async {
+  checkForCredentials() async {
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
     print(token);
     WebSocketHelper().initConnection(token: token);
-    if (WebSocketHelper().isConnectionEstablished == true) {
-      Navigator.pushReplacementNamed(context, HomeScreen.id);
+    if (WebSocketHelper().isConnectionEstablished() == true) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, SetupScreen.id, (Route<dynamic> route) => false);
+      //Navigator.pushReplacementNamed(context, HomeScreen.id);
     } else {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     }

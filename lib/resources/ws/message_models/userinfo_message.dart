@@ -6,6 +6,8 @@ import 'dart:convert';
 
 List<UserInfoDB> userInfoFromJson(String str) => new List<UserInfoDB>.from(json.decode(str).map((x) => UserInfoDB.fromJson(x)));
 
+List<UserInfoDB> userInfoFromList(List<dynamic> list) => new List<UserInfoDB>.from(list.map((x) => UserInfoDB.fromJson(x)));
+
 String userInfoToJson(List<UserInfoDB> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserInfoDB {
@@ -26,19 +28,19 @@ class UserInfoDB {
     });
 
     factory UserInfoDB.fromJson(Map<String, dynamic> json) => new UserInfoDB(
-        userId: json["userId"],
+        userId: json["user_id"],
         name: json["name"],
-        statusMsg: json["statusMsg"],
-        phoneNumber: json["phoneNumber"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        statusMsg: json["statusmsg"],
+        phoneNumber: json["phonenumber"],
+        createdAt: DateTime.parse(json["createdAt"]).millisecondsSinceEpoch,
+        updatedAt: DateTime.parse(json["updatedAt"]).millisecondsSinceEpoch,
     );
 
     Map<String, dynamic> toJson() => {
-        "userId": userId,
+        "user_id": userId,
         "name": name,
-        "statusMsg": statusMsg,
-        "phoneNumber": phoneNumber,
+        "statusmsg": statusMsg,
+        "phonenumber": phoneNumber,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
     };

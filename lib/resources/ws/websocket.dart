@@ -21,12 +21,12 @@ class WebSocketHelper {
     return this.bConnectionEstablished;
   }
 
-  void initConnection({@required String token}) async {
+  void initConnection({@required String token}) {
     try {
       var headers = {'token': token};
       String connectionString = WebSocketHelper.serverName + '?token=$token';
 
-      this.channel = await IOWebSocketChannel.connect(connectionString);
+      this.channel = IOWebSocketChannel.connect(connectionString);
 
       bConnectionEstablished = true;
       channel.stream.listen((dynamic message) {
