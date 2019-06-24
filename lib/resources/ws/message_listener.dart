@@ -12,7 +12,7 @@ class MessageListener {
     // init things inside this
   }
 
-  void processMessageFromWebsocketConnection(String message) {
+  void processMessageFromWebsocketConnection(String message, Function callback) {
     print(message);
     dynamic messageContent = json.decode(message);
     if (messageContent['Status'] == 'Success') {

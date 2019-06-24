@@ -5,7 +5,7 @@ import 'network_helper.dart';
 
 class LoginService {
   //static String serverName = 'https://loudly.loudspeakerdev.net';
-  static String serverName = 'http://10.0.2.2:8081';
+  static String serverName = 'http://127.0.0.1:8081';
 
   static Future<String> getOTP({@required String phoneNumber}) async {
     String sessionId = '';
