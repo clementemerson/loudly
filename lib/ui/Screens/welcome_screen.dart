@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
-import 'package:loudly/ui/Screens/SetupScreen.dart';
+import 'package:loudly/ui/Screens/setup_screen.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/ui/Screens/phonelogin_screen.dart';
 import 'package:loudly/project_settings.dart';

@@ -34,13 +34,14 @@ class WebSocketHelper {
       print('ws open');
       ws.listen(
         (message) {
+          print(message);
           if (firstMessageReceived == false) {
             firstMessageReceived = true;
             bConnectionEstablished = true;
             callback(true);
           }
           MessageListener()
-              .processMessageFromWebsocketConnection(message, callback);
+              .processMessageFromWebsocketConnection(message);
         },
         onDone: () {
           bConnectionEstablished = false;
@@ -57,7 +58,7 @@ class WebSocketHelper {
       );
       this.channel = IOWebSocketChannel(ws);
 
-      this.channel = IOWebSocketChannel.connect(connectionString);
+      //this.channel = IOWebSocketChannel.connect(connectionString);
       print(this.channel.toString());
       this.channel.sink.add('data');
 

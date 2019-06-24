@@ -12,16 +12,19 @@ class MessageListener {
     // init things inside this
   }
 
-  void processMessageFromWebsocketConnection(String message, Function callback) {
-    print(message);
-    dynamic messageContent = json.decode(message);
-    if (messageContent['Status'] == 'Success') {
-      final GeneralMessageFormat genFormatMessage =
-          generalMessageFormatFromJson(message);
-      switch (genFormatMessage.details.module) {
-        case WebSocketMessageModules.userModule:
-          WebSocketUsersModuleHelper.onReceivedMessage(genFormatMessage);
+  void processMessageFromWebsocketConnection(String message) {
+    try {
+      dynamic messageContent = json.decode(message);
+      if (messageContent['Status'] == 'Success') {
+        final GeneralMessageFormat genFormatMessage =
+            generalMessageFormatFromJson(message);
+        switch (genFormatMessage.details.module) {
+          case WebSocketMessageModules.userModule:
+            WebSocketUsersModuleHelper.onReceivedMessage(genFormatMessage);
+        }
       }
+    } catch (Exception) {
+      print(Exception);
     }
   }
 }

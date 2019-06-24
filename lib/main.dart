@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/ui/Screens/SetupScreen.dart';
+import 'package:loudly/ui/Screens/setup_screen.dart';
 
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
