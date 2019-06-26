@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/resources/contacts/contacts_helper.dart';
-import 'package:loudly/resources/ws/wsmessage_usermodulehelper.dart';
+import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
+import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
+import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
 import 'package:phone_number/phone_number.dart';
 
 class SetupScreen extends StatefulWidget {
@@ -34,17 +36,58 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   void startSettingUp() async {
-    //ContactsHelper.getPhoneContacts().then((phoneContacts) async {
-    List<String> phoneContacts = List<String>();
-    phoneContacts.add('9884386484');
+    //Create DB tables here
+    List<String> phoneNumbers = await getPhoneNumbersFromDevice();
+    getLoudlyUsers(phoneNumbers);
+  }
+
+  Future<List<String>> getPhoneNumbersFromDevice() async {
+    List<PhoneContacts> phoneContacts = await ContactsHelper.getPhoneContacts();
     List<String> phoneNumbers = List<String>();
     for (var contact in phoneContacts) {
       try {
-        dynamic phoneParsed = await PhoneNumber.parse(contact, region: 'IN');
+        dynamic phoneParsed =
+            await PhoneNumber.parse(contact.phoneNumber, region: 'IN');
         phoneNumbers.add(phoneParsed['e164']);
       } catch (Exception) {}
     }
-    WebSocketUsersModuleHelper.getUsersFromPhoneNumbers(phoneNumbers);
-    //});
+    return phoneNumbers;
+  }
+
+  getLoudlyUsers(List<String> phoneNumbers) {
+    WSUsersModule.getUsersFromPhoneNumbers(phoneNumbers,
+        callback: getLoudlyUsersCompleted);
+  }
+
+  getLoudlyUsersCompleted() {
+    WSUsersModule.getGroups(callback: getGroupsCompleted);
+  }
+
+  getGroupsCompleted() {
+    WSUsersModule.getPolls(callback: getPollsCompleted);
+  }
+
+  getPollsCompleted() {
+    List<String> groupids;
+    WSGroupsModule.getInfo(groupids, callback: getGroupInfoCompleted);
+  }
+
+  getGroupInfoCompleted() {
+    BigInt groupid;
+    WSGroupsModule.getUsersOfGroup(groupid, callback: getUsersOfGroupCompleted);
+  }
+
+  getUsersOfGroupCompleted() {
+    List<String> userids;
+    WSUsersModule.getInfo(userids, callback: getUserInfoCompleted);
+  }
+
+  getUserInfoCompleted() {
+    List<String> pollids;
+    WSPollsModule.getInfo(pollids, callback: getPollInfoCompleted);
+  }
+
+  getPollInfoCompleted() {
+    //completed
   }
 }

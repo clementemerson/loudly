@@ -3,12 +3,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/ui/Screens/setup_screen.dart';
-import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/ui/Screens/phonelogin_screen.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/platform_widgets.dart';
-import 'package:loudly/ui/Screens/phoneverify_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static final String id = 'welcome_screen';
@@ -29,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
     print(token);
-    await WebSocketHelper().initConnection(token: token, callback: setupWebSocketConnection);
+    await WebSocketHelper().initConnection(token: token, initCallback: setupWebSocketConnection);
     if(WebSocketHelper().bConnectionEstablished == false) {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     }
