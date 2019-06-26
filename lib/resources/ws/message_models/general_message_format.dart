@@ -10,38 +10,38 @@ String generalMessageFormatToJson(GeneralMessageFormat data) => json.encode(data
 
 class GeneralMessageFormat {
     String status;
-    Details details;
+    Message message;
 
     GeneralMessageFormat({
         this.status,
-        this.details,
+        this.message,
     });
 
     factory GeneralMessageFormat.fromJson(Map<String, dynamic> json) => new GeneralMessageFormat(
         status: json["Status"],
-        details: Details.fromJson(json["Details"]),
+        message: Message.fromJson(json["Details"]),
     );
 
     Map<String, dynamic> toJson() => {
         "Status": status,
-        "Details": details.toJson(),
+        "Details": message.toJson(),
     };
 }
 
-class Details {
+class Message {
     String module;
     String event;
     int messageid;
     dynamic data;
 
-    Details({
+    Message({
         this.module,
         this.event,
         this.messageid,
         this.data,
     });
 
-    factory Details.fromJson(Map<String, dynamic> json) => new Details(
+    factory Message.fromJson(Map<String, dynamic> json) => new Message(
         module: json["module"],
         event: json["event"],
         messageid: json["messageid"],
