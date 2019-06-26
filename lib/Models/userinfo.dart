@@ -26,19 +26,19 @@ class UserInfo {
     });
 
     factory UserInfo.fromJson(Map<String, dynamic> json) => new UserInfo(
-        userId: json["userId"],
+        userId: json["user_id"],
         name: json["name"],
-        statusMsg: json["statusMsg"],
-        phoneNumber: json["phoneNumber"],
+        statusMsg: json["statusmsg"],
+        phoneNumber: json["phonenumber"],
         displayNameAsInPhone: json["displayNameAsInPhone"],
         phoneNumberAsInPhone: json["phoneNumberAsInPhone"],
     );
 
     Map<String, dynamic> toJson() => {
-        "userId": userId,
+        "user_id": userId,
         "name": name,
-        "statusMsg": statusMsg,
-        "phoneNumber": phoneNumber,
+        "statusmsg": statusMsg,
+        "phonenumber": phoneNumber,
         "displayNameAsInPhone": displayNameAsInPhone,
         "phoneNumberAsInPhone": phoneNumberAsInPhone,
     };
