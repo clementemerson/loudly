@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
-import 'package:loudly/resources/ws/websocket_messagemodules.dart';
-import 'package:loudly/resources/ws/wsmessage_usermodulehelper.dart';
+import 'package:loudly/resources/ws/wsutility.dart';
+import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
 
 class MessageListener {
   static final MessageListener _instance = MessageListener._internal();
@@ -12,16 +10,12 @@ class MessageListener {
     // init things inside this
   }
 
-  void processMessageFromWebsocketConnection(String message) {
+  void processInMessage(GeneralMessageFormat message,
+      {Function callback}) {
     try {
-      dynamic messageContent = json.decode(message);
-      if (messageContent['Status'] == 'Success') {
-        final GeneralMessageFormat genFormatMessage =
-            generalMessageFormatFromJson(message);
-        switch (genFormatMessage.details.module) {
-          case WebSocketMessageModules.userModule:
-            WebSocketUsersModuleHelper.onReceivedMessage(genFormatMessage);
-        }
+      switch (message.message.module) {
+        case WSUtility.userModule:
+          WSUsersModule.onMessage(message);
       }
     } catch (Exception) {
       print(Exception);
