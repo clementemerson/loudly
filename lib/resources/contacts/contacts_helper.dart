@@ -1,10 +1,8 @@
 import 'package:loudly/resources/ws/message_models/userinfo_message.dart';
-import 'package:loudly/resources/ws/wsmessage_usermodulehelper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 import 'package:loudly/resources/services/permissions_manager.dart';
-import 'package:phone_number/phone_number.dart';
 
 class PhoneContacts {
   final String displayName;
