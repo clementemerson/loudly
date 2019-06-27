@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/data/database.dart';
 import 'package:loudly/resources/contacts/contacts_helper.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
@@ -37,11 +38,22 @@ class _SetupScreenState extends State<SetupScreen> {
 
   void startSettingUp() async {
     //Create DB tables here
-    List<String> phoneNumbers = await getPhoneNumbersFromDevice();
-    getLoudlyUsers(phoneNumbers);
+    await DBProvider.db.database;
+    
+    await _getLoudlyUsers();
+
+    await _getGroups();
+    await _getGroupsInfo();
+    await _getUsersOfGroup();
+    await _getUsersInfo();
+
+    await _getPolls();
+    await _getPollsInfo();
+
+    //Process completed.
   }
 
-  Future<List<String>> getPhoneNumbersFromDevice() async {
+  Future<List<String>> _getPhoneNumbersFromDevice() async {
     List<PhoneContacts> phoneContacts = await ContactsHelper.getPhoneContacts();
     List<String> phoneNumbers = List<String>();
     for (var contact in phoneContacts) {
@@ -54,40 +66,51 @@ class _SetupScreenState extends State<SetupScreen> {
     return phoneNumbers;
   }
 
-  getLoudlyUsers(List<String> phoneNumbers) {
-    WSUsersModule.getUsersFromPhoneNumbers(phoneNumbers,
-        callback: getLoudlyUsersCompleted);
+  Future<void> _getLoudlyUsers() async {
+    List<String> phoneNumbers = await _getPhoneNumbersFromDevice();
+    await WSUsersModule.getUsersFromPhoneNumbers(phoneNumbers, callback: () {
+      return;
+    });
   }
 
-  getLoudlyUsersCompleted() {
-    WSUsersModule.getGroups(callback: getGroupsCompleted);
+  Future<void> _getGroups() async {
+    await WSUsersModule.getGroups(callback: () {
+      return;
+    });
   }
 
-  getGroupsCompleted() {
-    WSUsersModule.getPolls(callback: getPollsCompleted);
+  Future<void> _getPolls() async {
+    await WSUsersModule.getPolls(callback: () {
+      return;
+    });
   }
 
-  getPollsCompleted() {
+  Future<void> _getGroupsInfo() async {
     List<String> groupids;
-    WSGroupsModule.getInfo(groupids, callback: getGroupInfoCompleted);
+    await WSGroupsModule.getInfo(groupids, callback: () {
+      return;
+    });
   }
 
-  getGroupInfoCompleted() {
+  Future<void> _getUsersOfGroup() async {
     BigInt groupid;
-    WSGroupsModule.getUsersOfGroup(groupid, callback: getUsersOfGroupCompleted);
+    await WSGroupsModule.getUsersOfGroup(groupid, callback: () {
+      return;
+    });
   }
 
-  getUsersOfGroupCompleted() {
+  Future<void> _getUsersInfo() async {
     List<String> userids;
-    WSUsersModule.getInfo(userids, callback: getUserInfoCompleted);
+    await WSUsersModule.getInfo(userids, callback: () {
+      return;
+    });
   }
 
-  getUserInfoCompleted() {
+  Future<void> _getPollsInfo() async {
     List<String> pollids;
-    WSPollsModule.getInfo(pollids, callback: getPollInfoCompleted);
+    await WSPollsModule.getInfo(pollids, callback: () {
+      return;
+    });
   }
 
-  getPollInfoCompleted() {
-    //completed
-  }
 }
