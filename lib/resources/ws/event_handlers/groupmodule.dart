@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:loudly/Models/groupinfo.dart';
-import 'package:loudly/resources/contacts/contacts_helper.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
-import 'package:loudly/resources/ws/message_models/userinfo_message.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
 
@@ -214,9 +212,6 @@ class WSGroupsModule {
   static void onCreateReply(GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
-      List<UserInfoDB> userInfo =
-          userInfoFromList(genFormatMessage.message.data);
-      ContactsHelper.createLoudlyContacts(userInfo);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }

@@ -1,8 +1,7 @@
-import 'dart:convert';
-
-import 'package:loudly/resources/contacts/contacts_helper.dart';
+import 'package:loudly/Models/groupuser.dart';
+import 'package:loudly/Models/userinfo.dart';
+import 'package:loudly/Models/userpoll.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
-import 'package:loudly/resources/ws/message_models/userinfo_message.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
 
@@ -18,13 +17,12 @@ class WSUsersModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.userModule,
-        'event': getUsersFromPhoneNumbersEvent,
-        'messageid': messageid,
-        'phoneNumbers': phoneNumbers
-      };
-      WebSocketHelper().sendMessage(message, callback: callback);
+      Message message = Message(
+          module: WSUtility.userModule,
+          event: getUsersFromPhoneNumbersEvent,
+          messageid: messageid,
+          data: {'phoneNumbers': phoneNumbers});
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -34,12 +32,11 @@ class WSUsersModule {
   static Future<int> getGroups({Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.userModule,
-        'event': getGroupsEvent,
-        'messageid': messageid
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.userModule,
+          event: getGroupsEvent,
+          messageid: messageid);
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -79,29 +76,68 @@ class WSUsersModule {
   static void onMessage(GeneralMessageFormat genFormatMessage) {
     switch (genFormatMessage.message.event) {
       case getUsersFromPhoneNumbersEvent:
-        onUsersFromPhoneNumbersReceived(genFormatMessage);
+        onUsersFromPhoneNumbersReply(genFormatMessage);
         break;
       case getGroupsEvent:
-        onGroupsReceived(genFormatMessage);
+        onGroupsReply(genFormatMessage);
+        break;
+      case getPollsEvent:
+        onPollsReply(genFormatMessage);
+        break;
+      case getInfoEvent:
+        onInfoReply(genFormatMessage);
         break;
     }
   }
 
-  static void onUsersFromPhoneNumbersReceived(
+  static void onUsersFromPhoneNumbersReply(
       GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
-      List<UserInfoDB> userInfo =
+      List<UserInfo> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
-      ContactsHelper.createLoudlyContacts(userInfo);
+      for (UserInfo userInfo in userInfoList) {
+        UserInfo.insert(userInfo);
+      }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onGroupsReceived(GeneralMessageFormat genFormatMessage) {
+  static void onGroupsReply(GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
+      List<GroupUser> groupUserList =
+          groupUserFromList(genFormatMessage.message.data);
+      for (GroupUser groupUser in groupUserList) {
+        GroupUser.insert(groupUser);
+      }
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static void onPollsReply(GeneralMessageFormat genFormatMessage) {
+    try {
+      print(genFormatMessage);
+      List<UserPoll> userPollList =
+          userPollFromList(genFormatMessage.message.data);
+      for (UserPoll userPoll in userPollList) {
+        UserPoll.insert(userPoll);
+      }
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static void onInfoReply(GeneralMessageFormat genFormatMessage) {
+    try {
+      print(genFormatMessage);
+      List<UserInfo> userInfoList =
+          userInfoFromList(genFormatMessage.message.data);
+      for (UserInfo userInfo in userInfoList) {
+        UserInfo.insert(userInfo);
+      }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
