@@ -1,15 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:loudly/Models/polldata.dart';
 
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
-import 'package:loudly/project_textconstants.dart';
 
 class PollVoteScreen extends StatefulWidget {
   static const String id = 'pollvote_screen';

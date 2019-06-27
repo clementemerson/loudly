@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:loudly/data/database.dart';
 import 'package:sqflite/sqflite.dart';
 
+
 GroupInfo groupInfoFromJson(String str) => GroupInfo.fromJson(json.decode(str));
 
 List<GroupInfo> groupInfoFromList(List<dynamic> list) =>

@@ -40,8 +40,8 @@ class UserInfo {
         name: json["name"],
         statusMsg: json["statusmsg"],
         phoneNumber: json["phonenumber"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        createdAt: DateTime.parse(json["createdAt"]).millisecondsSinceEpoch,
+        updatedAt: DateTime.parse(json["updatedAt"]).millisecondsSinceEpoch,
       );
 
   Map<String, dynamic> toJson() => {

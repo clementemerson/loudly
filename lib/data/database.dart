@@ -35,12 +35,24 @@ class DBProvider {
       version: 1,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
-        
         // Create the groupinfo table
-        await GroupInfo.createTable();
+        await db.execute('''CREATE TABLE ${GroupInfo.tablename}(  
+          id INTEGER PRIMARY KEY, 
+          name TEXT DEFAULT '',
+          desc TEXT DEFAULT '',
+          createdby INTEGER DEFAULT -1,
+          createdAt INTEGER DEFAULT 0,
+          updatedAt INTEGER DEFAULT 0,
+          sorttime INTEGER DEFAULT 0
+        )''');
 
         // Create the userpolls table
-        await UserPoll.createTable();
+        await db.execute('''CREATE TABLE ${UserPoll.tablename}(
+          pollid INTEGER DEFAULT -1, 
+          sharedby INTEGER DEFAULT -1,
+          createdAt INTEGER DEFAULT 0,
+          updatedAt INTEGER DEFAULT 0
+        )''');
 
         // Create the grouppolls table
         await db.execute('''CREATE TABLE grouppolls(
@@ -52,7 +64,14 @@ class DBProvider {
         )''');
 
         // Create the groupusers table
-        await GroupUser.createTable();
+        await db.execute('''CREATE TABLE ${GroupUser.tablename}(
+          groupid INTEGER DEFAULT -1, 
+          user_id INTEGER DEFAULT -1,
+          addedby INTEGER DEFAULT -1,
+          permission TEXT DEFAULT 'USER',
+          createdAt INTEGER DEFAULT 0,
+          updatedAt INTEGER DEFAULT 0
+        )''');
 
         // Create the polldata table
         await db.execute('''CREATE TABLE polldata(
@@ -102,7 +121,14 @@ class DBProvider {
         )''');
 
         // Create the users table
-        await UserInfo.createTable();
+        await db.execute('''CREATE TABLE ${UserInfo.tablename}(
+          user_id INTEGER PRIMARY KEY,
+          name TEXT DEFAULT '',
+          statusmsg TEXT DEFAULT '',
+          phonenumber TEXT DEFAULT '',
+          createdAt INTEGER DEFAULT 0,
+          updatedAt INTEGER DEFAULT 0
+        )''');
       },
     );
   }

@@ -43,26 +43,29 @@ class _SetupScreenState extends State<SetupScreen> {
     await _getLoudlyUsers();
 
     await _getGroups();
-    await _getGroupsInfo();
-    await _getUsersOfGroup();
-    await _getUsersInfo();
+    // await _getGroupsInfo();
+    // await _getUsersOfGroup();
+    // await _getUsersInfo();
 
-    await _getPolls();
-    await _getPollsInfo();
+    // await _getPolls();
+    // await _getPollsInfo();
 
     //Process completed.
   }
 
   Future<List<String>> _getPhoneNumbersFromDevice() async {
-    List<PhoneContacts> phoneContacts = await ContactsHelper.getPhoneContacts();
+    // List<PhoneContacts> phoneContacts = await ContactsHelper.getPhoneContacts();
+    // List<String> phoneNumbers = List<String>();
+    // for (var contact in phoneContacts) {
+    //   try {
+    //     dynamic phoneParsed =
+    //         await PhoneNumber.parse(contact.phoneNumber, region: 'IN');
+    //     phoneNumbers.add(phoneParsed['e164']);
+    //   } catch (Exception) {}
+    // }
+    // return phoneNumbers;
     List<String> phoneNumbers = List<String>();
-    for (var contact in phoneContacts) {
-      try {
-        dynamic phoneParsed =
-            await PhoneNumber.parse(contact.phoneNumber, region: 'IN');
-        phoneNumbers.add(phoneParsed['e164']);
-      } catch (Exception) {}
-    }
+    phoneNumbers.add('+919884386484');
     return phoneNumbers;
   }
 

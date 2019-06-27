@@ -3,8 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:loudly/resources/rest/login_service.dart';
 import 'package:loudly/resources/ws/websocket.dart';
-import 'package:loudly/ui/Screens/setup_screen.dart';
-import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
