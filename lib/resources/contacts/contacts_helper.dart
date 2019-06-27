@@ -1,4 +1,3 @@
-import 'package:loudly/resources/ws/message_models/userinfo_message.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
 
@@ -38,9 +37,5 @@ class ContactsHelper {
       throw Exception('Failed to get contacts from phone');
     }
     return phoneContacts;
-  }
-
-  static createLoudlyContacts(List<UserInfoDB> userInfoDB) {
-    for (var user in userInfoDB) {}
   }
 }
