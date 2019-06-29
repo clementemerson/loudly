@@ -108,7 +108,7 @@ class GroupInfo {
     );
   }
 
-  static Future<void> delete(BigInt id) async {
+  static Future<void> delete(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -120,7 +120,7 @@ class GroupInfo {
     );
   }
 
-  static Future<GroupInfo> getOne(BigInt id) async {
+  static Future<GroupInfo> getOne(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -142,7 +142,7 @@ class GroupInfo {
       return null;
   }
 
-  static Future<void> updateSortTime(BigInt id) async {
+  static Future<void> updateSortTime(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 

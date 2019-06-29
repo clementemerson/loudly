@@ -39,7 +39,7 @@ class GroupUser {
         addedBy: json["addedBy"],
         permission: json["permission"],
         createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        updatedAt: json["updatedAt"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -79,7 +79,7 @@ class GroupUser {
     );
   }
 
-  static Future<List<GroupUser>> getUsersOfGroup(BigInt groupid) async {
+  static Future<List<GroupUser>> getUsersOfGroup(int groupid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -106,7 +106,7 @@ class GroupUser {
     );
   }
 
-  static Future<void> delete(BigInt groupid, BigInt userId) async {
+  static Future<void> delete(int groupid, int userId) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -118,7 +118,7 @@ class GroupUser {
     );
   }
 
-  static Future<List<GroupUser>> getGroupsOfUser(BigInt userId) async {
+  static Future<List<GroupUser>> getGroupsOfUser(int userId) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 

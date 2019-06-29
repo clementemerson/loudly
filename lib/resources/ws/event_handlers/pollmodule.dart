@@ -48,7 +48,7 @@ class WSPollsModule {
     }
   }
 
-  static Future<int> shareToGroup(BigInt pollid, BigInt groupid,
+  static Future<int> shareToGroup(int pollid, int groupid,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();

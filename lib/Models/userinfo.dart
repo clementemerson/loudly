@@ -40,8 +40,8 @@ class UserInfo {
         name: json["name"],
         statusMsg: json["statusmsg"],
         phoneNumber: json["phonenumber"],
-        createdAt: DateTime.parse(json["createdAt"]).millisecondsSinceEpoch,
-        updatedAt: DateTime.parse(json["updatedAt"]).millisecondsSinceEpoch,
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -108,7 +108,7 @@ class UserInfo {
     );
   }
 
-  static Future<void> delete(BigInt id) async {
+  static Future<void> delete(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -120,7 +120,7 @@ class UserInfo {
     );
   }
 
-  static Future<UserInfo> getOne(BigInt id) async {
+  static Future<UserInfo> getOne(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 

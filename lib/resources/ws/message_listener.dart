@@ -1,3 +1,4 @@
+import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
@@ -10,12 +11,15 @@ class MessageListener {
     // init things inside this
   }
 
-  void processInMessage(GeneralMessageFormat message,
-      {Function callback}) {
+  void processInMessage(GeneralMessageFormat message, {Function callback}) {
     try {
       switch (message.message.module) {
         case WSUtility.userModule:
           WSUsersModule.onMessage(message);
+          break;
+        case WSUtility.groupModule:
+          WSGroupsModule.onMessage(message);
+          break;
       }
     } catch (Exception) {
       print(Exception);

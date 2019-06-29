@@ -33,7 +33,7 @@ class UserPoll {
         pollid: json["pollid"],
         sharedby: json["sharedby"],
         createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        updatedAt: json["updatedAt"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -96,7 +96,7 @@ class UserPoll {
     );
   }
 
-  static Future<void> delete(BigInt id) async {
+  static Future<void> delete(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -108,7 +108,7 @@ class UserPoll {
     );
   }
 
-  static Future<UserPoll> getOne(BigInt id) async {
+  static Future<UserPoll> getOne(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 

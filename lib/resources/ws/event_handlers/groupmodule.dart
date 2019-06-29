@@ -33,7 +33,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> getInfo(List<String> groupids, {Function callback}) async {
+  static Future<int> getInfo(List<int> groupids, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
       var message = {
@@ -49,7 +49,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> getUsersOfGroup(BigInt groupid,
+  static Future<int> getUsersOfGroup(int groupid,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -66,7 +66,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> getPolls(BigInt groupid, {Function callback}) async {
+  static Future<int> getPolls(int groupid, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
       var message = {
@@ -82,7 +82,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> addUser(BigInt groupid, BigInt userid, String permission,
+  static Future<int> addUser(int groupid, int userid, String permission,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -103,7 +103,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> changeTitle(BigInt groupid, String groupTitle,
+  static Future<int> changeTitle(int groupid, String groupTitle,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -120,7 +120,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> changeDesc(BigInt groupid, String groupDesc,
+  static Future<int> changeDesc(int groupid, String groupDesc,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -138,7 +138,7 @@ class WSGroupsModule {
   }
 
   static Future<int> changeUserPermission(
-      BigInt groupid, BigInt userid, String permission,
+      int groupid, int userid, String permission,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -159,7 +159,7 @@ class WSGroupsModule {
     }
   }
 
-  static Future<int> removeUser(BigInt groupid, BigInt userid,
+  static Future<int> removeUser(int groupid, int userid,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();

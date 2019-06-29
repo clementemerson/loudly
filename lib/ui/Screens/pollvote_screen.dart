@@ -19,7 +19,7 @@ class PollVoteScreen extends StatefulWidget {
 
 class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
-  String selectedOption = null;
+  String selectedOption;
   PollData pollData;
 
   @override
