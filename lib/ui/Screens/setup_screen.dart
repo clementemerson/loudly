@@ -98,12 +98,12 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getUsersInfo() async {
-    List<String> userids;
+    List<int> userids;
     await WSUsersModule.getInfo(userids, callback: _getPollsInfo);
   }
 
   _getPollsInfo() async {
-    List<String> pollids;
+    List<int> pollids;
     await WSPollsModule.getInfo(pollids, callback: _onCompleted);
   }
 

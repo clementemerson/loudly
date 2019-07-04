@@ -12,6 +12,8 @@ class WSUsersModule {
   static const String getGroupsEvent = 'getGroups';
   static const String getPollsEvent = 'getPolls';
   static const String getInfoEvent = 'getInfo';
+  static const String changeNameEvent = 'changeName';
+  static const String changeStatusEvent = 'changeStatusMsg';
 
   static Future<int> getUsersFromPhoneNumbers(List<String> phoneNumbers,
       {Function callback}) async {
@@ -57,7 +59,7 @@ class WSUsersModule {
     }
   }
 
-  static Future<int> getInfo(List<String> userids, {Function callback}) async {
+  static Future<int> getInfo(List<int> userids, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(

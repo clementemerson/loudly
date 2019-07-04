@@ -8,40 +8,46 @@ import 'package:loudly/resources/ws/wsutility.dart';
 class WSPollsModule {
 //Event List
   static const String createEvent = 'create';
-  static const String getInfoEvent = 'getInfo';
   static const String shareToGroupEvent = 'shareToGroup';
+  static const String getInfoEvent = 'getInfo';
+  static const String voteEvent = 'vote';
+  static const String getUsersVoteInfoEvent = 'getUsersVoteInfo';
+  static const String syncPollResultsEvent = 'syncPollResults';
+  static const String subscribeToPollResultEvent = 'subscribeToPollResult';
+  static const String unSubscribeToPollResultEvent = 'unSubscribeToPollResult';
+  static const String deleteEvent = 'delete';
 
   static Future<int> create(PollData pollData, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.pollModule,
-        'event': createEvent,
-        'messageid': messageid,
-        'data': {
-          'title': pollData.title,
-          'canbeshared': pollData.canBeShared,
-          'resultispublic': pollData.resultIsPublic,
-          'options': pollData.options
-        }
-      };
-      WebSocketHelper().sendMessage(message, callback: callback);
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {
+            'title': pollData.title,
+            'canbeshared': pollData.canBeShared,
+            'resultispublic': pollData.resultIsPublic,
+            'options': pollData.options
+          });
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
     }
   }
 
-  static Future<int> getInfo(List<String> pollids, {Function callback}) async {
+  static Future<int> getInfo(List<int> pollids, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.pollModule,
-        'event': getInfoEvent,
-        'messageid': messageid,
-        'data': {'pollids': pollids}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: getInfoEvent,
+          messageid: messageid,
+          data: {'pollids': pollids});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -52,12 +58,50 @@ class WSPollsModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.pollModule,
-        'event': shareToGroupEvent,
-        'messageid': messageid,
-        'data': {'pollid': pollid, 'groupid': groupid}
-      };
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: shareToGroupEvent,
+          messageid: messageid,
+          data: {'pollid': pollid, 'groupid': groupid});
+
+      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception('Failed to send message to server via websocket');
+    }
+  }
+
+  static Future<int> vote(int pollid, int optionindex, bool isSecretVote,
+      {Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: voteEvent,
+          messageid: messageid,
+          data: {
+            'pollid': pollid,
+            'optionindex': optionindex,
+            'secretvote': isSecretVote
+          });
+
+      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception('Failed to send message to server via websocket');
+    }
+  }
+
+  static Future<int> getUsersVoteInfo(List<int> user_ids, int pollid,
+      {Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: getUsersVoteInfoEvent,
+          messageid: messageid,
+          data: {'user_ids': user_ids, 'pollid': pollid});
+
       WebSocketHelper().sendMessage(json.encode(message), callback: callback);
       return messageid;
     } catch (Exception) {
