@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
+import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
 
@@ -25,6 +24,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'name': groupInfo.name, 'desc': groupInfo.desc});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -41,6 +41,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'groupids': groupids});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -57,6 +58,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'groupid': groupid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -73,6 +75,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'groupid': groupid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -94,6 +97,7 @@ class WSGroupsModule {
             'user_id': userid,
             'permission': permission
           });
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -111,6 +115,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'groupid': groupid, 'name': groupTitle});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -128,6 +133,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'groupid': groupid, 'desc': groupDesc});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -150,6 +156,7 @@ class WSGroupsModule {
             'user_id': userid,
             'permission': permission
           });
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -167,6 +174,7 @@ class WSGroupsModule {
           event: createEvent,
           messageid: messageid,
           data: {'groupid': groupid, 'user_id': userid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -176,7 +184,8 @@ class WSGroupsModule {
   }
 
 //----------------------------------------------------------------------------------------------------------------------------
-  static void onMessage(GeneralMessageFormat genFormatMessage) {
+  static void onMessage(
+      GeneralMessageFormat genFormatMessage, Message sentMessage) {
     switch (genFormatMessage.message.event) {
       case createEvent:
         onCreateReply(genFormatMessage);

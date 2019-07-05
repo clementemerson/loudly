@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
+import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
 
@@ -30,6 +29,7 @@ class WSPollsModule {
             'resultispublic': pollData.resultIsPublic,
             'options': pollData.options
           });
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -46,6 +46,7 @@ class WSPollsModule {
           event: getInfoEvent,
           messageid: messageid,
           data: {'pollids': pollids});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -63,6 +64,7 @@ class WSPollsModule {
           event: shareToGroupEvent,
           messageid: messageid,
           data: {'pollid': pollid, 'groupid': groupid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -84,6 +86,7 @@ class WSPollsModule {
             'optionindex': optionindex,
             'secretvote': isSecretVote
           });
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -101,6 +104,7 @@ class WSPollsModule {
           event: getUsersVoteInfoEvent,
           messageid: messageid,
           data: {'user_ids': user_ids, 'pollid': pollid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -118,6 +122,7 @@ class WSPollsModule {
           event: syncPollResultsEvent,
           messageid: messageid,
           data: {'lastsynchedtime': lastsynchedtime});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -135,6 +140,7 @@ class WSPollsModule {
           event: subscribeToPollResultEvent,
           messageid: messageid,
           data: {'pollid': pollid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -152,6 +158,7 @@ class WSPollsModule {
           event: unSubscribeToPollResultEvent,
           messageid: messageid,
           data: {'pollid': pollid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -168,6 +175,7 @@ class WSPollsModule {
           event: deleteEvent,
           messageid: messageid,
           data: {'pollid': pollid});
+      MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
@@ -177,7 +185,8 @@ class WSPollsModule {
   }
 
 //----------------------------------------------------------------------------------------------------------------------------
-  static void onMessage(GeneralMessageFormat genFormatMessage) {
+  static void onMessage(
+      GeneralMessageFormat genFormatMessage, Message sentMessage) {
     switch (genFormatMessage.message.event) {
       case createEvent:
         onCreateReply(genFormatMessage);
