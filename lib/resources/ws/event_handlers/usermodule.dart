@@ -24,6 +24,7 @@ class WSUsersModule {
           event: getUsersFromPhoneNumbersEvent,
           messageid: messageid,
           data: {'phoneNumbers': phoneNumbers});
+
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
@@ -38,6 +39,7 @@ class WSUsersModule {
           module: WSUtility.userModule,
           event: getGroupsEvent,
           messageid: messageid);
+
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
@@ -52,6 +54,7 @@ class WSUsersModule {
           module: WSUtility.userModule,
           event: getPollsEvent,
           messageid: messageid);
+
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
@@ -67,6 +70,40 @@ class WSUsersModule {
           event: getInfoEvent,
           messageid: messageid,
           data: {'userids': userids});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception('Failed to send message to server via websocket');
+    }
+  }
+
+  static Future<int> changeName(String name, {Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.userModule,
+          event: changeNameEvent,
+          messageid: messageid,
+          data: {'name': name});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception('Failed to send message to server via websocket');
+    }
+  }
+
+  static Future<int> changeStatusMsg(String statusmsg,
+      {Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.userModule,
+          event: changeStatusEvent,
+          messageid: messageid,
+          data: {'statusmsg': statusmsg});
+
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {

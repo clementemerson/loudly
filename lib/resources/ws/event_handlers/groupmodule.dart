@@ -20,13 +20,13 @@ class WSGroupsModule {
   static Future<int> create(GroupInfo groupInfo, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': createEvent,
-        'messageid': messageid,
-        'data': {'name': groupInfo.name, 'desc': groupInfo.desc}
-      };
-      WebSocketHelper().sendMessage(message, callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'name': groupInfo.name, 'desc': groupInfo.desc});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -36,30 +36,29 @@ class WSGroupsModule {
   static Future<int> getInfo(List<int> groupids, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': getInfoEvent,
-        'messageid': messageid,
-        'data': {'groupids': groupids}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'groupids': groupids});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
     }
   }
 
-  static Future<int> getUsersOfGroup(int groupid,
-      {Function callback}) async {
+  static Future<int> getUsersOfGroup(int groupid, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': getUsersOfGroupEvent,
-        'messageid': messageid,
-        'data': {'groupid': groupid}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'groupid': groupid});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -69,13 +68,13 @@ class WSGroupsModule {
   static Future<int> getPolls(int groupid, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': getPollsEvent,
-        'messageid': messageid,
-        'data': {'groupid': groupid}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'groupid': groupid});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -86,17 +85,17 @@ class WSGroupsModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': addUserEvent,
-        'messageid': messageid,
-        'data': {
-          'groupid': groupid,
-          'user_id': userid,
-          'permission': permission
-        }
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {
+            'groupid': groupid,
+            'user_id': userid,
+            'permission': permission
+          });
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -107,13 +106,13 @@ class WSGroupsModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': changeTitleEvent,
-        'messageid': messageid,
-        'data': {'groupid': groupid, 'name': groupTitle}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'groupid': groupid, 'name': groupTitle});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -124,13 +123,13 @@ class WSGroupsModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': changeDescEvent,
-        'messageid': messageid,
-        'data': {'groupid': groupid, 'desc': groupDesc}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'groupid': groupid, 'desc': groupDesc});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -142,17 +141,17 @@ class WSGroupsModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': changeUserPermissionEvent,
-        'messageid': messageid,
-        'data': {
-          'groupid': groupid,
-          'user_id': userid,
-          'permission': permission
-        }
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {
+            'groupid': groupid,
+            'user_id': userid,
+            'permission': permission
+          });
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
@@ -163,13 +162,13 @@ class WSGroupsModule {
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
-      var message = {
-        'module': WSUtility.groupModule,
-        'event': removeUserEvent,
-        'messageid': messageid,
-        'data': {'groupid': groupid, 'user_id': userid}
-      };
-      WebSocketHelper().sendMessage(json.encode(message), callback: callback);
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: createEvent,
+          messageid: messageid,
+          data: {'groupid': groupid, 'user_id': userid});
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
       throw Exception('Failed to send message to server via websocket');
