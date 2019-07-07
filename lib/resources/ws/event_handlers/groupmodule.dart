@@ -40,7 +40,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: getInfoEvent,
           messageid: messageid,
           data: {'groupids': groupids});
       MessageStore().add(message);
@@ -57,7 +57,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: getUsersOfGroupEvent,
           messageid: messageid,
           data: {'groupid': groupid});
       MessageStore().add(message);
@@ -74,7 +74,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: getPollsEvent,
           messageid: messageid,
           data: {'groupid': groupid});
       MessageStore().add(message);
@@ -92,7 +92,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: addUserEvent,
           messageid: messageid,
           data: {
             'groupid': groupid,
@@ -114,7 +114,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: changeTitleEvent,
           messageid: messageid,
           data: {'groupid': groupid, 'name': groupTitle});
       MessageStore().add(message);
@@ -132,7 +132,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: changeDescEvent,
           messageid: messageid,
           data: {'groupid': groupid, 'desc': groupDesc});
       MessageStore().add(message);
@@ -151,7 +151,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: changeUserPermissionEvent,
           messageid: messageid,
           data: {
             'groupid': groupid,
@@ -173,7 +173,7 @@ class WSGroupsModule {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
-          event: createEvent,
+          event: removeUserEvent,
           messageid: messageid,
           data: {'groupid': groupid, 'user_id': userid});
       MessageStore().add(message);
@@ -186,7 +186,7 @@ class WSGroupsModule {
   }
 
 //----------------------------------------------------------------------------------------------------------------------------
-  static void onMessage(
+  static Future<void> onMessage(
       GeneralMessageFormat genFormatMessage, Message sentMessage) {
     switch (genFormatMessage.message.event) {
       case createEvent:
@@ -219,10 +219,9 @@ class WSGroupsModule {
     }
   }
 
-  static void onCreateReply(GeneralMessageFormat genFormatMessage,
+  static Future<void> onCreateReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      print(genFormatMessage);
       //Prepare data
       dynamic groupInfo = {
         'groupid': genFormatMessage.message.data.groupid,
@@ -237,9 +236,8 @@ class WSGroupsModule {
     }
   }
 
-  static void onGetInfoReply(GeneralMessageFormat genFormatMessage) {
+  static Future<void> onGetInfoReply(GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       List<GroupInfo> groupInfoList =
           groupInfoFromList(genFormatMessage.message.data);
       for (GroupInfo groupInfo in groupInfoList) {
@@ -250,9 +248,8 @@ class WSGroupsModule {
     }
   }
 
-  static void onGetUsersOfGroupReply(GeneralMessageFormat genFormatMessage) {
+  static Future<void> onGetUsersOfGroupReply(GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       List<GroupUser> groupUserList =
           groupUserFromList(genFormatMessage.message.data);
       for (GroupUser groupUser in groupUserList) {
@@ -263,26 +260,21 @@ class WSGroupsModule {
     }
   }
 
-  static void onGetPollsReply(GeneralMessageFormat genFormatMessage) {
-    try {
-      print(genFormatMessage);
-    } catch (Exception) {
+  static Future<void> onGetPollsReply(GeneralMessageFormat genFormatMessage) async {
+    try {} catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onAddUserReply(GeneralMessageFormat genFormatMessage) {
-    try {
-      print(genFormatMessage);
-    } catch (Exception) {
+  static Future<void> onAddUserReply(GeneralMessageFormat genFormatMessage) async {
+    try {} catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onChangeTitleReply(GeneralMessageFormat genFormatMessage,
-      {@required Message sentMessage}) {
+  static Future<void> onChangeTitleReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
-      print(genFormatMessage);
       //Prepare data
       dynamic data = {'user_id': 0, 'name': sentMessage.data.name};
       GroupInfo.update(data);
@@ -291,10 +283,9 @@ class WSGroupsModule {
     }
   }
 
-  static void onChangeDescReply(GeneralMessageFormat genFormatMessage,
-      {@required Message sentMessage}) {
+  static Future<void> onChangeDescReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
-      print(genFormatMessage);
       //Prepare data
       dynamic data = {'user_id': 0, 'desc': sentMessage.data.desc};
       GroupInfo.update(data);
@@ -303,19 +294,15 @@ class WSGroupsModule {
     }
   }
 
-  static void onChangeUserPermissionReply(
-      GeneralMessageFormat genFormatMessage) {
-    try {
-      print(genFormatMessage);
-    } catch (Exception) {
+  static Future<void> onChangeUserPermissionReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {} catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onRemoveUserReply(GeneralMessageFormat genFormatMessage) {
-    try {
-      print(genFormatMessage);
-    } catch (Exception) {
+  static Future<void> onRemoveUserReply(GeneralMessageFormat genFormatMessage) async {
+    try {} catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }

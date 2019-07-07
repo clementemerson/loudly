@@ -185,42 +185,37 @@ class WSPollsModule {
   }
 
 //----------------------------------------------------------------------------------------------------------------------------
-  static void onMessage(
-      GeneralMessageFormat genFormatMessage, Message sentMessage) {
+  static Future<void> onMessage(
+      GeneralMessageFormat genFormatMessage, Message sentMessage) async {
     switch (genFormatMessage.message.event) {
       case createEvent:
-        onCreateReply(genFormatMessage);
+        await onCreateReply(genFormatMessage);
         break;
       case getInfoEvent:
-        onGroupsReply(genFormatMessage);
+        await onGroupsReply(genFormatMessage);
         break;
       case shareToGroupEvent:
-        onShareToGroupReply(genFormatMessage);
+        await onShareToGroupReply(genFormatMessage);
         break;
     }
   }
 
-  static void onCreateReply(GeneralMessageFormat genFormatMessage) {
+  static Future<void> onCreateReply(GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       //PollData.
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onGroupsReply(GeneralMessageFormat genFormatMessage) {
-    try {
-      print(genFormatMessage);
-    } catch (Exception) {
+  static Future<void> onGroupsReply(GeneralMessageFormat genFormatMessage) async {
+    try {} catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onShareToGroupReply(GeneralMessageFormat genFormatMessage) {
-    try {
-      print(genFormatMessage);
-    } catch (Exception) {
+  static Future<void> onShareToGroupReply(GeneralMessageFormat genFormatMessage) async {
+    try {} catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }

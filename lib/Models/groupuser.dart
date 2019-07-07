@@ -5,8 +5,6 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
-import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/models/userinfo.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -39,7 +37,7 @@ class GroupUser {
   factory GroupUser.fromJson(Map<String, dynamic> json) => new GroupUser(
       groupid: json["groupid"],
       userId: json["user_id"],
-      addedBy: json["addedBy"],
+      addedBy: json["addedby"],
       permission: json["permission"],
       createdAt: json["createdAt"],
       updatedAt: json["updatedAt"]);
@@ -47,28 +45,22 @@ class GroupUser {
   Map<String, dynamic> toJson() => {
         "groupid": groupid,
         "user_id": userId,
-        "addedBy": addedBy,
+        "addedby": addedBy,
         "permission": permission,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the users table
     await db.execute('''CREATE TABLE ${GroupUser.tablename}(
           groupid INTEGER DEFAULT -1, 
           user_id INTEGER DEFAULT -1,
           addedby INTEGER DEFAULT -1,
-          permission TEXT DEFAULT 'USER'
+          permission TEXT DEFAULT 'USER',
           createdAt INTEGER DEFAULT 0,
           updatedAt INTEGER DEFAULT 0,
-          PRIMARY KEY (group_id, user_id),
-          FOREIGN KEY (user_id) REFERENCES contacts (${UserInfo.tablename}) 
-          ON DELETE CASCADE ON UPDATE NO ACTION,
-          FOREIGN KEY (group_id) REFERENCES contacts (${GroupInfo.tablename}) 
-          ON DELETE CASCADE ON UPDATE NO ACTION,
+          PRIMARY KEY (groupid, user_id)
         )''');
   }
 
@@ -135,6 +127,13 @@ class GroupUser {
       where: "user_id = ?",
       whereArgs: [userId],
     );
+
+    final List<Map<String, dynamic>> maps2 =
+        await db.query(GroupUser.tablename);
+
+    List<GroupUser> list = List.generate(maps2.length, (i) {
+      return GroupUser.fromJson(maps2[i]);
+    });
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

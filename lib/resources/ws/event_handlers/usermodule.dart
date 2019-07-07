@@ -120,101 +120,97 @@ class WSUsersModule {
   }
 
 //----------------------------------------------------------------------------------------------------------------
-  static void onMessage(
-      GeneralMessageFormat genFormatMessage, Message sentMessage) {
+  static Future<void> onMessage(
+      GeneralMessageFormat genFormatMessage, Message sentMessage) async {
     switch (genFormatMessage.message.event) {
       case getUsersFromPhoneNumbersEvent:
-        onUsersFromPhoneNumbersReply(genFormatMessage);
+        await onUsersFromPhoneNumbersReply(genFormatMessage);
         break;
       case getGroupsEvent:
-        onGroupsReply(genFormatMessage);
+        await onGroupsReply(genFormatMessage);
         break;
       case getPollsEvent:
-        onPollsReply(genFormatMessage);
+        await onPollsReply(genFormatMessage);
         break;
       case getInfoEvent:
-        onInfoReply(genFormatMessage);
+        await onInfoReply(genFormatMessage);
         break;
       case changeNameEvent:
-        onChangeNameReply(genFormatMessage, sentMessage: sentMessage);
+        await onChangeNameReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeStatusEvent:
-        onChangeStatusReply(genFormatMessage, sentMessage: sentMessage);
+        await onChangeStatusReply(genFormatMessage, sentMessage: sentMessage);
         break;
     }
   }
 
-  static void onUsersFromPhoneNumbersReply(
-      GeneralMessageFormat genFormatMessage) {
+  static Future<void> onUsersFromPhoneNumbersReply(
+      GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       List<UserInfo> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
       for (UserInfo userInfo in userInfoList) {
-        UserInfo.insert(userInfo);
+        await UserInfo.insert(userInfo);
       }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onGroupsReply(GeneralMessageFormat genFormatMessage) {
+  static Future<void> onGroupsReply(
+      GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       List<GroupUser> groupUserList =
           groupUserFromList(genFormatMessage.message.data);
       for (GroupUser groupUser in groupUserList) {
-        GroupUser.insert(groupUser);
+        await GroupUser.insert(groupUser);
       }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onPollsReply(GeneralMessageFormat genFormatMessage) {
+  static Future<void> onPollsReply(
+      GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       List<UserPoll> userPollList =
           userPollFromList(genFormatMessage.message.data);
       for (UserPoll userPoll in userPollList) {
-        UserPoll.insert(userPoll);
+        await UserPoll.insert(userPoll);
       }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onInfoReply(GeneralMessageFormat genFormatMessage) {
+  static Future<void> onInfoReply(GeneralMessageFormat genFormatMessage) async {
     try {
-      print(genFormatMessage);
       List<UserInfo> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
       for (UserInfo userInfo in userInfoList) {
-        UserInfo.insert(userInfo);
+        await UserInfo.insert(userInfo);
       }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onChangeNameReply(GeneralMessageFormat genFormatMessage,
-      {@required Message sentMessage}) {
+  static Future<void> onChangeNameReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
-      print(genFormatMessage);
       //Prepare data
       dynamic data = {'user_id': 0, 'name': sentMessage.data.name};
-      UserInfo.update(data);
+      await UserInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onChangeStatusReply(GeneralMessageFormat genFormatMessage,
-      {@required Message sentMessage}) {
+  static Future<void> onChangeStatusReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
-      print(genFormatMessage);
       dynamic data = {'user_id': 0, 'statusmsg': sentMessage.data.statusmsg};
-      UserInfo.update(data);
+      await UserInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }

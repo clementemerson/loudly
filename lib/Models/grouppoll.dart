@@ -57,11 +57,7 @@ class GroupPoll {
           sharedBy INTEGER DEFAULT -1,
           createdAt INTEGER DEFAULT 0,
           archived INTEGER DEFAULT 0,
-          PRIMARY KEY (pollid, group_id),
-          FOREIGN KEY (pollid) REFERENCES contacts (${PollData.tablename}) 
-          ON DELETE CASCADE ON UPDATE NO ACTION,
-          FOREIGN KEY (group_id) REFERENCES contacts (${GroupInfo.tablename}) 
-          ON DELETE CASCADE ON UPDATE NO ACTION,
+          PRIMARY KEY (pollid, groupid)
         )''');
   }
 

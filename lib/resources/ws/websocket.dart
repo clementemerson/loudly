@@ -68,6 +68,7 @@ class WebSocketHelper {
 
   void sendMessage(var message, {Function callback}) {
     try {
+      print('sending message $message');
       if (bConnectionEstablished == true) {
         callbackRegister[message['messageid']] = callback;
         channel.sink.add(json.encode(message));
@@ -79,9 +80,9 @@ class WebSocketHelper {
     }
   }
 
-  void handleIncomingMessage(message, {Function initCallback}) {
+  void handleIncomingMessage(message, {Function initCallback}) async {
     try {
-      print(message);
+      print('receiving message $message');
       if (firstMessageReceived == false) {
         firstMessageReceived = true;
         bConnectionEstablished = true;
@@ -96,7 +97,7 @@ class WebSocketHelper {
 
         final callbackFunction =
             callbackRegister[genFormatMessage.message.messageid];
-        MessageListener()
+        await MessageListener()
             .processInMessage(genFormatMessage, callback: callbackFunction);
 
         if (callbackFunction != null) {

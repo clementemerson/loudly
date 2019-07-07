@@ -83,12 +83,12 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getGroupsInfo() async { 
-    // List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2000);
-    // for (var group in userGroups) {
-    //   print(group.groupid);
-    // }
-    List<int> groupids = List<int>();
-    groupids.add(2000);
+     List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2002);
+     List<int> groupids = List<int>();
+    for (var group in userGroups) {
+      print(group.groupid);
+      groupids.add(group.groupid);
+    }
     await WSGroupsModule.getInfo(groupids, callback: _getUsersOfGroup);
   }
 

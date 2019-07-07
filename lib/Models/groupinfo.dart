@@ -49,9 +49,7 @@ class GroupInfo {
         "createdAt": createdAt,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the groupinfo table
     await db.execute('''CREATE TABLE ${GroupInfo.tablename}(
           groupid INTEGER PRIMARY KEY, 

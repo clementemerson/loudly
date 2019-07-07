@@ -54,11 +54,7 @@ class GroupPollResult {
           groupid INTEGER,
           optionindex INTEGER DEFAULT -1,
           openvotes INTEGER DEFAULT 0,
-          PRIMARY KEY (pollid, group_id, optionindex),
-          FOREIGN KEY (pollid) REFERENCES contacts (${PollData.tablename}) 
-          ON DELETE CASCADE ON UPDATE NO ACTION,
-          FOREIGN KEY (group_id) REFERENCES contacts (${GroupInfo.tablename}) 
-          ON DELETE CASCADE ON UPDATE NO ACTION,
+          PRIMARY KEY (pollid, group_id, optionindex)
         )''');
   }
 

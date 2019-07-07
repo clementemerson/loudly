@@ -44,9 +44,7 @@ class UserPoll {
         "updatedAt": updatedAt,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the users table
     await db.execute('''CREATE TABLE ${UserPoll.tablename}(
       pollid INTEGER PRIMARY KEY, 

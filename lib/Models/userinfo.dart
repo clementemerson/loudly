@@ -37,13 +37,12 @@ class UserInfo {
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => new UserInfo(
-        userId: json["user_id"],
-        name: json["name"],
-        statusMsg: json["statusmsg"],
-        phoneNumber: json["phonenumber"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"]
-      );
+      userId: json["user_id"],
+      name: json["name"],
+      statusMsg: json["statusmsg"],
+      phoneNumber: json["phonenumber"],
+      createdAt: json["createdAt"],
+      updatedAt: json["updatedAt"]);
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
@@ -54,9 +53,7 @@ class UserInfo {
         "updatedAt": updatedAt,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the users table
     await db.execute('''CREATE TABLE ${UserInfo.tablename}(
       user_id INTEGER PRIMARY KEY,
@@ -75,11 +72,15 @@ class UserInfo {
     // Insert the Dog into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same groupInfo is inserted
     // multiple times, it replaces the previous data.
-    await db.insert(
-      UserInfo.tablename,
-      data.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      await db.insert(
+        UserInfo.tablename,
+        data.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (Exception) {
+      print(Exception);
+    }
   }
 
   static Future<List<UserInfo>> getAll() async {
