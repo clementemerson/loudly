@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/groupuser.dart';
+import 'package:loudly/models/userinfo.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
@@ -82,10 +83,10 @@ class _SetupScreenState extends State<SetupScreen> {
     await WSUsersModule.getPolls(callback: _getGroupsInfo);
   }
 
-  _getGroupsInfo() async { 
-     List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2002);
-     List<int> groupids = List<int>();
-    for (var group in userGroups) {
+  _getGroupsInfo() async {
+    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2002);
+    List<int> groupids = List<int>();
+    for (GroupUser group in userGroups) {
       print(group.groupid);
       groupids.add(group.groupid);
     }
@@ -93,13 +94,22 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getUsersOfGroup() async {
-    int groupid;
-    await WSGroupsModule.getUsersOfGroup(groupid, callback: _getUsersInfo);
+    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2002);
+    for (GroupUser group in userGroups) {
+      print(group.groupid);
+      await WSGroupsModule.getUsersOfGroup(group.groupid,
+          callback: _getUsersInfo);
+    }
   }
 
   _getUsersInfo() async {
-    List<int> userids;
-    await WSUsersModule.getInfo(userids, callback: _getPollsInfo);
+    List<GroupUser> userGroups = await GroupUser.getAll();
+    Set<int> userids = new Set<int>();
+    userGroups.forEach((userGroup) {
+      userids.add(userGroup.userId);
+    });
+
+    await WSUsersModule.getInfo(userids.toList(), callback: _getPollsInfo);
   }
 
   _getPollsInfo() async {
@@ -107,7 +117,5 @@ class _SetupScreenState extends State<SetupScreen> {
     await WSPollsModule.getInfo(pollids, callback: _onCompleted);
   }
 
-  _onCompleted() {
-
-  }
+  _onCompleted() {}
 }

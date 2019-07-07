@@ -128,12 +128,20 @@ class GroupUser {
       whereArgs: [userId],
     );
 
-    final List<Map<String, dynamic>> maps2 =
-        await db.query(GroupUser.tablename);
-
-    List<GroupUser> list = List.generate(maps2.length, (i) {
-      return GroupUser.fromJson(maps2[i]);
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return GroupUser.fromJson(maps[i]);
     });
+  }
+
+  static Future<List<GroupUser>> getAll() async {
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    // Get the Dog from the database.
+    final List<Map<String, dynamic>> maps = await db.query(
+      GroupUser.tablename
+    );
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
