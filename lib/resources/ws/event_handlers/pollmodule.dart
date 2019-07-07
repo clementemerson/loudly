@@ -203,6 +203,7 @@ class WSPollsModule {
   static void onCreateReply(GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
+      //PollData.
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }

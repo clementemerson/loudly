@@ -9,6 +9,8 @@ PollData pollDataFromJson(Map<String, dynamic> map) => PollData.fromJson(map);
 String pollDataToJson(PollData data) => json.encode(data.toJson());
 
 class PollData {
+  static final String tablename = 'polldata';
+
     int id;
     String title;
     List<Option> options;

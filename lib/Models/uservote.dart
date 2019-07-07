@@ -9,6 +9,8 @@ UserVote userVoteFromJson(String str) => UserVote.fromJson(json.decode(str));
 String userVoteToJson(UserVote data) => json.encode(data.toJson());
 
 class UserVote {
+  static final String tablename = 'pollvotedata';
+
     int pollid;
     int userId;
     String votetype;

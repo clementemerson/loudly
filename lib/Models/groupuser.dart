@@ -5,6 +5,9 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/models/userinfo.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 GroupUser groupUserFromJson(String str) => GroupUser.fromJson(json.decode(str));
@@ -34,13 +37,12 @@ class GroupUser {
   });
 
   factory GroupUser.fromJson(Map<String, dynamic> json) => new GroupUser(
-        groupid: json["groupid"],
-        userId: json["user_id"],
-        addedBy: json["addedBy"],
-        permission: json["permission"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"]
-      );
+      groupid: json["groupid"],
+      userId: json["user_id"],
+      addedBy: json["addedBy"],
+      permission: json["permission"],
+      createdAt: json["createdAt"],
+      updatedAt: json["updatedAt"]);
 
   Map<String, dynamic> toJson() => {
         "groupid": groupid,
@@ -61,7 +63,12 @@ class GroupUser {
           addedby INTEGER DEFAULT -1,
           permission TEXT DEFAULT 'USER'
           createdAt INTEGER DEFAULT 0,
-          updatedAt INTEGER DEFAULT 0
+          updatedAt INTEGER DEFAULT 0,
+          PRIMARY KEY (group_id, user_id),
+          FOREIGN KEY (user_id) REFERENCES contacts (${UserInfo.tablename}) 
+          ON DELETE CASCADE ON UPDATE NO ACTION,
+          FOREIGN KEY (group_id) REFERENCES contacts (${GroupInfo.tablename}) 
+          ON DELETE CASCADE ON UPDATE NO ACTION,
         )''');
   }
 

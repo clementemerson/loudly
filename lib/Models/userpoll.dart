@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 UserPoll userPollFromJson(String str) => UserPoll.fromJson(json.decode(str));
@@ -48,7 +49,7 @@ class UserPoll {
 
     // Create the users table
     await db.execute('''CREATE TABLE ${UserPoll.tablename}(
-      pollid INTEGER DEFAULT -1, 
+      pollid INTEGER PRIMARY KEY, 
       sharedby INTEGER DEFAULT -1,
       createdAt INTEGER DEFAULT 0,
       updatedAt INTEGER DEFAULT 0

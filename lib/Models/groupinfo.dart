@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 
@@ -18,38 +19,34 @@ String groupInfoToJson(GroupInfo data) => json.encode(data.toJson());
 class GroupInfo {
   static final String tablename = 'groupinfo';
 
-  int id;
+  int groupid;
   String name;
   String desc;
   int createdBy;
   int createdAt;
-  int updatedAt;
 
   GroupInfo({
-    this.id,
+    this.groupid,
     this.name,
     this.desc,
     this.createdBy,
     this.createdAt,
-    this.updatedAt,
   });
 
   factory GroupInfo.fromJson(Map<String, dynamic> json) => new GroupInfo(
-        id: json["id"],
+        groupid: json["groupid"],
         name: json["name"],
         desc: json["desc"],
         createdBy: json["createdBy"],
         createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "groupid": groupid,
         "name": name,
         "desc": desc,
         "createdBy": createdBy,
         "createdAt": createdAt,
-        "updatedAt": updatedAt,
       };
 
   static Future<void> createTable() async {
@@ -57,12 +54,11 @@ class GroupInfo {
 
     // Create the groupinfo table
     await db.execute('''CREATE TABLE ${GroupInfo.tablename}(
-          id INTEGER PRIMARY KEY, 
+          groupid INTEGER PRIMARY KEY, 
           name TEXT DEFAULT '',
           desc TEXT DEFAULT '',
           createdby INTEGER DEFAULT -1,
           createdAt INTEGER DEFAULT 0,
-          updatedAt INTEGER DEFAULT 0,
           sorttime INTEGER DEFAULT 0
         )''');
   }
@@ -103,8 +99,8 @@ class GroupInfo {
     await db.update(
       GroupInfo.tablename,
       groupInfo.toJson(),
-      where: "id = ?",
-      whereArgs: [groupInfo.id],
+      where: "groupid = ?",
+      whereArgs: [groupInfo.groupid],
     );
   }
 
@@ -115,7 +111,7 @@ class GroupInfo {
     // Remove the Dog from the database.
     await db.delete(
       GroupInfo.tablename,
-      where: "id = ?",
+      where: "groupid = ?",
       whereArgs: [id],
     );
   }
@@ -127,7 +123,7 @@ class GroupInfo {
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
       GroupInfo.tablename,
-      where: "id = ?",
+      where: "groupid = ?",
       whereArgs: [id],
     );
 
@@ -150,7 +146,7 @@ class GroupInfo {
     await db.update(
       GroupInfo.tablename,
       {'sorttime': DateTime.now().millisecondsSinceEpoch},
-      where: "id = ?",
+      where: "groupid = ?",
       whereArgs: [id],
     );
   }

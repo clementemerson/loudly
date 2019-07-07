@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:loudly/Models/groupuser.dart';
 import 'package:loudly/Models/userinfo.dart';
 import 'package:loudly/Models/userpoll.dart';
@@ -134,6 +135,12 @@ class WSUsersModule {
       case getInfoEvent:
         onInfoReply(genFormatMessage);
         break;
+      case changeNameEvent:
+        onChangeNameReply(genFormatMessage, sentMessage: sentMessage);
+        break;
+      case changeStatusEvent:
+        onChangeStatusReply(genFormatMessage, sentMessage: sentMessage);
+        break;
     }
   }
 
@@ -185,6 +192,29 @@ class WSUsersModule {
       for (UserInfo userInfo in userInfoList) {
         UserInfo.insert(userInfo);
       }
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static void onChangeNameReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) {
+    try {
+      print(genFormatMessage);
+      //Prepare data
+      dynamic data = {'user_id': 0, 'name': sentMessage.data.name};
+      UserInfo.update(data);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static void onChangeStatusReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) {
+    try {
+      print(genFormatMessage);
+      dynamic data = {'user_id': 0, 'statusmsg': sentMessage.data.statusmsg};
+      UserInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }

@@ -1,4 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/models/groupuser.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -188,10 +190,10 @@ class WSGroupsModule {
       GeneralMessageFormat genFormatMessage, Message sentMessage) {
     switch (genFormatMessage.message.event) {
       case createEvent:
-        onCreateReply(genFormatMessage);
+        onCreateReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case getInfoEvent:
-        onGroupsReply(genFormatMessage);
+        onGetInfoReply(genFormatMessage);
         break;
       case getUsersOfGroupEvent:
         onGetUsersOfGroupReply(genFormatMessage);
@@ -203,10 +205,10 @@ class WSGroupsModule {
         onAddUserReply(genFormatMessage);
         break;
       case changeTitleEvent:
-        onChangeTitleReply(genFormatMessage);
+        onChangeTitleReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeDescEvent:
-        onChangeDescReply(genFormatMessage);
+        onChangeDescReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeUserPermissionEvent:
         onChangeUserPermissionReply(genFormatMessage);
@@ -217,17 +219,32 @@ class WSGroupsModule {
     }
   }
 
-  static void onCreateReply(GeneralMessageFormat genFormatMessage) {
+  static void onCreateReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
       print(genFormatMessage);
+      //Prepare data
+      dynamic groupInfo = {
+        'groupid': genFormatMessage.message.data.groupid,
+        'name': sentMessage.data.name,
+        'desc': sentMessage.data.desc,
+        'createdBy': 0,
+        'createdAt': genFormatMessage.message.data.createdAt,
+      };
+      await GroupInfo.insert(groupInfo);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onGroupsReply(GeneralMessageFormat genFormatMessage) {
+  static void onGetInfoReply(GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
+      List<GroupInfo> groupInfoList =
+          groupInfoFromList(genFormatMessage.message.data);
+      for (GroupInfo groupInfo in groupInfoList) {
+        GroupInfo.insert(groupInfo);
+      }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
@@ -236,6 +253,11 @@ class WSGroupsModule {
   static void onGetUsersOfGroupReply(GeneralMessageFormat genFormatMessage) {
     try {
       print(genFormatMessage);
+      List<GroupUser> groupUserList =
+          groupUserFromList(genFormatMessage.message.data);
+      for (GroupUser groupUser in groupUserList) {
+        GroupUser.insert(groupUser);
+      }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
@@ -257,17 +279,25 @@ class WSGroupsModule {
     }
   }
 
-  static void onChangeTitleReply(GeneralMessageFormat genFormatMessage) {
+  static void onChangeTitleReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) {
     try {
       print(genFormatMessage);
+      //Prepare data
+      dynamic data = {'user_id': 0, 'name': sentMessage.data.name};
+      GroupInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static void onChangeDescReply(GeneralMessageFormat genFormatMessage) {
+  static void onChangeDescReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) {
     try {
       print(genFormatMessage);
+      //Prepare data
+      dynamic data = {'user_id': 0, 'desc': sentMessage.data.desc};
+      GroupInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
