@@ -11,26 +11,26 @@ class OpenSecretVoteShare extends StatefulWidget {
     @required this.pollResultOptions,
   }) : super(key: key);
 
-  final List<Option> pollResultOptions;
+  final List<PollOption> pollResultOptions;
 
   @override
   _OpenSecretVoteShareState createState() => _OpenSecretVoteShareState();
 }
 
 class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
-  int getTotalOpenVotes(List<Option> options) {
+  int getTotalOpenVotes(List<PollOption> options) {
     int sum = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       sum += option.openVotes;
     }
     return sum;
   }
 
-  getOpenVotesChartData(List<Option> options) {
+  getOpenVotesChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
 
     int colorIndex = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       entries.add(new CircularSegmentEntry(
           option.openVotes.toDouble(), kGetOptionColor(colorIndex)));
       colorIndex++;
@@ -43,14 +43,14 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
 
   List<Widget> _getOpenVotesWidgets() {
     final List<Widget> widgets = [];
-    for (Option option in widget.pollResultOptions) {
+    for (PollOption option in widget.pollResultOptions) {
       final bool isMax = _isMaxInOpenVotes(option);
       widgets.add(_getOpenVotesWidgetsForOption(option: option, isMax: isMax));
     }
     return widgets;
   }
 
-  Widget _getOpenVotesWidgetsForOption({Option option, bool isMax}) {
+  Widget _getOpenVotesWidgetsForOption({PollOption option, bool isMax}) {
     return Row(
       children: <Widget>[
         Container(
@@ -72,7 +72,7 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
   List<Widget> _getColorBoxWidgets() {
     final List<Widget> widgets = [];
     int index = 0;
-    for (Option option in widget.pollResultOptions) {
+    for (PollOption option in widget.pollResultOptions) {
       widgets.add(_getColorBoxWidgetsForOption(index: index));
       index++;
     }
@@ -89,7 +89,7 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
 
   List<Widget> _getSecretVotesWidgets() {
     final List<Widget> widgets = [];
-    for (Option option in widget.pollResultOptions) {
+    for (PollOption option in widget.pollResultOptions) {
       final bool isMax = _isMaxInSecretVotes(option);
       widgets
           .add(_getSecretVotesWidgetsForOption(option: option, isMax: isMax));
@@ -97,7 +97,7 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
     return widgets;
   }
 
-  Widget _getSecretVotesWidgetsForOption({Option option, bool isMax}) {
+  Widget _getSecretVotesWidgetsForOption({PollOption option, bool isMax}) {
     return Row(
       children: <Widget>[
         Container(
@@ -116,11 +116,11 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
     );
   }
 
-  getSecretVotesChartData(List<Option> options) {
+  getSecretVotesChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
 
     int colorIndex = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       entries.add(new CircularSegmentEntry(
           option.secretVotes.toDouble(), kGetOptionColor(colorIndex)));
       colorIndex++;
@@ -131,23 +131,23 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
     ];
   }
 
-  int getTotalSecretVotes(List<Option> options) {
+  int getTotalSecretVotes(List<PollOption> options) {
     int sum = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       sum += option.secretVotes;
     }
     return sum;
   }
 
-  bool _isMaxInOpenVotes(Option option) {
-    for (Option itrOption in widget.pollResultOptions) {
+  bool _isMaxInOpenVotes(PollOption option) {
+    for (PollOption itrOption in widget.pollResultOptions) {
       if ((option.openVotes) < (itrOption.openVotes)) return false;
     }
     return true;
   }
 
-  bool _isMaxInSecretVotes(Option option) {
-    for (Option itrOption in widget.pollResultOptions) {
+  bool _isMaxInSecretVotes(PollOption option) {
+    for (PollOption itrOption in widget.pollResultOptions) {
       if ((option.secretVotes) < (itrOption.secretVotes)) return false;
     }
     return true;

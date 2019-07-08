@@ -10,18 +10,18 @@ class ConsolidatedVoteChart extends StatefulWidget {
     @required this.pollResultOptions,
   }) : super(key: key);
 
-  final List<Option> pollResultOptions;
+  final List<PollOption> pollResultOptions;
 
   @override
   _ConsolidatedVoteChartState createState() => _ConsolidatedVoteChartState();
 }
 
 class _ConsolidatedVoteChartState extends State<ConsolidatedVoteChart> {
-  getConsolidatedChartData(List<Option> options) {
+  getConsolidatedChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
 
     int colorIndex = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       entries.add(new CircularSegmentEntry(
           option.openVotes.toDouble() + option.secretVotes.toDouble(),
           kGetOptionColor(colorIndex)));

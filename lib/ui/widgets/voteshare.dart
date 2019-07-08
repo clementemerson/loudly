@@ -4,7 +4,7 @@ import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/project_styles.dart';
 
 class VoteShare extends StatefulWidget {
-  final List<Option> pollResultOptions;
+  final List<PollOption> pollResultOptions;
 
   VoteShare({
     Key key,
@@ -16,15 +16,15 @@ class VoteShare extends StatefulWidget {
 }
 
 class _VoteShareState extends State<VoteShare> {
-  bool _isMaxInAllOptions(Option option) {
-    for (Option itrOption in widget.pollResultOptions) {
+  bool _isMaxInAllOptions(PollOption option) {
+    for (PollOption itrOption in widget.pollResultOptions) {
       if ((option.openVotes + option.secretVotes) <
           (itrOption.openVotes + itrOption.secretVotes)) return false;
     }
     return true;
   }
 
-  Widget _getTotalVoteShareForOption({Option option, int index, bool isMax}) {
+  Widget _getTotalVoteShareForOption({PollOption option, int index, bool isMax}) {
     return Row(
       children: <Widget>[
         _getColorBox(index: index),
@@ -69,7 +69,7 @@ class _VoteShareState extends State<VoteShare> {
   List<Widget> _getTotalVoteShare() {
     final List<Widget> widgets = [];
     int index = 0;
-    for (Option option in widget.pollResultOptions) {
+    for (PollOption option in widget.pollResultOptions) {
       final bool isMax = _isMaxInAllOptions(option);
       widgets.add(_getTotalVoteShareForOption(
           option: option, index: index, isMax: isMax));
