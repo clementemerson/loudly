@@ -1,8 +1,11 @@
+import 'package:flutter/widgets.dart';
+import 'package:loudly/Models/grouppoll.dart';
 import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
+import 'package:loudly/ui/globals.dart';
 
 class WSPollsModule {
 //Event List
@@ -189,33 +192,131 @@ class WSPollsModule {
       GeneralMessageFormat genFormatMessage, Message sentMessage) async {
     switch (genFormatMessage.message.event) {
       case createEvent:
-        await onCreateReply(genFormatMessage);
-        break;
-      case getInfoEvent:
-        await onGroupsReply(genFormatMessage);
+        await createReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case shareToGroupEvent:
-        await onShareToGroupReply(genFormatMessage);
+        await shareToGroupReply(genFormatMessage, sentMessage: sentMessage);
+        break;
+      case getInfoEvent:
+        await getInfoReply(genFormatMessage);
+        break;
+      case voteEvent:
+        await voteReply(genFormatMessage);
+        break;
+      case getUsersVoteInfoEvent:
+        await getUsersVoteInfoReply(genFormatMessage);
+        break;
+      case syncPollResultsEvent:
+        await syncPollResultsReply(genFormatMessage);
+        break;
+      case subscribeToPollResultEvent:
+        await subscribeToPollResultReply(genFormatMessage);
+        break;
+      case unSubscribeToPollResultEvent:
+        await unSubscribeToPollResultReply(genFormatMessage);
+        break;
+      case deleteEvent:
+        await deleteReply(genFormatMessage, sentMessage: sentMessage);
         break;
     }
   }
 
-  static Future<void> onCreateReply(GeneralMessageFormat genFormatMessage) async {
+  static Future<void> createReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
-      //PollData.
+      //Prepare data
+      PollData data = new PollData(
+          pollid: genFormatMessage.message.data.pollid,
+          title: sentMessage.data['title'],
+          canBeShared: sentMessage.data['canbeshared'],
+          resultIsPublic: sentMessage.data['resultispublic'],
+          createdBy: Globals.self_userid,
+          createdAt: genFormatMessage.message.data.createdat,
+          voted: false);
+
+      PollData.insert(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static Future<void> onGroupsReply(GeneralMessageFormat genFormatMessage) async {
-    try {} catch (Exception) {
+  static Future<void> shareToGroupReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
+    try {
+      GroupPoll data = new GroupPoll(
+          pollid: sentMessage.data['pollid'],
+          groupid: sentMessage.data['groupid'],
+          sharedBy: Globals.self_userid,
+          createdAt: genFormatMessage.message.data.createdAt,
+          archived: false);
+      GroupPoll.insert(data);
+    } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static Future<void> onShareToGroupReply(GeneralMessageFormat genFormatMessage) async {
-    try {} catch (Exception) {
+  static Future<void> getInfoReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      List<PollData> pollInfoList =
+          pollInfoFromList(genFormatMessage.message.data);
+      for (PollData pollInfo in pollInfoList) {
+        await PollData.insert(pollInfo);
+      }
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> voteReply(GeneralMessageFormat genFormatMessage) async {
+    try {
+      //Todo:
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> getUsersVoteInfoReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      //Todo:
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> syncPollResultsReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      //Todo:
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> subscribeToPollResultReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      //Todo:
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> unSubscribeToPollResultReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      //Todo:
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> deleteReply(GeneralMessageFormat genFormatMessage,
+      {Message sentMessage}) async {
+    try {
+      PollData.delete(sentMessage.data['pollid']);
+    } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }

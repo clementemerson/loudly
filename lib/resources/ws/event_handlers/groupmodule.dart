@@ -1,10 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/Models/grouppoll.dart';
 import 'package:loudly/models/groupuser.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
+import 'package:loudly/ui/globals.dart';
 
 class WSGroupsModule {
 //Event List
@@ -190,53 +192,54 @@ class WSGroupsModule {
       GeneralMessageFormat genFormatMessage, Message sentMessage) {
     switch (genFormatMessage.message.event) {
       case createEvent:
-        onCreateReply(genFormatMessage, sentMessage: sentMessage);
+        createReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case getInfoEvent:
-        onGetInfoReply(genFormatMessage);
+        getInfoReply(genFormatMessage);
         break;
       case getUsersOfGroupEvent:
-        onGetUsersOfGroupReply(genFormatMessage);
+        getUsersOfGroupReply(genFormatMessage);
         break;
       case getPollsEvent:
-        onGetPollsReply(genFormatMessage);
+        getPollsReply(genFormatMessage);
         break;
       case addUserEvent:
-        onAddUserReply(genFormatMessage);
+        addUserReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeTitleEvent:
-        onChangeTitleReply(genFormatMessage, sentMessage: sentMessage);
+        changeTitleReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeDescEvent:
-        onChangeDescReply(genFormatMessage, sentMessage: sentMessage);
+        changeDescReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeUserPermissionEvent:
-        onChangeUserPermissionReply(genFormatMessage);
+        changeUserPermissionReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case removeUserEvent:
-        onRemoveUserReply(genFormatMessage);
+        removeUserReply(genFormatMessage, sentMessage: sentMessage);
         break;
     }
   }
 
-  static Future<void> onCreateReply(GeneralMessageFormat genFormatMessage,
+  static Future<void> createReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
       //Prepare data
-      dynamic groupInfo = {
-        'groupid': genFormatMessage.message.data.groupid,
-        'name': sentMessage.data.name,
-        'desc': sentMessage.data.desc,
-        'createdBy': 0,
-        'createdAt': genFormatMessage.message.data.createdAt,
-      };
+      GroupInfo groupInfo = new GroupInfo(
+          groupid: genFormatMessage.message.data.groupid,
+          name: sentMessage.data['name'],
+          desc: sentMessage.data['desc'],
+          createdBy: Globals.self_userid,
+          createdAt: genFormatMessage.message.data.createdAt);
+
       await GroupInfo.insert(groupInfo);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static Future<void> onGetInfoReply(GeneralMessageFormat genFormatMessage) async {
+  static Future<void> getInfoReply(
+      GeneralMessageFormat genFormatMessage) async {
     try {
       List<GroupInfo> groupInfoList =
           groupInfoFromList(genFormatMessage.message.data);
@@ -248,7 +251,8 @@ class WSGroupsModule {
     }
   }
 
-  static Future<void> onGetUsersOfGroupReply(GeneralMessageFormat genFormatMessage) async {
+  static Future<void> getUsersOfGroupReply(
+      GeneralMessageFormat genFormatMessage) async {
     try {
       List<GroupUser> groupUserList =
           groupUserFromList(genFormatMessage.message.data);
@@ -260,49 +264,74 @@ class WSGroupsModule {
     }
   }
 
-  static Future<void> onGetPollsReply(GeneralMessageFormat genFormatMessage) async {
-    try {} catch (Exception) {
-      throw Exception('Failed to parse message from server');
-    }
-  }
-
-  static Future<void> onAddUserReply(GeneralMessageFormat genFormatMessage) async {
-    try {} catch (Exception) {
-      throw Exception('Failed to parse message from server');
-    }
-  }
-
-  static Future<void> onChangeTitleReply(GeneralMessageFormat genFormatMessage,
-      {@required Message sentMessage}) async {
-    try {
-      //Prepare data
-      dynamic data = {'user_id': 0, 'name': sentMessage.data.name};
-      GroupInfo.update(data);
-    } catch (Exception) {
-      throw Exception('Failed to parse message from server');
-    }
-  }
-
-  static Future<void> onChangeDescReply(GeneralMessageFormat genFormatMessage,
-      {@required Message sentMessage}) async {
-    try {
-      //Prepare data
-      dynamic data = {'user_id': 0, 'desc': sentMessage.data.desc};
-      GroupInfo.update(data);
-    } catch (Exception) {
-      throw Exception('Failed to parse message from server');
-    }
-  }
-
-  static Future<void> onChangeUserPermissionReply(
+  static Future<void> getPollsReply(
       GeneralMessageFormat genFormatMessage) async {
-    try {} catch (Exception) {
+    try {
+      List<GroupPoll> groupPollList =
+          groupPollFromList(genFormatMessage.message.data);
+      for (GroupPoll groupPoll in groupPollList) {
+        GroupPoll.insert(groupPoll);
+      }
+    } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static Future<void> onRemoveUserReply(GeneralMessageFormat genFormatMessage) async {
-    try {} catch (Exception) {
+  static Future<void> addUserReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
+    try {
+      GroupUser data = new GroupUser(
+          groupid: sentMessage.data['groupid'],
+          userId: sentMessage.data['user_id'],
+          permission: sentMessage.data['permission'],
+          addedBy: Globals.self_userid,
+          createdAt: sentMessage.data['createdAt']);
+
+      GroupUser.insert(data);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> changeTitleReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
+    try {
+      //Prepare data
+      GroupInfo.updateTitle(
+          sentMessage.data['groupid'], sentMessage.data['name']);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> changeDescReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
+    try {
+      //Prepare data
+      GroupInfo.updateDesc(
+          sentMessage.data['groupid'], sentMessage.data['desc']);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> changeUserPermissionReply(
+      GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
+    try {
+      GroupUser.updatePermission(sentMessage.data['groupid'],
+          sentMessage.data['user_id'], sentMessage.data['permission']);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> removeUserReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
+    try {
+      GroupUser.delete(
+          sentMessage.data['groupid'], sentMessage.data['user_id']);
+    } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }

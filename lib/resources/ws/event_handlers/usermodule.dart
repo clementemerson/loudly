@@ -6,6 +6,7 @@ import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
+import 'package:loudly/ui/globals.dart';
 
 class WSUsersModule {
 //Event List
@@ -124,27 +125,27 @@ class WSUsersModule {
       GeneralMessageFormat genFormatMessage, Message sentMessage) async {
     switch (genFormatMessage.message.event) {
       case getUsersFromPhoneNumbersEvent:
-        await onUsersFromPhoneNumbersReply(genFormatMessage);
+        await getUsersFromPhoneNumbersReply(genFormatMessage);
         break;
       case getGroupsEvent:
-        await onGroupsReply(genFormatMessage);
+        await getGroupsReply(genFormatMessage);
         break;
       case getPollsEvent:
-        await onPollsReply(genFormatMessage);
+        await getPollsReply(genFormatMessage);
         break;
       case getInfoEvent:
-        await onInfoReply(genFormatMessage);
+        await getInfoReply(genFormatMessage);
         break;
       case changeNameEvent:
-        await onChangeNameReply(genFormatMessage, sentMessage: sentMessage);
+        await changeNameReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case changeStatusEvent:
-        await onChangeStatusReply(genFormatMessage, sentMessage: sentMessage);
+        await changeStatusMsgReply(genFormatMessage, sentMessage: sentMessage);
         break;
     }
   }
 
-  static Future<void> onUsersFromPhoneNumbersReply(
+  static Future<void> getUsersFromPhoneNumbersReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
       List<UserInfo> userInfoList =
@@ -157,7 +158,7 @@ class WSUsersModule {
     }
   }
 
-  static Future<void> onGroupsReply(
+  static Future<void> getGroupsReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
       List<GroupUser> groupUserList =
@@ -170,7 +171,7 @@ class WSUsersModule {
     }
   }
 
-  static Future<void> onPollsReply(
+  static Future<void> getPollsReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
       List<UserPoll> userPollList =
@@ -183,7 +184,7 @@ class WSUsersModule {
     }
   }
 
-  static Future<void> onInfoReply(GeneralMessageFormat genFormatMessage) async {
+  static Future<void> getInfoReply(GeneralMessageFormat genFormatMessage) async {
     try {
       List<UserInfo> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
@@ -195,21 +196,27 @@ class WSUsersModule {
     }
   }
 
-  static Future<void> onChangeNameReply(GeneralMessageFormat genFormatMessage,
+  static Future<void> changeNameReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
       //Prepare data
-      dynamic data = {'user_id': 0, 'name': sentMessage.data.name};
+      dynamic data = {
+        'user_id': Globals.self_userid,
+        'name': sentMessage.data['name']
+      };
       await UserInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }
   }
 
-  static Future<void> onChangeStatusReply(GeneralMessageFormat genFormatMessage,
+  static Future<void> changeStatusMsgReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      dynamic data = {'user_id': 0, 'statusmsg': sentMessage.data.statusmsg};
+      dynamic data = {
+        'user_id': Globals.self_userid,
+        'statusmsg': sentMessage.data['statusmsg']
+      };
       await UserInfo.update(data);
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
