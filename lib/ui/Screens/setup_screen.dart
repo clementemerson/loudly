@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/Models/userpoll.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/groupuser.dart';
 import 'package:loudly/models/userinfo.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
+import 'package:loudly/ui/globals.dart';
 
 class SetupScreen extends StatefulWidget {
   static const String id = 'setup_screen';
@@ -84,7 +86,7 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getGroupsInfo() async {
-    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2002);
+    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
     List<int> groupids = List<int>();
     for (GroupUser group in userGroups) {
       print(group.groupid);
@@ -94,11 +96,13 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getUsersOfGroup() async {
-    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(2002);
+    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
     for (GroupUser group in userGroups) {
-      print(group.groupid);
-      await WSGroupsModule.getUsersOfGroup(group.groupid,
-          callback: _getUsersInfo);
+      //The last function in this loop gets the callback function.
+      Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
+          ? _getUsersInfo()
+          : null;
+      await WSGroupsModule.getUsersOfGroup(group.groupid, callback: callback);
     }
   }
 
@@ -113,9 +117,16 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getPollsInfo() async {
+    List<UserPoll> polllist = await UserPoll.getAll();
     List<int> pollids;
+    polllist.forEach((poll) {
+      pollids.add(poll.pollid);
+    });
+    
     await WSPollsModule.getInfo(pollids, callback: _onCompleted);
   }
 
-  _onCompleted() {}
+  _onCompleted() {
+    print('completed');
+  }
 }

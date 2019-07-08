@@ -32,9 +32,9 @@ class _PollResultScreenState extends State<PollResultScreen> {
     ]);
   }
 
-  int getTotalVotes(List<Option> options) {
+  int getTotalVotes(List<PollOption> options) {
     int sum = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       sum += option.openVotes + option.secretVotes;
     }
     return sum;
@@ -43,7 +43,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
   List<Widget> _getAllOptions() {
     final List<Widget> widgets = [];
     int index = 0;
-    for (Option option in pollData.options) {
+    for (PollOption option in pollData.options) {
       widgets.add(_getOptionsField(optionText: option.desc, index: index));
       index++;
     }
@@ -67,7 +67,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
   }
 
   Widget _getPollResultsFromGroups() {
-    return GroupPollResults(pollId: pollData.id);
+    return GroupPollResults(pollId: pollData.pollid);
   }
 
   @override

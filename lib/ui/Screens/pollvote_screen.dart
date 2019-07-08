@@ -83,7 +83,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   List<Widget> _getAllOptions() {
     final List<Widget> widgets = [];
     int index = 0;
-    for (Option option in pollData.options) {
+    for (PollOption option in pollData.options) {
       widgets.add(_getOptionsField(
           optionText: option.desc, index: index, id: index.toString()));
       widgets.add(kGetOptionsDivider());
