@@ -5,12 +5,13 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
-import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/models/polldata.dart';
 
 import 'package:sqflite/sqflite.dart';
 
 GroupPoll groupPollFromJson(String str) => GroupPoll.fromJson(json.decode(str));
+
+List<GroupPoll> groupPollFromList(List<dynamic> list) =>
+    new List<GroupPoll>.from(list.map((x) => GroupPoll.fromJson(x)));
 
 String groupPollToJson(GroupPoll data) => json.encode(data.toJson());
 

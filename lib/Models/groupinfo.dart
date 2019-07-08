@@ -8,7 +8,6 @@ import 'package:loudly/data/database.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-
 GroupInfo groupInfoFromJson(String str) => GroupInfo.fromJson(json.decode(str));
 
 List<GroupInfo> groupInfoFromList(List<dynamic> list) =>
@@ -89,16 +88,29 @@ class GroupInfo {
     });
   }
 
-  static Future<void> update(GroupInfo groupInfo) async {
+  static Future<void> updateTitle(int groupid, String name) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Update the given Dog.
     await db.update(
       GroupInfo.tablename,
-      groupInfo.toJson(),
+      {'name': name},
       where: "groupid = ?",
-      whereArgs: [groupInfo.groupid],
+      whereArgs: [groupid],
+    );
+  }
+
+  static Future<void> updateDesc(int groupid, String desc) async {
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    // Update the given Dog.
+    await db.update(
+      GroupInfo.tablename,
+      {'desc': desc},
+      where: "groupid = ?",
+      whereArgs: [groupid],
     );
   }
 

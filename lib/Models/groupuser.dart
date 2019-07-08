@@ -23,7 +23,6 @@ class GroupUser {
   int addedBy;
   String permission;
   int createdAt;
-  int updatedAt;
 
   GroupUser({
     this.groupid,
@@ -31,7 +30,6 @@ class GroupUser {
     this.addedBy,
     this.permission,
     this.createdAt,
-    this.updatedAt,
   });
 
   factory GroupUser.fromJson(Map<String, dynamic> json) => new GroupUser(
@@ -39,8 +37,7 @@ class GroupUser {
       userId: json["user_id"],
       addedBy: json["addedby"],
       permission: json["permission"],
-      createdAt: json["createdAt"],
-      updatedAt: json["updatedAt"]);
+      createdAt: json["createdAt"]);
 
   Map<String, dynamic> toJson() => {
         "groupid": groupid,
@@ -48,7 +45,6 @@ class GroupUser {
         "addedby": addedBy,
         "permission": permission,
         "createdAt": createdAt,
-        "updatedAt": updatedAt,
       };
 
   static Future<void> createTable(Database db) async {
@@ -59,7 +55,6 @@ class GroupUser {
           addedby INTEGER DEFAULT -1,
           permission TEXT DEFAULT 'USER',
           createdAt INTEGER DEFAULT 0,
-          updatedAt INTEGER DEFAULT 0,
           PRIMARY KEY (groupid, user_id)
         )''');
   }
@@ -92,16 +87,17 @@ class GroupUser {
     });
   }
 
-  static Future<void> update(GroupUser data) async {
+  static Future<void> updatePermission(
+      int groupid, int userid, String permission) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Update the given Dog.
     await db.update(
       GroupUser.tablename,
-      data.toJson(),
+      {'permission': permission},
       where: "groupid = ? AND user_id = ?",
-      whereArgs: [data.groupid, data.userId],
+      whereArgs: [groupid, userid],
     );
   }
 
@@ -139,9 +135,7 @@ class GroupUser {
     final Database db = await DBProvider.db.database;
 
     // Get the Dog from the database.
-    final List<Map<String, dynamic>> maps = await db.query(
-      GroupUser.tablename
-    );
+    final List<Map<String, dynamic>> maps = await db.query(GroupUser.tablename);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

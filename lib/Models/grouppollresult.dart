@@ -22,7 +22,7 @@ class GroupPollResult {
   int pollId;
   int groupId;
   String groupName;
-  List<Option> options;
+  List<PollOption> options;
 
   GroupPollResult({
     this.pollId,
@@ -35,8 +35,8 @@ class GroupPollResult {
       new GroupPollResult(
         pollId: json["pollId"],
         groupId: json["groupId"],
-        options: new List<Option>.from(
-            json["options"].map((x) => Option.fromJson(x))),
+        options: new List<PollOption>.from(
+            json["options"].map((x) => PollOption.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,7 +65,7 @@ class GroupPollResult {
     // Insert the Dog into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same groupInfo is inserted
     // multiple times, it replaces the previous data.
-    for (Option option in groupPollResult.options) {
+    for (PollOption option in groupPollResult.options) {
       //Prepare data
       dynamic data = {
         "pollId": groupPollResult.pollId,
