@@ -33,11 +33,11 @@ class _PollListState extends State<PollList> {
     super.initState();
   }
 
-  getChartData(List<Option> options) {
+  getChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
 
     int colorIndex = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       entries.add(new CircularSegmentEntry(
           option.openVotes.toDouble() + option.secretVotes.toDouble(), kGetOptionColor(colorIndex)));
       colorIndex++;
@@ -56,9 +56,9 @@ class _PollListState extends State<PollList> {
     return votes;
   }
 
-  int getTotalVotes(List<Option> options) {
+  int getTotalVotes(List<PollOption> options) {
     int sum = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       sum += option.openVotes + option.secretVotes;
     }
     return sum;

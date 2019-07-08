@@ -61,9 +61,9 @@ class _GroupPollResultsState extends State<GroupPollResults> {
     }
   }
 
-  int getTotalVotes(List<Option> options) {
+  int getTotalVotes(List<PollOption> options) {
     int sum = 0;
-    for (Option option in options) {
+    for (PollOption option in options) {
       sum += option.openVotes;
     }
     return sum;
