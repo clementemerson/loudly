@@ -54,7 +54,7 @@ class UserVote {
           votetype TEXT,
           option INTEGER DEFAULT -1,
           votedat INTEGER DEFAULT -1,
-          PRIMARY KEY (pollid, user_id),
+          PRIMARY KEY (pollid, user_id)
           FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
           ON DELETE CASCADE
           FOREIGN KEY (user_id) REFERENCES ${UserInfo.tablename}(user_id) 

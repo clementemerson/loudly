@@ -45,16 +45,14 @@ class GroupPollResult {
         "options": new List<dynamic>.from(options.map((x) => x.toJson())),
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${GroupPollResult.tablename}(
           pollid INTEGER, 
           groupid INTEGER,
           optionindex INTEGER DEFAULT -1,
           openvotes INTEGER DEFAULT 0,
-          PRIMARY KEY (pollid, group_id, optionindex)
+          PRIMARY KEY (pollid, groupid, optionindex)
         )''');
   }
 

@@ -48,9 +48,7 @@ class GroupPoll {
         "archived": archived,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${GroupPoll.tablename}(
           pollid INTEGER, 
@@ -74,6 +72,20 @@ class GroupPoll {
       groupPoll.toJson(),
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
+  }
+
+  static Future<List<int>> getAll() async {
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    // Query the table for all The dogs.
+    final List<Map<String, dynamic>> maps = await db.query(GroupPoll.tablename,
+        distinct: true, columns: ['pollid'], orderBy: 'createdAt DESC');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return maps[i]['pollid'];
+    });
   }
 
   static Future<List<GroupPoll>> getAllByGroup(int groupid) async {

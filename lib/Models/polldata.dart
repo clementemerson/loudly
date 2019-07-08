@@ -59,9 +59,7 @@ class PollData {
         "voted": voted,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${PollData.tablename}(
           pollid INTEGER PRIMARY KEY, 
@@ -70,7 +68,7 @@ class PollData {
           resultispublic INTEGER DEFAULT 0,
           createdby INTEGER DEFAULT 0,
           createdAt INTEGER DEFAULT 0,
-          voted INTEGER DEFAULT 0,
+          voted INTEGER DEFAULT 0
         )''');
   }
 

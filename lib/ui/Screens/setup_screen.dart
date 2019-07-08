@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/Models/userpoll.dart';
 import 'package:loudly/data/database.dart';
+import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/models/groupuser.dart';
 import 'package:loudly/models/userinfo.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
@@ -118,12 +119,15 @@ class _SetupScreenState extends State<SetupScreen> {
 
   _getPollsInfo() async {
     List<UserPoll> polllist = await UserPoll.getAll();
-    List<int> pollids;
+    Set<int> pollids = new Set<int>();
     polllist.forEach((poll) {
       pollids.add(poll.pollid);
     });
+
+    List<int> groupPollList = await GroupPoll.getAll();
+    pollids.addAll(groupPollList);
     
-    await WSPollsModule.getInfo(pollids, callback: _onCompleted);
+    await WSPollsModule.getInfo(pollids.toList(), callback: _onCompleted);
   }
 
   _onCompleted() {
