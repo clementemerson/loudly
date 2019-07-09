@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:loudly/Models/grouppollresult.dart';
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/grouppollresult.dart';
+import 'package:loudly/models/polldata.dart';
 import 'package:loudly/ui/widgets/consolidatedvotechart.dart';
 import 'package:loudly/ui/widgets/voteshare.dart';
 

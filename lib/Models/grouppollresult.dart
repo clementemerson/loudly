@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/polldata.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/groupinfo.dart';
 
@@ -68,7 +68,7 @@ class GroupPollResult {
       dynamic data = {
         "pollId": groupPollResult.pollId,
         "groupId": groupPollResult.groupId,
-        "optionindex": option.index,
+        "optionindex": option.optionindex,
         "openvotes": option.openVotes,
       };
       await db.insert(

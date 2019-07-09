@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/polldata.dart';
 import 'package:loudly/project_styles.dart';
 
 class ConsolidatedVoteChart extends StatefulWidget {

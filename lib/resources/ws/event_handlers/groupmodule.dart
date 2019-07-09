@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/Models/groupinfo.dart';
-import 'package:loudly/Models/grouppoll.dart';
+import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/models/groupuser.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
@@ -19,6 +19,7 @@ class WSGroupsModule {
   static const String changeDescEvent = 'changeDesc';
   static const String changeUserPermissionEvent = 'changeUserPermission';
   static const String removeUserEvent = 'removeUser';
+  static const String getMyGroupsInfoEvent = 'getMyGroupsInfo';
 
   static Future<int> create(GroupInfo groupInfo, {Function callback}) async {
     try {
@@ -187,9 +188,25 @@ class WSGroupsModule {
     }
   }
 
+  static Future<int> getMyGroupsInfo({Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.groupModule,
+          event: getMyGroupsInfoEvent,
+          messageid: messageid);
+      MessageStore().add(message);
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception('Failed to send message to server via websocket');
+    }
+  }
+
 //----------------------------------------------------------------------------------------------------------------------------
   static Future<void> onMessage(
-      GeneralMessageFormat genFormatMessage, Message sentMessage) {
+      GeneralMessageFormat genFormatMessage, Message sentMessage) async {
     switch (genFormatMessage.message.event) {
       case createEvent:
         createReply(genFormatMessage, sentMessage: sentMessage);
@@ -217,6 +234,9 @@ class WSGroupsModule {
         break;
       case removeUserEvent:
         removeUserReply(genFormatMessage, sentMessage: sentMessage);
+        break;
+      case getMyGroupsInfoEvent:
+        getMyGroupsInfoReply(genFormatMessage);
         break;
     }
   }
@@ -331,6 +351,19 @@ class WSGroupsModule {
     try {
       GroupUser.delete(
           sentMessage.data['groupid'], sentMessage.data['user_id']);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> getMyGroupsInfoReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      List<GroupInfo> groupInfoList =
+          groupInfoFromList(genFormatMessage.message.data);
+      for (GroupInfo groupInfo in groupInfoList) {
+        await GroupInfo.insert(groupInfo);
+      }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }

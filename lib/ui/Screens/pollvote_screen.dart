@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/polldata.dart';
 
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';

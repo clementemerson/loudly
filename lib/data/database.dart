@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:loudly/Models/groupinfo.dart';
-import 'package:loudly/Models/groupuser.dart';
-import 'package:loudly/Models/userinfo.dart';
-import 'package:loudly/Models/userpoll.dart';
+import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/models/groupuser.dart';
+import 'package:loudly/models/userinfo.dart';
+import 'package:loudly/models/userpoll.dart';
 import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/models/grouppollresult.dart';
 import 'package:loudly/models/polldata.dart';
@@ -32,7 +32,8 @@ class DBProvider {
     // and only our app, are stored. Files in this directory are deleted
     // when the app is deleted.
     Directory documentsDir = await getApplicationDocumentsDirectory();
-    String path = join(documentsDir.path, 'loud6.db');
+    String path = join(documentsDir.path, 'loud15.db');
+    print(path);
 
     return await openDatabase(
       path,
@@ -62,6 +63,8 @@ class DBProvider {
 
         // Create the uservote table
         await UserVote.createTable(db);
+
+        await PollOption.createTable(db);
       },
     );
   }

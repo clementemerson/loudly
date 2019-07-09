@@ -11,7 +11,7 @@ import 'package:loudly/ui/Screens/pollvote_screen.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
 
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/polldata.dart';
 
 class PollList extends StatefulWidget {
   final PollListType pollListType;

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/Models/grouppoll.dart';
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/grouppoll.dart';
+import 'package:loudly/models/polldata.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -18,6 +18,7 @@ class WSPollsModule {
   static const String subscribeToPollResultEvent = 'subscribeToPollResult';
   static const String unSubscribeToPollResultEvent = 'unSubscribeToPollResult';
   static const String deleteEvent = 'delete';
+  static const String getMyPollsInfoEvent = 'getMyPollsInfo';
 
   static Future<int> create(PollData pollData, {Function callback}) async {
     try {
@@ -187,6 +188,22 @@ class WSPollsModule {
     }
   }
 
+  static Future<int> getMyPollsInfo({Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: getMyPollsInfoEvent,
+          messageid: messageid);
+      MessageStore().add(message);
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception('Failed to send message to server via websocket');
+    }
+  }
+
 //----------------------------------------------------------------------------------------------------------------------------
   static Future<void> onMessage(
       GeneralMessageFormat genFormatMessage, Message sentMessage) async {
@@ -217,6 +234,9 @@ class WSPollsModule {
         break;
       case deleteEvent:
         await deleteReply(genFormatMessage, sentMessage: sentMessage);
+        break;
+      case getMyPollsInfoEvent:
+        await getMyPollsInfoReply(genFormatMessage);
         break;
     }
   }
@@ -316,6 +336,19 @@ class WSPollsModule {
       {Message sentMessage}) async {
     try {
       PollData.delete(sentMessage.data['pollid']);
+    } catch (Exception) {
+      throw Exception('Failed to parse message from server');
+    }
+  }
+
+  static Future<void> getMyPollsInfoReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      List<PollData> pollInfoList =
+          pollInfoFromList(genFormatMessage.message.data);
+      for (PollData pollInfo in pollInfoList) {
+        await PollData.insert(pollInfo);
+      }
     } catch (Exception) {
       throw Exception('Failed to parse message from server');
     }

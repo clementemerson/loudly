@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/userpoll.dart';
+import 'package:loudly/models/userpoll.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/models/groupuser.dart';
@@ -75,60 +75,69 @@ class _SetupScreenState extends State<SetupScreen> {
   Future<void> _getLoudlyUsers() async {
     List<String> phoneNumbers = await _getPhoneNumbersFromDevice();
     await WSUsersModule.getUsersFromPhoneNumbers(phoneNumbers,
-        callback: getGroups);
+        callback: _getMyGroupsInfo);
   }
 
-  getGroups() async {
-    await WSUsersModule.getGroups(callback: _getPolls);
+  _getMyGroupsInfo() async {
+    await WSGroupsModule.getMyGroupsInfo(callback: _getMyPollsInfo);
   }
 
-  _getPolls() async {
-    await WSUsersModule.getPolls(callback: _getGroupsInfo);
+  _getMyPollsInfo() async {
+    await WSPollsModule.getMyPollsInfo(callback: _onCompleted);
   }
 
-  _getGroupsInfo() async {
-    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
-    List<int> groupids = List<int>();
-    for (GroupUser group in userGroups) {
-      print(group.groupid);
-      groupids.add(group.groupid);
-    }
-    await WSGroupsModule.getInfo(groupids, callback: _getUsersOfGroup);
-  }
+  // getGroups() async {
+  //   await WSUsersModule.getGroups(callback: _getPolls);
+  // }
 
-  _getUsersOfGroup() async {
-    List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
-    for (GroupUser group in userGroups) {
-      //The last function in this loop gets the callback function.
-      Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
-          ? _getUsersInfo()
-          : null;
-      await WSGroupsModule.getUsersOfGroup(group.groupid, callback: callback);
-    }
-  }
+  // _getPolls() async {
+  //   await WSUsersModule.getPolls(callback: _getGroupsInfo);
+  // }
 
-  _getUsersInfo() async {
-    List<GroupUser> userGroups = await GroupUser.getAll();
-    Set<int> userids = new Set<int>();
-    userGroups.forEach((userGroup) {
-      userids.add(userGroup.userId);
-    });
+  // _getGroupsInfo() async {
+  //   List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
+  //   List<int> groupids = List<int>();
+  //   for (GroupUser group in userGroups) {
+  //     print(group.groupid);
+  //     groupids.add(group.groupid);
+  //   }
+  //   await WSGroupsModule.getInfo(groupids, callback: _getUsersAndPollsOfGroup);
+  // }
 
-    await WSUsersModule.getInfo(userids.toList(), callback: _getPollsInfo);
-  }
+  // _getUsersAndPollsOfGroup() async {
+  //   List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
+  //   for (GroupUser group in userGroups) {
+  //     //The last function in this loop gets the callback function.
+  //     Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
+  //         ? _getUsersInfo()
+  //         : null;
+  //     await WSGroupsModule.getUsersOfGroup(group.groupid);
+  //     await WSGroupsModule.getPolls(group.groupid, callback: callback);
+  //   }
+  // }
 
-  _getPollsInfo() async {
-    List<UserPoll> polllist = await UserPoll.getAll();
-    Set<int> pollids = new Set<int>();
-    polllist.forEach((poll) {
-      pollids.add(poll.pollid);
-    });
+  // _getUsersInfo() async {
+  //   List<GroupUser> userGroups = await GroupUser.getAll();
+  //   Set<int> userids = new Set<int>();
+  //   userGroups.forEach((userGroup) {
+  //     userids.add(userGroup.userId);
+  //   });
 
-    List<int> groupPollList = await GroupPoll.getAll();
-    pollids.addAll(groupPollList);
+  //   await WSUsersModule.getInfo(userids.toList(), callback: _getPollsInfo);
+  // }
+
+  // _getPollsInfo() async {
+  //   List<UserPoll> polllist = await UserPoll.getAll();
+  //   Set<int> pollids = new Set<int>();
+  //   polllist.forEach((poll) {
+  //     pollids.add(poll.pollid);
+  //   });
+
+  //   List<int> groupPollList = await GroupPoll.getAll();
+  //   pollids.addAll(groupPollList);
     
-    await WSPollsModule.getInfo(pollids.toList(), callback: _onCompleted);
-  }
+  //   await WSPollsModule.getInfo(pollids.toList(), callback: _onCompleted);
+  // }
 
   _onCompleted() {
     print('completed');

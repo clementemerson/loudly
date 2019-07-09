@@ -13,7 +13,8 @@ class MessageListener {
     // init things inside this
   }
 
-  Future<void> processInMessage(GeneralMessageFormat recvdMessage, {Function callback}) async {
+  Future<void> processInMessage(GeneralMessageFormat recvdMessage,
+      {Function callback}) async {
     Message sentMessage = MessageStore().remove(recvdMessage.message.messageid);
     try {
       switch (recvdMessage.message.module) {
@@ -23,7 +24,7 @@ class MessageListener {
         case WSUtility.groupModule:
           await WSGroupsModule.onMessage(recvdMessage, sentMessage);
           break;
-          case WSUtility.pollModule:
+        case WSUtility.pollModule:
           await WSPollsModule.onMessage(recvdMessage, sentMessage);
           break;
       }

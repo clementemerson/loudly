@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/Models/groupuser.dart';
-import 'package:loudly/Models/userinfo.dart';
-import 'package:loudly/Models/userpoll.dart';
+import 'package:loudly/models/groupuser.dart';
+import 'package:loudly/models/userinfo.dart';
+import 'package:loudly/models/userpoll.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';

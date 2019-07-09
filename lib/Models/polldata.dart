@@ -44,14 +44,14 @@ class PollData {
         canBeShared: json["canbeshared"],
         resultIsPublic: json["resultispublic"],
         createdBy: json["createdby"],
-        createdAt: int.parse(json["createdAt"]),
+        createdAt: json["createdAt"],
         voted: json["voted"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
         "pollid": pollid,
         "title": title,
-        "options": new List<dynamic>.from(options.map((x) => x.toJson())),
+        //"options": new List<dynamic>.from(options.map((x) => x.toJson())),
         "canbeshared": canBeShared,
         "resultispublic": resultIsPublic,
         "createdby": createdBy,
@@ -85,8 +85,8 @@ class PollData {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    data.options.forEach((option) {
-      PollOption.insert(option);
+    data.options.forEach((option) async {
+      await PollOption.insert(option);
     });
   }
 
@@ -145,14 +145,14 @@ class PollOption {
   static final String tablename = 'polloptions';
 
   int pollid;
-  int index;
+  int optionindex;
   String desc;
   int openVotes;
   int secretVotes;
 
   PollOption({
     this.pollid,
-    this.index,
+    this.optionindex,
     this.desc,
     this.openVotes,
     this.secretVotes,
@@ -161,23 +161,21 @@ class PollOption {
   factory PollOption.fromJson(Map<String, dynamic> json, {int pollid}) =>
       new PollOption(
         pollid: pollid ?? json[pollid],
-        index: json["index"],
+        optionindex: json["index"],
         desc: json["desc"] ?? '',
-        openVotes: json["openVotes"],
+        openVotes: json["openVotes"] ?? 0,
         secretVotes: json["secretVotes"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
         "pollid": pollid,
-        "index": index,
+        "optionindex": optionindex,
         "desc": desc,
         "openVotes": openVotes,
         "secretVotes": secretVotes,
       };
 
-  static Future<void> createTable() async {
-    final Database db = await DBProvider.db.database;
-
+  static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${PollOption.tablename}(
           pollid INTEGER, 
@@ -226,7 +224,7 @@ class PollOption {
       PollOption.tablename,
       data.toJson(),
       where: "pollid = ? AND optionindex = ?",
-      whereArgs: [data.pollid, data.index],
+      whereArgs: [data.pollid, data.optionindex],
     );
   }
 
