@@ -32,7 +32,7 @@ class DBProvider {
     // and only our app, are stored. Files in this directory are deleted
     // when the app is deleted.
     Directory documentsDir = await getApplicationDocumentsDirectory();
-    String path = join(documentsDir.path, 'loud15.db');
+    String path = join(documentsDir.path, 'loud16.db');
     print(path);
 
     return await openDatabase(
@@ -40,31 +40,60 @@ class DBProvider {
       version: 1,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
+
+        var baseTablesCreation = <Future>[];
         // Create the users table
-        await UserInfo.createTable(db);
-
+        baseTablesCreation.add(UserInfo.createTable(db));
         // Create the groupinfo table
-        await GroupInfo.createTable(db);
-
-        // Create the userpolls table
-        await UserPoll.createTable(db);
-
-        // Create the groupusers table
-        await GroupUser.createTable(db);
-
+        baseTablesCreation.add(GroupInfo.createTable(db));
         // Create the polldata table
-        await PollData.createTable(db);
+        baseTablesCreation.add(PollData.createTable(db));
+        // Create the polloptions table
+        baseTablesCreation.add(PollOption.createTable(db));
 
+        await Future.wait(baseTablesCreation);
+
+        // // Create the users table
+        // await UserInfo.createTable(db);
+
+        // // Create the groupinfo table
+        // await GroupInfo.createTable(db);
+
+        // // Create the polldata table
+        // await PollData.createTable(db);
+
+        // // Create the polloptions table
+        // await PollOption.createTable(db);
+
+        var dataTablesCreation = <Future>[];
+        // Create the groupusers table
+        dataTablesCreation.add(GroupUser.createTable(db));
         // Create the grouppoll table
-        await GroupPoll.createTable(db);
-
+        dataTablesCreation.add(GroupPoll.createTable(db));
+        // Create the userpolls table
+        dataTablesCreation.add(UserPoll.createTable(db));
         // Create the grouppollresult table
-        await GroupPollResult.createTable(db);
-
+        dataTablesCreation.add(GroupPollResult.createTable(db));
         // Create the uservote table
-        await UserVote.createTable(db);
+        dataTablesCreation.add(UserVote.createTable(db)); 
 
-        await PollOption.createTable(db);
+        await Future.wait(dataTablesCreation);   
+
+
+        // // Create the groupusers table
+        // await GroupUser.createTable(db);
+
+        // // Create the grouppoll table
+        // await GroupPoll.createTable(db);
+
+        // // Create the userpolls table
+        // await UserPoll.createTable(db);
+
+        // // Create the grouppollresult table
+        // await GroupPollResult.createTable(db);
+
+        // // Create the uservote table
+        // await UserVote.createTable(db);        
       },
     );
   }
