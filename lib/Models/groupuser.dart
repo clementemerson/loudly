@@ -5,6 +5,8 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/models/userinfo.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -56,6 +58,10 @@ class GroupUser {
           permission TEXT DEFAULT 'USER',
           createdAt INTEGER DEFAULT 0,
           PRIMARY KEY (groupid, user_id)
+          FOREIGN KEY (user_id) REFERENCES ${UserInfo.tablename}(user_id) 
+          ON DELETE CASCADE
+          FOREIGN KEY (groupid) REFERENCES ${GroupInfo.tablename}(groupid) 
+          ON DELETE CASCADE
         )''');
   }
 

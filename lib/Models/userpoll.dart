@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+import 'package:loudly/models/polldata.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -50,7 +51,9 @@ class UserPoll {
       pollid INTEGER PRIMARY KEY, 
       sharedby INTEGER DEFAULT -1,
       createdAt INTEGER DEFAULT 0,
-      updatedAt INTEGER DEFAULT 0
+      updatedAt INTEGER DEFAULT 0,
+      FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+      ON DELETE CASCADE
     )''');
   }
 

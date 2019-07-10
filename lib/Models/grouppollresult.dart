@@ -53,6 +53,10 @@ class GroupPollResult {
           optionindex INTEGER DEFAULT -1,
           openvotes INTEGER DEFAULT 0,
           PRIMARY KEY (pollid, groupid, optionindex)
+          FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+          ON DELETE CASCADE
+          FOREIGN KEY (groupid) REFERENCES ${GroupInfo.tablename}(groupid) 
+          ON DELETE CASCADE
         )''');
   }
 

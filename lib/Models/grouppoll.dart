@@ -5,6 +5,8 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/models/polldata.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -57,6 +59,10 @@ class GroupPoll {
           createdAt INTEGER DEFAULT 0,
           archived INTEGER DEFAULT 0,
           PRIMARY KEY (pollid, groupid)
+          FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+          ON DELETE CASCADE
+          FOREIGN KEY (groupid) REFERENCES ${GroupInfo.tablename}(groupid) 
+          ON DELETE CASCADE
         )''');
   }
 

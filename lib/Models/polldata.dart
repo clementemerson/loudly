@@ -184,6 +184,8 @@ class PollOption {
           openvotes INTEGER DEFAULT 0,
           secretvotes INTEGER DEFAULT 0,
           PRIMARY KEY (pollid, optionindex)
+          FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+          ON DELETE CASCADE
         )''');
   }
 
