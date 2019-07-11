@@ -28,7 +28,7 @@ class _PollListState extends State<PollList> {
 
   @override
   void initState() {
-    getPollData();
+    _getPollDataFromDB();
 
     super.initState();
   }
@@ -39,7 +39,8 @@ class _PollListState extends State<PollList> {
     int colorIndex = 0;
     for (PollOption option in options) {
       entries.add(new CircularSegmentEntry(
-          option.openVotes.toDouble() + option.secretVotes.toDouble(), kGetOptionColor(colorIndex)));
+          option.openVotes.toDouble() + option.secretVotes.toDouble(),
+          kGetOptionColor(colorIndex)));
       colorIndex++;
     }
 
@@ -64,7 +65,7 @@ class _PollListState extends State<PollList> {
     return sum;
   }
 
-  getPollData() async {
+  _getPollData() async {
     List<String> urls = [];
     urls.add('https://my.api.mockaroo.com/polls.json?key=17d9cc40');
     urls.add('https://my.api.mockaroo.com/polls.json?key=3b82acd0');
@@ -97,6 +98,14 @@ class _PollListState extends State<PollList> {
     }
   }
 
+  _getPollDataFromDB() async {
+    try {
+      _pollList = await PollData.getAll();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -113,7 +122,7 @@ class _PollListState extends State<PollList> {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            '${_pollList[index].createdBy} - ${getTotalVotes(_pollList[index].options)} Votes',
+            'Username - ${getTotalVotes(_pollList[index].options)} Votes',
           ),
           trailing: _pollList[index].voted == true
               ? AnimatedCircularChart(
@@ -137,16 +146,10 @@ class _PollListState extends State<PollList> {
                 ),
           onTap: () {
             _pollList[index].voted == true
-                ? Navigator.pushNamed(
-                    context,
-                    PollResultScreen.id,
-                    arguments: _pollList[index]
-                  )
-                : Navigator.pushNamed(
-                    context,
-                    PollVoteScreen.id,
-                    arguments: _pollList[index]
-                  );
+                ? Navigator.pushNamed(context, PollResultScreen.id,
+                    arguments: _pollList[index])
+                : Navigator.pushNamed(context, PollVoteScreen.id,
+                    arguments: _pollList[index]);
           },
         );
       },

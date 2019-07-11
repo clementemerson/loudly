@@ -36,7 +36,7 @@ class GroupInfo {
         groupid: json["groupid"],
         name: json["name"],
         desc: json["desc"],
-        createdBy: json["createdBy"],
+        createdBy: json["createdby"],
         createdAt: json["createdAt"],
       );
 
@@ -44,7 +44,7 @@ class GroupInfo {
         "groupid": groupid,
         "name": name,
         "desc": desc,
-        "createdBy": createdBy,
+        "createdby": createdBy,
         "createdAt": createdAt,
       };
 

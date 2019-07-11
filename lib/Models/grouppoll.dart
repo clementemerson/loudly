@@ -37,7 +37,7 @@ class GroupPoll {
   factory GroupPoll.fromJson(Map<String, dynamic> json) => new GroupPoll(
         pollid: json["pollid"],
         groupid: json["groupid"],
-        sharedBy: json["sharedBy"],
+        sharedBy: json["sharedby"],
         createdAt: json["createdAt"],
         archived: false,
       );
@@ -45,7 +45,7 @@ class GroupPoll {
   Map<String, dynamic> toJson() => {
         "pollid": pollid,
         "groupid": groupid,
-        "sharedBy": sharedBy,
+        "sharedby": sharedBy,
         "createdAt": createdAt,
         "archived": archived,
       };

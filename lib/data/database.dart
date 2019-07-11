@@ -32,7 +32,7 @@ class DBProvider {
     // and only our app, are stored. Files in this directory are deleted
     // when the app is deleted.
     Directory documentsDir = await getApplicationDocumentsDirectory();
-    String path = join(documentsDir.path, 'loud16.db');
+    String path = join(documentsDir.path, 'loud18.db');
     print(path);
 
     return await openDatabase(

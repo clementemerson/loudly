@@ -95,8 +95,21 @@ class PollData {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps =
+    List<Map<String, dynamic>> maps =
         await db.query(PollData.tablename, orderBy: 'createdAt DESC');
+
+    for (var f in maps) {
+      print(f);
+      print(f['pollid']);
+      f['options'] = await PollOption.getOptionsOfPoll(f['pollid']);
+      print(f['options']);
+    }
+    // maps.forEach((f) async {
+    //   print(f);
+    //   print(f['pollid']);
+    //   f['options'] = await PollOption.getOptionsOfPoll(f['pollid']);
+    //   print(f['options']);
+    // });
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

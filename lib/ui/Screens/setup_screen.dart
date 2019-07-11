@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/models/groupinfo.dart';
 import 'package:loudly/models/userpoll.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/grouppoll.dart';
@@ -7,6 +8,7 @@ import 'package:loudly/models/userinfo.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
+import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/ui/globals.dart';
 
 class SetupScreen extends StatefulWidget {
@@ -83,7 +85,20 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getMyPollsInfo() async {
-    await WSPollsModule.getMyPollsInfo(callback: _onCompleted);
+    await WSPollsModule.getMyPollsInfo(callback: _getUsersAndPollsOfGroup);
+  }
+
+  _getUsersAndPollsOfGroup() async {
+    List<GroupInfo> userGroups =
+        await GroupInfo.getAll();
+    for (GroupInfo group in userGroups) {
+      //The last function in this loop gets the callback function.
+      Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
+          ? _onCompleted
+          : null;
+      await WSGroupsModule.getUsersOfGroup(group.groupid);
+      await WSGroupsModule.getPolls(group.groupid, callback: callback);
+    }
   }
 
   // getGroups() async {
@@ -135,11 +150,13 @@ class _SetupScreenState extends State<SetupScreen> {
 
   //   List<int> groupPollList = await GroupPoll.getAll();
   //   pollids.addAll(groupPollList);
-    
+
   //   await WSPollsModule.getInfo(pollids.toList(), callback: _onCompleted);
   // }
 
   _onCompleted() {
     print('completed');
+    Navigator.pushNamedAndRemoveUntil(
+          context, HomeScreen.id, (Route<dynamic> route) => false);
   }
 }
