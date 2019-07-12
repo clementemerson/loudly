@@ -7,6 +7,9 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
+import 'package:loudly/ui/Screens/phonelogin_screen.dart';
+import 'package:loudly/ui/Screens/setup_screen.dart';
+import 'package:loudly/ui/globals.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
   static const String id = 'phoneverify_screen';
@@ -23,15 +26,33 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
 
   onPressed() async {
     try {
-      String token =
+      dynamic data =
           await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
+      print('dta');
+      print(data);
+      String token = data['token'];
+      print(token);
+      Globals.self_userid = data['user_id'];
+      print(Globals.self_userid);
       final storage = new FlutterSecureStorage();
-      await storage.write(key: 'token', value: token);
-      WebSocketHelper().initConnection(token: token);
+      await storage.write(key: 'jwtToken1', value: token);
+      await storage.write(
+          key: 'user_id', value: Globals.self_userid.toString());
+      WebSocketHelper()
+          .initConnection(token: token, initCallback: setupWebSocketConnection);
 
       //Navigator.pushNamed(context, SetupScreen.id);
     } catch (Exception) {
       print(Exception);
+    }
+  }
+
+  setupWebSocketConnection(bool connectionEstablished) {
+    if (connectionEstablished == true) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, SetupScreen.id, (Route<dynamic> route) => false);
+    } else {
+      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     }
   }
 

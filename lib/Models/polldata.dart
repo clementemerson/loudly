@@ -41,11 +41,24 @@ class PollData {
         title: json["title"],
         options: new List<PollOption>.from(json["options"]
             .map((x) => PollOption.fromJson(x, pollid: json["pollid"]))),
-        canBeShared: json["canbeshared"],
-        resultIsPublic: json["resultispublic"],
+        canBeShared: json["canbeshared"] == 0 ? false : true,
+        resultIsPublic: json["resultispublic"] == 0 ? false : true,
         createdBy: json["createdby"],
         createdAt: json["createdAt"],
         voted: json["voted"] ?? false,
+      );
+
+  factory PollData.fromLocalDB(
+          Map<String, dynamic> json, List<PollOption> pollOptions) =>
+      new PollData(
+        pollid: json["pollid"],
+        title: json["title"],
+        options: pollOptions,
+        canBeShared: json["canbeshared"] == 0 ? false : true,
+        resultIsPublic: json["resultispublic"] == 0 ? false : true,
+        createdBy: json["createdby"],
+        createdAt: json["createdAt"],
+        voted: json["voted"] == 0 ? false : true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,23 +111,13 @@ class PollData {
     List<Map<String, dynamic>> maps =
         await db.query(PollData.tablename, orderBy: 'createdAt DESC');
 
-    for (var f in maps) {
-      print(f);
-      print(f['pollid']);
-      f['options'] = await PollOption.getOptionsOfPoll(f['pollid']);
-      print(f['options']);
+    List<PollData> pollList = List<PollData>();
+    for (var poll in maps) {
+      pollList.add(PollData.fromLocalDB(
+          poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
     }
-    // maps.forEach((f) async {
-    //   print(f);
-    //   print(f['pollid']);
-    //   f['options'] = await PollOption.getOptionsOfPoll(f['pollid']);
-    //   print(f['options']);
-    // });
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    return List.generate(maps.length, (i) {
-      return PollData.fromJson(maps[i]);
-    });
+    return pollList;
   }
 
   static Future<PollData> getOne(int pollid) async {

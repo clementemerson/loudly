@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/ui/globals.dart';
 
 import 'network_helper.dart';
 
@@ -25,9 +26,9 @@ class LoginService {
     return sessionId;
   }
 
-  static Future<String> verifyOTP(
+  static Future<dynamic> verifyOTP(
       {@required String otp, @required String sessionId}) async {
-    String token = '';
+    dynamic result;
     try {
       String requestUrl = serverName + '/signin';
       dynamic body = {"sessionid": sessionId, "otp": otp};
@@ -35,7 +36,7 @@ class LoginService {
       dynamic data = await RestAPIHelper.postData(url: requestUrl, body: body);
       print(data);
       if (data != null && data['Status'] == 'Success') {
-        token = data['Details'];
+        result = data['Details'];
       } else {
         throw Exception('Failed to verify OTP');
       }
@@ -43,6 +44,6 @@ class LoginService {
       throw Exception('Failed to verify OTP');
     }
 
-    return token;
+    return result;
   }
 }

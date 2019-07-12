@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
+import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:loudly/ui/Screens/setup_screen.dart';
 import 'package:loudly/ui/Screens/phonelogin_screen.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/platform_widgets.dart';
+import 'package:loudly/ui/globals.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static final String id = 'welcome_screen';
@@ -25,10 +27,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   checkForCredentials() async {
     final storage = new FlutterSecureStorage();
-    String token = await storage.read(key: 'token');
+    final String token = await storage.read(key: 'jwtToken1');
+    final String userId = await storage.read(key: 'user_id');
+    if (userId != null) Globals.self_userid = int.parse(userId);
+    print(Globals.self_userid);
+
     print(token);
-    await WebSocketHelper().initConnection(token: token, initCallback: setupWebSocketConnection);
-    if(WebSocketHelper().bConnectionEstablished == false) {
+    await WebSocketHelper()
+        .initConnection(token: token, initCallback: setupWebSocketConnection);
+    if (WebSocketHelper().bConnectionEstablished == false) {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     }
   }
@@ -36,8 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   setupWebSocketConnection(bool connectionEstablished) {
     if (connectionEstablished == true) {
       Navigator.pushNamedAndRemoveUntil(
-          context, SetupScreen.id, (Route<dynamic> route) => false);
-      //Navigator.pushReplacementNamed(context, HomeScreen.id);
+          context, HomeScreen.id, (Route<dynamic> route) => false);
     } else {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     }

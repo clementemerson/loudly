@@ -65,42 +65,13 @@ class _PollListState extends State<PollList> {
     return sum;
   }
 
-  _getPollData() async {
-    List<String> urls = [];
-    urls.add('https://my.api.mockaroo.com/polls.json?key=17d9cc40');
-    urls.add('https://my.api.mockaroo.com/polls.json?key=3b82acd0');
-    urls.add('https://my.api.mockaroo.com/polls.json?key=873a3a70');
-
-    http.Response response;
-    for (var url in urls) {
-      response = await http.get(url);
-      if (response.statusCode == 200) {
-        break;
-      }
-    }
-
-    try {
-      if (response.statusCode == 200) {
-        String pollDataCollection = response.body;
-        var decodedData = jsonDecode(pollDataCollection);
-        for (var pollData in decodedData) {
-          PollData poll = pollDataFromJson(pollData);
-
-          if (this.mounted == true) {
-            setState(() {
-              _pollList.add(poll);
-            });
-          }
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
   _getPollDataFromDB() async {
     try {
-      _pollList = await PollData.getAll();
+      List<PollData> pollList = await PollData.getAll();
+      setState(() {
+        _pollList.addAll(pollList);
+        print(_pollList);
+      });
     } catch (e) {
       print(e);
     }
@@ -110,9 +81,9 @@ class _PollListState extends State<PollList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
-            height: 4.0,
-            color: Colors.grey,
-          ),
+        height: 4.0,
+        color: Colors.grey,
+      ),
       itemCount: _pollList.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -122,7 +93,7 @@ class _PollListState extends State<PollList> {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            'Username - ${getTotalVotes(_pollList[index].options)} Votes',
+            '${_pollList[index].createdBy} - ${getTotalVotes(_pollList[index].options)} Votes',
           ),
           trailing: _pollList[index].voted == true
               ? AnimatedCircularChart(

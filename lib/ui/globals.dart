@@ -1,5 +1,5 @@
 class Globals {
 
-static int self_userid = 2002;
+static int self_userid = -1;
  
 }
