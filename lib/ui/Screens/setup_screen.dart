@@ -46,16 +46,6 @@ class _SetupScreenState extends State<SetupScreen> {
     await DBProvider.db.database;
 
     await _getLoudlyUsers();
-
-    //await _getGroups();
-    // await _getGroupsInfo();
-    // await _getUsersOfGroup();
-    // await _getUsersInfo();
-
-    // await _getPolls();
-    // await _getPollsInfo();
-
-    //Process completed.
   }
 
   Future<List<String>> _getPhoneNumbersFromDevice() async {

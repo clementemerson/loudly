@@ -16,9 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-@override
+  @override
   void initState() {
-    
     super.initState();
   }
 
@@ -27,27 +26,27 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(text: 'HOME'),
-                Tab(text: 'GROUPS'),
-                Tab(text: 'MY POLLS'),
-              ],
-            ),
-            title: Text(kProjectName),
-            actions: <Widget>[
-              kSearchWidget(context),
-              kMainScreenPopupMenu(context),
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'HOME'),
+              Tab(text: 'GROUPS'),
+              Tab(text: 'MY POLLS'),
             ],
           ),
-          body: TabBarView(
-            children: [
-              PollList(pollListType: PollListType.All),
-              GroupList(),
-              PollList(pollListType: PollListType.All),
-            ],
-          ),
+          title: Text(kProjectName),
+          actions: <Widget>[
+            kSearchWidget(context),
+            kMainScreenPopupMenu(context),
+          ],
+        ),
+        body: TabBarView(
+          children: [
+            PollList(pollListType: PollListType.All),
+            GroupList(),
+            PollList(pollListType: PollListType.User),
+          ],
+        ),
       ),
     );
   }

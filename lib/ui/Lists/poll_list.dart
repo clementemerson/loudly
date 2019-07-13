@@ -3,8 +3,8 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/ui/Screens/pollresult_screen.dart';
 import 'package:loudly/ui/Screens/pollvote_screen.dart';
 
@@ -12,10 +12,11 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_styles.dart';
 
 import 'package:loudly/models/polldata.dart';
+import 'package:loudly/ui/globals.dart';
 
 class PollList extends StatefulWidget {
   final PollListType pollListType;
-  final String groupId;
+  final int groupId;
 
   PollList({@required this.pollListType, this.groupId});
 
@@ -28,9 +29,37 @@ class _PollListState extends State<PollList> {
 
   @override
   void initState() {
-    _getPollDataFromDB();
+    _getPollData();
 
     super.initState();
+  }
+
+  _getPollData() async {
+    try {
+      List<PollData> pollList;
+      switch (widget.pollListType) {
+        case PollListType.All:
+          pollList = await PollData.getAll();
+          break;
+        case PollListType.User:
+          pollList = await PollData.getUserCreatedPolls(Globals.self_userid);
+          break;
+        case PollListType.Group:
+          List<GroupPoll> groupPolls =
+              await GroupPoll.getAllByGroup(widget.groupId);
+          List<int> pollIds = List.generate(groupPolls.length, (i) {
+            return groupPolls[i].pollid;
+          });
+          pollList = await PollData.getPollDataForPolls(pollIds);
+          break;
+      }
+
+      setState(() {
+        _pollList.addAll(pollList);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getChartData(List<PollOption> options) {
@@ -63,18 +92,6 @@ class _PollListState extends State<PollList> {
       sum += option.openVotes + option.secretVotes;
     }
     return sum;
-  }
-
-  _getPollDataFromDB() async {
-    try {
-      List<PollData> pollList = await PollData.getAll();
-      setState(() {
-        _pollList.addAll(pollList);
-        print(_pollList);
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override

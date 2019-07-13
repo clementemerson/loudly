@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:loudly/models/groupinfo.dart';
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
 
 class GroupList extends StatefulWidget {
@@ -12,13 +13,25 @@ class GroupList extends StatefulWidget {
 }
 
 class _GroupListState extends State<GroupList> {
-  List<Group> _groupList = [];
+  List<GroupInfo> _groupList = [];
 
   @override
   void initState() {
-    getGroupData();
+    _getGroupDataFromDB();
 
     super.initState();
+  }
+
+  _getGroupDataFromDB() async {
+    try {
+      List<GroupInfo> groupList = await GroupInfo.getAll();
+      setState(() {
+        _groupList.addAll(groupList);
+        print(_groupList);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getGroupData() async {
@@ -40,12 +53,12 @@ class _GroupListState extends State<GroupList> {
         String groupDataCollection = response.body;
         var decodedData = jsonDecode(groupDataCollection);
         for (var groupData in decodedData) {
-          Group group = new Group(
-              id: groupData['id'],
+          GroupInfo group = new GroupInfo(
+              groupid: groupData['id'],
               name: groupData['name'],
-              latestPollTitle: groupData['latestpolltitle'],
+              desc: groupData['desc'],
               createdBy: groupData['createdby'],
-              image: groupData['image']);
+              createdAt: groupData['createdAt']);
 
           if (this.mounted == true) {
             setState(() {
@@ -63,9 +76,9 @@ class _GroupListState extends State<GroupList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
-            height: 4.0,
-            color: Colors.grey,
-          ),
+        height: 4.0,
+        color: Colors.grey,
+      ),
       itemCount: _groupList.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -74,15 +87,13 @@ class _GroupListState extends State<GroupList> {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            '${_groupList[index].latestPollTitle}',
+            '${_groupList[index].desc}',
             overflow: TextOverflow.ellipsis,
           ),
-          leading: Image.network(_groupList[index].image),
+          //leading: Image.network(_groupList[index].image),
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              GroupPollListScreen.id,
-            );
+            Navigator.pushNamed(context, GroupPollListScreen.id,
+                arguments: _groupList[index]);
           },
         );
       },

@@ -120,6 +120,43 @@ class PollData {
     return pollList;
   }
 
+  static Future<List<PollData>> getUserCreatedPolls(int userId) async {
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    // Query the table for all The dogs.
+    List<Map<String, dynamic>> maps = await db.query(PollData.tablename,
+        where: 'createdby = ?', whereArgs: [userId], orderBy: 'createdAt DESC');
+
+    List<PollData> pollList = List<PollData>();
+    for (var poll in maps) {
+      pollList.add(PollData.fromLocalDB(
+          poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
+    }
+
+    return pollList;
+  }
+
+  static Future<List<PollData>> getPollDataForPolls(List<int> pollids) async {
+    if (pollids?.length == 0) return List<PollData>();
+
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    String commaSeparated = pollids.join(',');
+    String query = "SELECT * FROM ${PollData.tablename} WHERE pollid IN (" +
+        commaSeparated +
+        ")";
+    List<Map<String, dynamic>> maps = await db.rawQuery(query);
+
+    List<PollData> pollList = List<PollData>();
+    for (var poll in maps) {
+      pollList.add(PollData.fromLocalDB(
+          poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
+    }
+    return pollList;
+  }
+
   static Future<PollData> getOne(int pollid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;

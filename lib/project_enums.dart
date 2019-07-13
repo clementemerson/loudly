@@ -9,6 +9,7 @@ enum PopupMenuValue {
 enum PollListType {
   All,
   Group,
+  User,
 }
 
 enum ContactListType {

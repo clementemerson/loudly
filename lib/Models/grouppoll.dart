@@ -100,7 +100,7 @@ class GroupPoll {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db.query(GroupPoll.tablename,
-        where: 'groupip = ?', whereArgs: [groupid], orderBy: 'createdAt DESC');
+        where: 'groupid = ?', whereArgs: [groupid], orderBy: 'createdAt DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
