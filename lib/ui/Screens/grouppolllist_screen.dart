@@ -5,13 +5,11 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
 
 class GroupPollListScreen extends StatelessWidget {
-  GroupInfo groupInfo;
-
   static const String id = 'grouppolllist_screen';
 
   @override
   Widget build(BuildContext context) {
-    groupInfo = ModalRoute.of(context).settings.arguments;
+    final GroupInfo groupInfo = ModalRoute.of(context).settings.arguments;
 
     return DefaultTabController(
       length: 3,

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class _PollListState extends State<PollList> {
           pollList = await PollData.getAll();
           break;
         case PollListType.User:
-          pollList = await PollData.getUserCreatedPolls(Globals.self_userid);
+          pollList = await PollData.getUserCreatedPolls(Globals.selfUserId);
           break;
         case PollListType.Group:
           List<GroupPoll> groupPolls =

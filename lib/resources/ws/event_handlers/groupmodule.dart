@@ -249,7 +249,7 @@ class WSGroupsModule {
           groupid: genFormatMessage.message.data.groupid,
           name: sentMessage.data['name'],
           desc: sentMessage.data['desc'],
-          createdBy: Globals.self_userid,
+          createdBy: Globals.selfUserId,
           createdAt: genFormatMessage.message.data.createdAt);
 
       await GroupInfo.insert(groupInfo);
@@ -304,7 +304,7 @@ class WSGroupsModule {
           groupid: sentMessage.data['groupid'],
           userId: sentMessage.data['user_id'],
           permission: sentMessage.data['permission'],
-          addedBy: Globals.self_userid,
+          addedBy: Globals.selfUserId,
           createdAt: sentMessage.data['createdAt']);
 
       GroupUser.insert(data);

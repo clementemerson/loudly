@@ -5,13 +5,12 @@ import 'package:loudly/models/polldata.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
+import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class PollVoteScreen extends StatefulWidget {
   static const String id = 'pollvote_screen';
 
-  final int pollId;
-
-  PollVoteScreen({@required this.pollId});
+  PollVoteScreen();
 
   @override
   _PollVoteScreenState createState() => _PollVoteScreenState();
@@ -19,7 +18,7 @@ class PollVoteScreen extends StatefulWidget {
 
 class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
-  String selectedOption;
+  int selectedOption;
   PollData pollData;
 
   @override
@@ -31,7 +30,10 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     return AppBar(
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.reply, textDirection: TextDirection.rtl,),
+          icon: Icon(
+            Icons.reply,
+            textDirection: TextDirection.rtl,
+          ),
           onPressed: () {},
         )
       ],
@@ -84,15 +86,15 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     final List<Widget> widgets = [];
     int index = 0;
     for (PollOption option in pollData.options) {
-      widgets.add(_getOptionsField(
-          optionText: option.desc, index: index, id: index.toString()));
+      widgets.add(
+          _getOptionsField(optionText: option.desc, index: index, id: index));
       widgets.add(kGetOptionsDivider());
       index++;
     }
     return widgets;
   }
 
-  Widget _getOptionsField({String optionText, int index, String id}) {
+  Widget _getOptionsField({String optionText, int index, int id}) {
     return Row(
       children: <Widget>[
         _getColorBox(index: index),
@@ -157,7 +159,14 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
       ),
       textColor: Colors.white,
       disabledTextColor: Colors.grey,
-      onPressed: selectedOption == null ? null : () {},
+      onPressed: selectedOption == null
+          ? null
+          : () {
+              WSPollsModule.vote(pollData.pollid, selectedOption, secretVoting,
+                  callback: () {
+                Navigator.pop(context);
+              });
+            },
       child: Text(
         'Vote',
         style: TextStyle(
@@ -170,14 +179,12 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     pollData = ModalRoute.of(context).settings.arguments;
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: _getAppBar(),
       body: Container(

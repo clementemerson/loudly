@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/ui/globals.dart';
 
 import 'network_helper.dart';
 

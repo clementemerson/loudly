@@ -201,7 +201,7 @@ class WSUsersModule {
     try {
       //Prepare data
       dynamic data = {
-        'user_id': Globals.self_userid,
+        'user_id': Globals.selfUserId,
         'name': sentMessage.data['name']
       };
       await UserInfo.update(data);
@@ -214,7 +214,7 @@ class WSUsersModule {
       {@required Message sentMessage}) async {
     try {
       dynamic data = {
-        'user_id': Globals.self_userid,
+        'user_id': Globals.selfUserId,
         'statusmsg': sentMessage.data['statusmsg']
       };
       await UserInfo.update(data);

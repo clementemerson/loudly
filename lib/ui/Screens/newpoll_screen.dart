@@ -43,7 +43,10 @@ class _NewPollScreenState extends State<NewPollScreen> {
                 resultIsPublic: this.resultIsPublic,
                 options: pollOptions);
 
-            WSPollsModule.create(pollData, callback: _pollCreated);
+            WSPollsModule.create(pollData, callback: () {
+              print('poll was created');
+              Navigator.pop(context);
+            });
           },
           child: Text(
             kCreate,
@@ -56,10 +59,6 @@ class _NewPollScreenState extends State<NewPollScreen> {
         ),
       ],
     );
-  }
-
-  _pollCreated() {
-    print('poll was created');
   }
 
   TextField _getVoteTitleTextField({TextEditingController controller}) {

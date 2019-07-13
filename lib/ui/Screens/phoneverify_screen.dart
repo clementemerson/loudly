@@ -29,11 +29,11 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
       dynamic data =
           await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
       String token = data['token'];
-      Globals.self_userid = data['user_id'];
+      Globals.selfUserId = data['user_id'];
       final storage = new FlutterSecureStorage();
       await storage.write(key: 'credential', value: token);
       await storage.write(
-          key: 'user_id', value: Globals.self_userid.toString());
+          key: 'user_id', value: Globals.selfUserId.toString());
       WebSocketHelper()
           .initConnection(token: token, initCallback: setupWebSocketConnection);
 
@@ -54,7 +54,6 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     sessionId = ModalRoute.of(context).settings.arguments;
   }

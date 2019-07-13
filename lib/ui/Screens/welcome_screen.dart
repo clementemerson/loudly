@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
-import 'package:loudly/ui/Screens/setup_screen.dart';
 import 'package:loudly/ui/Screens/phonelogin_screen.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
@@ -29,8 +28,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     final storage = new FlutterSecureStorage();
     final String token = await storage.read(key: 'credential');
     final String userId = await storage.read(key: 'user_id');
-    if (userId != null) Globals.self_userid = int.parse(userId);
-    print(Globals.self_userid);
+    if (userId != null) Globals.selfUserId = int.parse(userId);
+    print(Globals.selfUserId);
 
     print(token);
     await WebSocketHelper()

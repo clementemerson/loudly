@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/models/userpoll.dart';
 import 'package:loudly/data/database.dart';
-import 'package:loudly/models/grouppoll.dart';
-import 'package:loudly/models/groupuser.dart';
-import 'package:loudly/models/userinfo.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
-import 'package:loudly/ui/globals.dart';
 
 class SetupScreen extends StatefulWidget {
   static const String id = 'setup_screen';
@@ -21,7 +16,6 @@ class SetupScreen extends StatefulWidget {
 class _SetupScreenState extends State<SetupScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     startSettingUp();

@@ -99,7 +99,7 @@ class WSPollsModule {
     }
   }
 
-  static Future<int> getUsersVoteInfo(List<int> user_ids, int pollid,
+  static Future<int> getUsersVoteInfo(List<int> userIds, int pollid,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -107,7 +107,7 @@ class WSPollsModule {
           module: WSUtility.pollModule,
           event: getUsersVoteInfoEvent,
           messageid: messageid,
-          data: {'user_ids': user_ids, 'pollid': pollid});
+          data: {'user_ids': userIds, 'pollid': pollid});
       MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
@@ -251,7 +251,7 @@ class WSPollsModule {
           options: pollOptionFromList(sentMessage.data['options'], genFormatMessage.message.data['pollid']),
           canBeShared: sentMessage.data['canbeshared'],
           resultIsPublic: sentMessage.data['resultispublic'],
-          createdBy: Globals.self_userid,
+          createdBy: Globals.selfUserId,
           createdAt: genFormatMessage.message.data['createdAt'],
           voted: false);
 
@@ -267,7 +267,7 @@ class WSPollsModule {
       GroupPoll data = new GroupPoll(
           pollid: sentMessage.data['pollid'],
           groupid: sentMessage.data['groupid'],
-          sharedBy: Globals.self_userid,
+          sharedBy: Globals.selfUserId,
           createdAt: genFormatMessage.message.data.createdAt,
           archived: false);
       GroupPoll.insert(data);
