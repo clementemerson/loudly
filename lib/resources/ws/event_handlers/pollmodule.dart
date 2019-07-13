@@ -31,7 +31,7 @@ class WSPollsModule {
             'title': pollData.title,
             'canbeshared': pollData.canBeShared,
             'resultispublic': pollData.resultIsPublic,
-            'options': pollData.options
+            'options': pollOptionListToJson(pollData.options)
           });
       MessageStore().add(message);
 
@@ -246,12 +246,13 @@ class WSPollsModule {
     try {
       //Prepare data
       PollData data = new PollData(
-          pollid: genFormatMessage.message.data.pollid,
+          pollid: genFormatMessage.message.data['pollid'],
           title: sentMessage.data['title'],
+          options: pollOptionFromList(sentMessage.data['options'], genFormatMessage.message.data['pollid']),
           canBeShared: sentMessage.data['canbeshared'],
           resultIsPublic: sentMessage.data['resultispublic'],
           createdBy: Globals.self_userid,
-          createdAt: genFormatMessage.message.data.createdat,
+          createdAt: genFormatMessage.message.data['createdAt'],
           voted: false);
 
       PollData.insert(data);

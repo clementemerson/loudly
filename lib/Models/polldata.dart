@@ -14,6 +14,19 @@ List<PollData> pollInfoFromList(List<dynamic> list) =>
 
 String pollDataToJson(PollData data) => json.encode(data.toJson());
 
+List<String> pollOptionListToJson(List<PollOption> list) =>
+    new List<String>.from(list.map((x) => json.encode(x.toJson())));
+
+List<PollOption> pollOptionFromList(List<dynamic> list, int pollid) {
+  List<PollOption> pollOptions = List<PollOption>();
+  for (String x in list) {
+    pollOptions.add(PollOption.fromJson(json.decode(x), pollid: pollid));
+  }
+  return pollOptions;
+}
+
+//json.encode(data.toJson());
+
 class PollData {
   static final String tablename = 'polldata';
 
@@ -214,7 +227,7 @@ class PollOption {
   factory PollOption.fromJson(Map<String, dynamic> json, {int pollid}) =>
       new PollOption(
         pollid: pollid ?? json[pollid],
-        optionindex: json["index"],
+        optionindex: json["optionindex"],
         desc: json["desc"] ?? '',
         openVotes: json["openVotes"] ?? 0,
         secretVotes: json["secretVotes"] ?? 0,

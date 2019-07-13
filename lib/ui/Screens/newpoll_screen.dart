@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:loudly/common_widgets.dart';
+import 'package:loudly/models/polldata.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
+import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class NewPollScreen extends StatefulWidget {
   static const String id = 'newpoll_screen';
@@ -17,12 +19,32 @@ class _NewPollScreenState extends State<NewPollScreen> {
   bool canBeShared = true;
   bool resultIsPublic = true;
 
+  final pollTitleController = TextEditingController();
+  final pollOption1Controller = TextEditingController();
+  final pollOption2Controller = TextEditingController();
+  final pollOption3Controller = TextEditingController();
+  final pollOption4Controller = TextEditingController();
+
   AppBar _getAppBar() {
     return AppBar(
       actions: <Widget>[
         FlatButton(
           textColor: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            List<PollOption> pollOptions = [
+              PollOption(optionindex: 0, desc: pollOption1Controller.text),
+              PollOption(optionindex: 1, desc: pollOption2Controller.text),
+              PollOption(optionindex: 2, desc: pollOption3Controller.text),
+              PollOption(optionindex: 3, desc: pollOption4Controller.text)
+            ];
+            PollData pollData = PollData(
+                title: pollTitleController.text,
+                canBeShared: this.canBeShared,
+                resultIsPublic: this.resultIsPublic,
+                options: pollOptions);
+
+            WSPollsModule.create(pollData, callback: _pollCreated);
+          },
           child: Text(
             kCreate,
             style: TextStyle(
@@ -36,8 +58,13 @@ class _NewPollScreenState extends State<NewPollScreen> {
     );
   }
 
-  TextField _getVoteTitleTextField() {
+  _pollCreated() {
+    print('poll was created');
+  }
+
+  TextField _getVoteTitleTextField({TextEditingController controller}) {
     return TextField(
+      controller: controller,
       maxLines: null,
       textCapitalization: TextCapitalization.sentences,
       inputFormatters: [
@@ -60,8 +87,10 @@ class _NewPollScreenState extends State<NewPollScreen> {
     );
   }
 
-  TextField _getOptionsTextField({int index}) {
+  TextField _getOptionsTextField(
+      {int index, TextEditingController controller}) {
     return TextField(
+      controller: controller,
       maxLines: null,
       textCapitalization: TextCapitalization.sentences,
       inputFormatters: [
@@ -142,7 +171,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
                   color: Colors.blue,
                 ),
                 Expanded(
-                  child: _getVoteTitleTextField(),
+                  child:
+                      _getVoteTitleTextField(controller: pollTitleController),
                 ),
               ],
             ),
@@ -159,7 +189,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     children: <Widget>[
                       kGetColorBox(index: 0),
                       Flexible(
-                        child: _getOptionsTextField(index: 0),
+                        child: _getOptionsTextField(
+                            index: 0, controller: pollOption1Controller),
                       ),
                     ],
                   ),
@@ -168,7 +199,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     children: <Widget>[
                       kGetColorBox(index: 1),
                       Flexible(
-                        child: _getOptionsTextField(index: 1),
+                        child: _getOptionsTextField(
+                            index: 1, controller: pollOption2Controller),
                       ),
                     ],
                   ),
@@ -177,7 +209,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     children: <Widget>[
                       kGetColorBox(index: 2),
                       Flexible(
-                        child: _getOptionsTextField(index: 2),
+                        child: _getOptionsTextField(
+                            index: 2, controller: pollOption3Controller),
                       ),
                     ],
                   ),
@@ -186,7 +219,8 @@ class _NewPollScreenState extends State<NewPollScreen> {
                     children: <Widget>[
                       kGetColorBox(index: 3),
                       Flexible(
-                        child: _getOptionsTextField(index: 3),
+                        child: _getOptionsTextField(
+                            index: 3, controller: pollOption4Controller),
                       ),
                     ],
                   ),
