@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:loudly/common_widgets.dart';
+import 'package:loudly/models/userinfo.dart';
 
 import 'package:loudly/project_enums.dart';
 
@@ -12,23 +13,34 @@ class ContactList extends StatefulWidget {
   final ContactListType contactListType;
   final String groupId;
   final ContactListAction actionRequired;
+  final List<UserInfo> selectedUsers;
 
   ContactList(
-      {@required this.contactListType, this.groupId, this.actionRequired});
+      {@required this.contactListType, this.groupId, this.actionRequired, this.selectedUsers});
 
   @override
   _ContactListState createState() => _ContactListState();
 }
 
 class _ContactListState extends State<ContactList> {
-  List<Contact> _contactList = [];
-  List<Contact> _selectedContactList = [];
-
+  List<UserInfo> _contactList = [];
+  
   @override
   void initState() {
-    getContactsData();
+    _getContactDataFromDB();
 
     super.initState();
+  }
+
+  _getContactDataFromDB() async {
+    try {
+      List<UserInfo> userList = await UserInfo.getAll();
+      setState(() {
+        if (this.mounted) _contactList.addAll(userList);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getContactsData() async {
@@ -50,12 +62,11 @@ class _ContactListState extends State<ContactList> {
         String groupDataCollection = response.body;
         var decodedData = jsonDecode(groupDataCollection);
         for (var contactData in decodedData) {
-          Contact group = new Contact(
-              id: contactData['id'],
+          UserInfo group = UserInfo(
+              userId: contactData['id'],
               name: contactData['name'],
               statusMsg: contactData['statusmsg'],
-              image: contactData['image'],
-              selected: false);
+              phoneNumber: 'dfsdfsdf');
 
           if (this.mounted == true) {
             setState(() {
@@ -69,20 +80,20 @@ class _ContactListState extends State<ContactList> {
     }
   }
 
-  void _addRemoveSelectedList(Contact contact, bool add) {
+  void _addRemoveSelectedList(UserInfo contact, bool add) {
     if (add == true) {
-      _selectedContactList.add(contact);
+      widget.selectedUsers.add(contact);
     } else {
-      _selectedContactList.remove(contact);
+      widget.selectedUsers.remove(contact);
     }
   }
 
   Widget _getParticipantsList() {
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
-            height: 4.0,
-            color: Colors.grey,
-          ),
+        height: 4.0,
+        color: Colors.grey,
+      ),
       itemCount: _contactList.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -94,14 +105,12 @@ class _ContactListState extends State<ContactList> {
             '${_contactList[index].statusMsg}',
             overflow: TextOverflow.ellipsis,
           ),
-          leading: Image.network(_contactList[index].image),
           trailing: widget.actionRequired == ContactListAction.Select
               ? Checkbox(
-                  value: _contactList[index].selected,
+                  value: _isSelected(_contactList[index]),
                   onChanged: (value) {
                     if (this.mounted) {
                       setState(() {
-                        _contactList[index].selected = value;
                         _addRemoveSelectedList(_contactList[index], value);
                       });
                     }
@@ -115,10 +124,8 @@ class _ContactListState extends State<ContactList> {
               ? () {
                   if (this.mounted) {
                     setState(() {
-                      _contactList[index].selected =
-                          !_contactList[index].selected;
-                      _addRemoveSelectedList(
-                          _contactList[index], _contactList[index].selected);
+                      _addRemoveSelectedList(_contactList[index],
+                          !_isSelected(_contactList[index]));
                     });
                   }
                 }
@@ -126,15 +133,6 @@ class _ContactListState extends State<ContactList> {
         );
       },
     );
-  }
-
-  List<Widget> _getSelectedParticipantsList() {
-    final List<Widget> widgets = [];
-
-    for (Contact contact in _selectedContactList) {
-      widgets.add(Image.network(contact.image));
-    }
-    return widgets;
   }
 
   @override
@@ -147,7 +145,7 @@ class _ContactListState extends State<ContactList> {
           fontSize: 16.0,
           keyboardType: TextInputType.text,
         ),
-        _selectedContactList.length > 0
+        widget.selectedUsers.length > 0
             ? Container(
                 height: 80.0,
                 child: ListView.separated(
@@ -156,9 +154,12 @@ class _ContactListState extends State<ContactList> {
                           height: 4.0,
                           color: Colors.grey,
                         ),
-                    itemCount: _selectedContactList.length,
+                    itemCount: widget.selectedUsers.length,
                     itemBuilder: (context, index) {
-                      return Image.network(_selectedContactList[index].image);
+                      return Text(
+                        '+',
+                        style: TextStyle(fontSize: 12.0),
+                      );
                     }),
               )
             : Container(
@@ -173,6 +174,10 @@ class _ContactListState extends State<ContactList> {
         ),
       ],
     );
+  }
+
+  _isSelected(UserInfo contact) {
+    return widget.selectedUsers.indexOf(contact) > -1 ? true : false;
   }
 }
 

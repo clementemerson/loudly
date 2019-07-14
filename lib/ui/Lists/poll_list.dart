@@ -54,7 +54,7 @@ class _PollListState extends State<PollList> {
       }
 
       setState(() {
-        _pollList.addAll(pollList);
+        if (this.mounted) _pollList.addAll(pollList);
       });
     } catch (e) {
       print(e);

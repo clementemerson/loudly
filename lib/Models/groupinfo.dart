@@ -80,7 +80,7 @@ class GroupInfo {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps =
-        await db.query(GroupInfo.tablename, orderBy: 'sorttime DESC');
+        await db.query(GroupInfo.tablename, orderBy: 'createdAt DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

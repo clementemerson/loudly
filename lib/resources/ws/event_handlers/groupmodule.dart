@@ -21,14 +21,15 @@ class WSGroupsModule {
   static const String removeUserEvent = 'removeUser';
   static const String getMyGroupsInfoEvent = 'getMyGroupsInfo';
 
-  static Future<int> create(GroupInfo groupInfo, {Function callback}) async {
+  static Future<int> create(String groupName, String description,
+      {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
           module: WSUtility.groupModule,
           event: createEvent,
           messageid: messageid,
-          data: {'name': groupInfo.name, 'desc': groupInfo.desc});
+          data: {'name': groupName, 'desc': description});
       MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
@@ -246,11 +247,11 @@ class WSGroupsModule {
     try {
       //Prepare data
       GroupInfo groupInfo = new GroupInfo(
-          groupid: genFormatMessage.message.data.groupid,
+          groupid: genFormatMessage.message.data['groupid'],
           name: sentMessage.data['name'],
           desc: sentMessage.data['desc'],
           createdBy: Globals.selfUserId,
-          createdAt: genFormatMessage.message.data.createdAt);
+          createdAt: genFormatMessage.message.data['createdAt']);
 
       await GroupInfo.insert(groupInfo);
     } catch (Exception) {

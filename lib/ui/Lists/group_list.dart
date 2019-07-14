@@ -26,8 +26,7 @@ class _GroupListState extends State<GroupList> {
     try {
       List<GroupInfo> groupList = await GroupInfo.getAll();
       setState(() {
-        _groupList.addAll(groupList);
-        print(_groupList);
+        if (this.mounted) _groupList.addAll(groupList);
       });
     } catch (e) {
       print(e);

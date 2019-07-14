@@ -14,8 +14,10 @@ TextField kUserInputTextField(
     @required String helperText,
     double fontSize,
     TextInputType keyboardType,
-    ValueChanged<String> onChanged}) {
+    ValueChanged<String> onChanged,
+    TextEditingController controller}) {
   return TextField(
+    controller: controller,
     autofocus: true,
     maxLength: maxLen ?? null,
     style: TextStyle(
