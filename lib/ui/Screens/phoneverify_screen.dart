@@ -31,7 +31,7 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
       String token = data['token'];
       Globals.selfUserId = data['user_id'];
       final storage = new FlutterSecureStorage();
-      await storage.write(key: 'credential', value: token);
+      await storage.write(key: 'jwtToken1', value: token);
       await storage.write(
           key: 'user_id', value: Globals.selfUserId.toString());
       WebSocketHelper()

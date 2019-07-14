@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   checkForCredentials() async {
     final storage = new FlutterSecureStorage();
-    final String token = await storage.read(key: 'credential');
+    final String token = await storage.read(key: 'jwtToken1');
     final String userId = await storage.read(key: 'user_id');
     if (userId != null) Globals.selfUserId = int.parse(userId);
     print(Globals.selfUserId);

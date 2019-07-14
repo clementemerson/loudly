@@ -49,7 +49,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
       appBar: _getAppBar(),
       body: Container(
         padding: EdgeInsets.all(12.0),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             kUserInputTextField(
                 helperText: 'Group Name',
@@ -109,17 +109,19 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                       ),
                       (groupName.trim().length > 0 &&
                               groupDesc.trim().length > 0)
-                          ? Row(children: [
-                              Expanded(
-                                child: _getCreateGroupButton(onPressed: () {
-                                  WSGroupsModule.create(
-                                      groupName.trim(), groupDesc.trim(),
-                                      callback: () {
-                                    Navigator.pop(context);
-                                  });
-                                }),
-                              ),
-                            ])
+                          ? Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: _getCreateGroupButton(onPressed: () {
+                                    WSGroupsModule.create(
+                                        groupName.trim(), groupDesc.trim(),
+                                        callback: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }),
+                                ),
+                              ],
+                            )
                           : Container(
                               height: 0.0,
                               width: 0.0,

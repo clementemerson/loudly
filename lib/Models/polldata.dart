@@ -15,7 +15,7 @@ List<PollData> pollInfoFromList(List<dynamic> list) =>
 String pollDataToJson(PollData data) => json.encode(data.toJson());
 
 List<String> pollOptionListToJson(List<PollOption> list) =>
-    new List<String>.from(list.map((x) => json.encode(x.toJson())));
+    new List<String>.from(list.map((x) => json.encode(x.toJsonForServer())));
 
 List<PollOption> pollOptionFromList(List<dynamic> list, int pollid) {
   List<PollOption> pollOptions = List<PollOption>();
@@ -232,6 +232,13 @@ class PollOption {
         openVotes: json["openVotes"] ?? 0,
         secretVotes: json["secretVotes"] ?? 0,
       );
+
+  Map<String, dynamic> toJsonForServer() => {
+        "optionindex": optionindex,
+        "desc": desc,
+        "openVotes": openVotes ?? 0,
+        "secretVotes": secretVotes ?? 0,
+      };
 
   Map<String, dynamic> toJson() => {
         "pollid": pollid,

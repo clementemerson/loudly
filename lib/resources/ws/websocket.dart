@@ -56,9 +56,6 @@ class WebSocketHelper {
       this.channel = IOWebSocketChannel(ws);
 
       bConnectionEstablished = true;
-      //this.channel = IOWebSocketChannel.connect(connectionString);
-      print(this.channel.toString());
-      this.channel.sink.add('data');
     } catch (Exception) {
       print(Exception);
       bConnectionEstablished = false;

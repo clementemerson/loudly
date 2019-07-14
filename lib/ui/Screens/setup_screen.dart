@@ -73,8 +73,9 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getUsersAndPollsOfGroup() async {
-    List<GroupInfo> userGroups =
-        await GroupInfo.getAll();
+    List<GroupInfo> userGroups = await GroupInfo.getAll();
+    if (userGroups.length == 0) _onCompleted();
+
     for (GroupInfo group in userGroups) {
       //The last function in this loop gets the callback function.
       Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
@@ -141,6 +142,6 @@ class _SetupScreenState extends State<SetupScreen> {
   _onCompleted() {
     print('completed');
     Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.id, (Route<dynamic> route) => false);
+        context, HomeScreen.id, (Route<dynamic> route) => false);
   }
 }
