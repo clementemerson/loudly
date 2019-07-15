@@ -99,22 +99,3 @@ class _GroupListState extends State<GroupList> {
     );
   }
 }
-
-class Group {
-  String id;
-  String name;
-  String latestPollTitle;
-  String createdBy;
-  int createdAt;
-  int updatedAt;
-  String image;
-
-  Group(
-      {this.id,
-      this.name,
-      this.latestPollTitle,
-      this.createdBy,
-      this.createdAt,
-      this.updatedAt,
-      this.image});
-}

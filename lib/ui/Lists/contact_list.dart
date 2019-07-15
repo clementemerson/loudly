@@ -145,7 +145,7 @@ class _ContactListState extends State<ContactList> {
           fontSize: 16.0,
           keyboardType: TextInputType.text,
         ),
-        widget.selectedUsers.length > 0
+        widget.selectedUsers.isNotEmpty
             ? Container(
                 height: 80.0,
                 child: ListView.separated(

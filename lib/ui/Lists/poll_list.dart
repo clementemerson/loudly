@@ -33,6 +33,7 @@ class _PollListState extends State<PollList> {
     super.initState();
   }
 
+/// Gets polls list based on [pollListType] passed.
   _getPollData() async {
     try {
       List<PollData> pollList;
@@ -61,7 +62,8 @@ class _PollListState extends State<PollList> {
     }
   }
 
-  getChartData(List<PollOption> options) {
+/// Prepares chart info
+  _getChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
 
     int colorIndex = 0;
@@ -85,7 +87,8 @@ class _PollListState extends State<PollList> {
     return votes;
   }
 
-  int getTotalVotes(List<PollOption> options) {
+/// Calculates the total no of votes casted
+  int _getTotalVotes(List<PollOption> options) {
     int sum = 0;
     for (PollOption option in options) {
       sum += option.openVotes + option.secretVotes;
@@ -109,12 +112,12 @@ class _PollListState extends State<PollList> {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            '${_pollList[index].createdBy} - ${getTotalVotes(_pollList[index].options)} Votes',
+            '${_pollList[index].createdBy} - ${_getTotalVotes(_pollList[index].options)} Votes',
           ),
           trailing: _pollList[index].voted == true
               ? AnimatedCircularChart(
                   size: const Size(80.0, 80.0),
-                  initialChartData: getChartData(_pollList[index].options),
+                  initialChartData: _getChartData(_pollList[index].options),
                   chartType: CircularChartType.Pie,
                   duration: Duration(
                     seconds: 1,
