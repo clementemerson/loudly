@@ -40,60 +40,22 @@ class DBProvider {
       version: 1,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
-
-        var baseTablesCreation = <Future>[];
-        // Create the users table
-        baseTablesCreation.add(UserInfo.createTable(db));
-        // Create the groupinfo table
-        baseTablesCreation.add(GroupInfo.createTable(db));
-        // Create the polldata table
-        baseTablesCreation.add(PollData.createTable(db));
-        // Create the polloptions table
-        baseTablesCreation.add(PollOption.createTable(db));
-
+        var baseTablesCreation = <Future>[
+          UserInfo.createTable(db), //users table
+          GroupInfo.createTable(db), //groupinfo table
+          PollData.createTable(db), //polldata table
+          PollOption.createTable(db), //polloption table
+        ];
         await Future.wait(baseTablesCreation);
 
-        // // Create the users table
-        // await UserInfo.createTable(db);
-
-        // // Create the groupinfo table
-        // await GroupInfo.createTable(db);
-
-        // // Create the polldata table
-        // await PollData.createTable(db);
-
-        // // Create the polloptions table
-        // await PollOption.createTable(db);
-
-        var dataTablesCreation = <Future>[];
-        // Create the groupusers table
-        dataTablesCreation.add(GroupUser.createTable(db));
-        // Create the grouppoll table
-        dataTablesCreation.add(GroupPoll.createTable(db));
-        // Create the userpolls table
-        dataTablesCreation.add(UserPoll.createTable(db));
-        // Create the grouppollresult table
-        dataTablesCreation.add(GroupPollResult.createTable(db));
-        // Create the uservote table
-        dataTablesCreation.add(UserVote.createTable(db)); 
-
-        await Future.wait(dataTablesCreation);   
-
-
-        // // Create the groupusers table
-        // await GroupUser.createTable(db);
-
-        // // Create the grouppoll table
-        // await GroupPoll.createTable(db);
-
-        // // Create the userpolls table
-        // await UserPoll.createTable(db);
-
-        // // Create the grouppollresult table
-        // await GroupPollResult.createTable(db);
-
-        // // Create the uservote table
-        // await UserVote.createTable(db);        
+        var dataTablesCreation = <Future>[
+          GroupUser.createTable(db),  //groupuser table
+          GroupPoll.createTable(db),  //grouppoll table
+          UserPoll.createTable(db), //userpoll table
+          GroupPollResult.createTable(db),  //grouppollresult table
+          UserVote.createTable(db), //uservote table
+        ];
+        await Future.wait(dataTablesCreation);
       },
     );
   }
