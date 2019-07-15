@@ -8,6 +8,10 @@ import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 
 class NewGroupScreen extends StatefulWidget {
   static const String id = 'newgroup_screen';
+  static const String appBarTitle = 'New Group';
+  static const String createGroup = 'Create Group';
+  static const String groupName = 'Group Name';
+  static const String groupStatus = 'Status Message';
 
   @override
   _NewGroupScreenState createState() => _NewGroupScreenState();
@@ -20,7 +24,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
 
   AppBar _getAppBar() {
     return AppBar(
-      title: Text('New Group'),
+      title: Text(NewGroupScreen.appBarTitle),
     );
   }
 
@@ -34,7 +38,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
       disabledTextColor: Colors.grey,
       onPressed: onPressed,
       child: Text(
-        'Create Group',
+        NewGroupScreen.createGroup,
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
@@ -52,7 +56,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         child: ListView(
           children: <Widget>[
             kUserInputTextField(
-                helperText: 'Group Name',
+                helperText: NewGroupScreen.groupName,
                 maxLen: 25,
                 fontSize: 24.0,
                 keyboardType: TextInputType.text,
@@ -62,7 +66,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                   });
                 }),
             kUserInputTextField(
-                helperText: 'Status Message',
+                helperText: NewGroupScreen.groupStatus,
                 maxLen: 50,
                 fontSize: 12.0,
                 keyboardType: TextInputType.text,
@@ -88,7 +92,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                 });
               },
             ),
-            _selectedUsers.length > 0
+            _selectedUsers.isNotEmpty
                 ? Column(
                     children: [
                       Container(
@@ -107,8 +111,8 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                               );
                             }),
                       ),
-                      (groupName.trim().length > 0 &&
-                              groupDesc.trim().length > 0)
+                      (groupName.trim().isNotEmpty &&
+                              groupDesc.trim().isNotEmpty)
                           ? Row(
                               children: <Widget>[
                                 Expanded(

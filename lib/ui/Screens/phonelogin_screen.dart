@@ -30,21 +30,21 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(kProjectName),
+        title: Text(projectName),
       ),
       body: Container(
         padding: const EdgeInsets.all(40.0),
         child: ListView(
           children: <Widget>[
             kUserInputTextField(
-                helperText: kEnterMobileNumberTxt,
+                helperText: enterMobileNumberTxt,
                 maxLen: 10,
                 onChanged: (value) {
                   phoneNumber = value;
                 }),
             kSizedBox_Medium,
             RaisedButton(
-              child: Text(kLoginRegister),
+              child: Text(loginRegister),
               onPressed: onPressed,
               color: Colors.blue,
               padding: EdgeInsets.all(15.0),

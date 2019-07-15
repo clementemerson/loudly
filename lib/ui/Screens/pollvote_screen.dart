@@ -9,6 +9,8 @@ import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class PollVoteScreen extends StatefulWidget {
   static const String id = 'pollvote_screen';
+  static const String secretVoting = 'Secret Voting';
+  static const String vote = 'Vote';
 
   PollVoteScreen();
 
@@ -63,7 +65,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Secret Voting',
+          PollVoteScreen.secretVoting,
           style: TextStyle(
             fontSize: 16.0,
           ),
@@ -168,7 +170,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
               });
             },
       child: Text(
-        'Vote',
+        PollVoteScreen.vote,
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
@@ -196,7 +198,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
             Row(
               children: <Widget>[
                 Icon(
-                  kProjectIcon,
+                  projectIcon,
                   size: kIcon_Small,
                   color: Colors.blue,
                 ),
@@ -232,21 +234,4 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
       ),
     );
   }
-}
-
-class Poll {
-  int id;
-  String pollTitle;
-  String option1;
-  String option2;
-  String option3;
-  String option4;
-
-  Poll(
-      {this.id,
-      this.pollTitle,
-      this.option1,
-      this.option2,
-      this.option3,
-      this.option4});
 }

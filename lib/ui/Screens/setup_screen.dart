@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/groupinfo.dart';
 import 'package:loudly/data/database.dart';
+import 'package:loudly/project_settings.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
@@ -25,7 +26,7 @@ class _SetupScreenState extends State<SetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Loudly'),
+        title: Text(projectName),
       ),
       body: Container(
         child: Center(
@@ -74,7 +75,7 @@ class _SetupScreenState extends State<SetupScreen> {
 
   _getUsersAndPollsOfGroup() async {
     List<GroupInfo> userGroups = await GroupInfo.getAll();
-    if (userGroups.length == 0) _onCompleted();
+    if (userGroups.isEmpty) _onCompleted();
 
     for (GroupInfo group in userGroups) {
       //The last function in this loop gets the callback function.
@@ -85,59 +86,6 @@ class _SetupScreenState extends State<SetupScreen> {
       await WSGroupsModule.getPolls(group.groupid, callback: callback);
     }
   }
-
-  // getGroups() async {
-  //   await WSUsersModule.getGroups(callback: _getPolls);
-  // }
-
-  // _getPolls() async {
-  //   await WSUsersModule.getPolls(callback: _getGroupsInfo);
-  // }
-
-  // _getGroupsInfo() async {
-  //   List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
-  //   List<int> groupids = List<int>();
-  //   for (GroupUser group in userGroups) {
-  //     print(group.groupid);
-  //     groupids.add(group.groupid);
-  //   }
-  //   await WSGroupsModule.getInfo(groupids, callback: _getUsersAndPollsOfGroup);
-  // }
-
-  // _getUsersAndPollsOfGroup() async {
-  //   List<GroupUser> userGroups = await GroupUser.getGroupsOfUser(Globals.self_userid);
-  //   for (GroupUser group in userGroups) {
-  //     //The last function in this loop gets the callback function.
-  //     Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
-  //         ? _getUsersInfo()
-  //         : null;
-  //     await WSGroupsModule.getUsersOfGroup(group.groupid);
-  //     await WSGroupsModule.getPolls(group.groupid, callback: callback);
-  //   }
-  // }
-
-  // _getUsersInfo() async {
-  //   List<GroupUser> userGroups = await GroupUser.getAll();
-  //   Set<int> userids = new Set<int>();
-  //   userGroups.forEach((userGroup) {
-  //     userids.add(userGroup.userId);
-  //   });
-
-  //   await WSUsersModule.getInfo(userids.toList(), callback: _getPollsInfo);
-  // }
-
-  // _getPollsInfo() async {
-  //   List<UserPoll> polllist = await UserPoll.getAll();
-  //   Set<int> pollids = new Set<int>();
-  //   polllist.forEach((poll) {
-  //     pollids.add(poll.pollid);
-  //   });
-
-  //   List<int> groupPollList = await GroupPoll.getAll();
-  //   pollids.addAll(groupPollList);
-
-  //   await WSPollsModule.getInfo(pollids.toList(), callback: _onCompleted);
-  // }
 
   _onCompleted() {
     print('completed');

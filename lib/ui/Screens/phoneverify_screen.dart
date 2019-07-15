@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:loudly/resources/phone_services/secure_storage.dart';
 
 import 'package:loudly/resources/rest/login_service.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -30,10 +30,9 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
           await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
       String token = data['token'];
       Globals.selfUserId = data['user_id'];
-      final storage = new FlutterSecureStorage();
-      await storage.write(key: 'jwtToken1', value: token);
-      await storage.write(
-          key: 'user_id', value: Globals.selfUserId.toString());
+      await SecureStorage().write(key: SecureStorage.jwtToken, value: token);
+      await SecureStorage().write(key: SecureStorage.selfUser, value: Globals.selfUserId.toString());
+      
       WebSocketHelper()
           .initConnection(token: token, initCallback: setupWebSocketConnection);
 
@@ -62,21 +61,21 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(kProjectName),
+        title: Text(projectName),
       ),
       body: Container(
         padding: const EdgeInsets.all(40.0),
         child: ListView(
           children: <Widget>[
             kUserInputTextField(
-                helperText: kEnterOTPTxt,
+                helperText: enterOTPTxt,
                 maxLen: 6,
                 onChanged: (value) {
                   otp = value;
                 }),
             kSizedBox_Medium,
             RaisedButton(
-              child: Text(kVerifyOTP),
+              child: Text(verifyOTP),
               onPressed: onPressed,
               // onPressed: () {
               //   Navigator.of(context).pushNamedAndRemoveUntil(

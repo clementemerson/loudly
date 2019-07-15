@@ -12,6 +12,10 @@ import 'package:loudly/ui/widgets/votetitle.dart';
 
 class PollResultScreen extends StatefulWidget {
   static const String id = 'pollresult_screen';
+  static const String appBarTitle = 'Poll Result';
+  static const String resultsFromGroup = 'Poll results from your groups';
+  static const String consolidated = 'Consolidated';
+  static const String votes = 'Votes';
 
   @override
   _PollResultScreenState createState() => _PollResultScreenState();
@@ -21,7 +25,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
   PollData pollData;
 
   AppBar _getAppBar() {
-    return AppBar(title: Text('Poll Result'), actions: <Widget>[
+    return AppBar(title: Text(PollResultScreen.appBarTitle), actions: <Widget>[
       IconButton(
         icon: Icon(
           Icons.reply,
@@ -89,7 +93,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
             Row(
               children: <Widget>[
                 Icon(
-                  kProjectIcon,
+                  projectIcon,
                   size: kIcon_Small,
                   color: Colors.blue,
                 ),
@@ -108,7 +112,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
             ),
             Center(
               child: Text(
-                'Consolidated - ' + getTotalVotes(pollData.options).toString() + ' Votes',
+                '${PollResultScreen.consolidated} - ${getTotalVotes(pollData.options)} ${PollResultScreen.votes}',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),
@@ -138,7 +142,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
             ),
             Center(
               child: Text(
-                'Poll results from your groups',
+                PollResultScreen.resultsFromGroup,
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),

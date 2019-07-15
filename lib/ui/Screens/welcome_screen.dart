@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:loudly/resources/phone_services/secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
@@ -25,9 +25,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   checkForCredentials() async {
-    final storage = new FlutterSecureStorage();
-    final String token = await storage.read(key: 'jwtToken1');
-    final String userId = await storage.read(key: 'user_id');
+    final String token =  await SecureStorage().read(key: SecureStorage.jwtToken);
+    final String userId =  await SecureStorage().read(key: SecureStorage.selfUser);
+    
     if (userId != null) Globals.selfUserId = int.parse(userId);
     print(Globals.selfUserId);
 
@@ -56,12 +56,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
-              kProjectIcon,
+              projectIcon,
               size: kIcon_Big,
               color: Colors.blue,
             ),
             Text(
-              kProjectName,
+              projectName,
               style: TextStyle(
                 fontSize: kText_Big,
                 color: Colors.blue,

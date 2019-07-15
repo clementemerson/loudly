@@ -10,6 +10,9 @@ import 'package:loudly/project_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
+  static const String homeTabTitle = 'HOME';
+  static const String groupsTabTitle = 'GROUPS';
+  static const String myPollsTabTitle = 'MY POLLS';
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -29,12 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(text: 'HOME'),
-              Tab(text: 'GROUPS'),
-              Tab(text: 'MY POLLS'),
+              Tab(text: HomeScreen.homeTabTitle),
+              Tab(text: HomeScreen.groupsTabTitle),
+              Tab(text: HomeScreen.myPollsTabTitle),
             ],
           ),
-          title: Text(kProjectName),
+          title: Text(projectName),
           actions: <Widget>[
             kSearchWidget(context),
             kMainScreenPopupMenu(context),

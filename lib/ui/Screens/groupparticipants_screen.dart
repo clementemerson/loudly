@@ -5,6 +5,7 @@ import 'package:loudly/ui/Lists/contact_list.dart';
 
 class GroupParticipantsScreen extends StatefulWidget {
   static const String id = 'grpparticipants_screen';
+  static const String appBarTitle = 'Add or Remove Group Members';
 
   @override
   _GroupParticipantsScreenState createState() =>
@@ -12,15 +13,17 @@ class GroupParticipantsScreen extends StatefulWidget {
 }
 
 class _GroupParticipantsScreenState extends State<GroupParticipantsScreen> {
-  final List<UserInfo> _selectedUsers = List<UserInfo>();
+  
 
+  final List<UserInfo> _selectedUsers = List<UserInfo>();
+  
   AppBar _getAppBar() {
     return AppBar(
       leading: IconButton(
         icon: Icon(Icons.chevron_left),
         onPressed: () => Navigator.pop(context, _selectedUsers),
       ),
-      title: Text('Add or Remove Group Members'),
+      title: Text(GroupParticipantsScreen.appBarTitle),
     );
   }
 

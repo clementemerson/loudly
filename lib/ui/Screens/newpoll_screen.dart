@@ -10,6 +10,8 @@ import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class NewPollScreen extends StatefulWidget {
   static const String id = 'newpoll_screen';
+  static const String canShareThisPoll = 'Anyone can share this poll in their groups';
+  static const String pollResultIsPublic = 'Everyone can see the poll results';
 
   @override
   _NewPollScreenState createState() => _NewPollScreenState();
@@ -49,7 +51,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
             });
           },
           child: Text(
-            kCreate,
+            createPoll,
             style: TextStyle(
               fontSize: 20.0,
               color: Colors.blue,
@@ -70,7 +72,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
         LengthLimitingTextInputFormatter(140),
       ],
       decoration: InputDecoration(
-        hintText: kAskSomething,
+        hintText: askSomething,
         hintStyle: TextStyle(
           color: Colors.grey,
         ),
@@ -107,7 +109,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
       children: <Widget>[
         Expanded(
           child: Text(
-            'Anyone can share this poll in their groups',
+            NewPollScreen.canShareThisPoll,
             style: TextStyle(
               fontSize: 16.0,
             ),
@@ -132,7 +134,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
       children: <Widget>[
         Expanded(
           child: Text(
-            'Everyone can see the poll results',
+            NewPollScreen.pollResultIsPublic,
             style: TextStyle(
               fontSize: 16.0,
             ),
@@ -165,7 +167,7 @@ class _NewPollScreenState extends State<NewPollScreen> {
             Row(
               children: <Widget>[
                 Icon(
-                  kProjectIcon,
+                  projectIcon,
                   size: kIcon_Small,
                   color: Colors.blue,
                 ),
