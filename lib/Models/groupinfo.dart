@@ -17,6 +17,12 @@ String groupInfoToJson(GroupInfo data) => json.encode(data.toJson());
 
 class GroupInfo {
   static final String tablename = 'groupinfo';
+  static final String columnGroupId = 'groupid';
+  static final String columnName = 'name';
+  static final String columnDesc = 'desc';  
+  static final String columnCreatedBy = 'createdby';
+  static final String columnCreatedAt = 'createdAt';
+  static final String columnSorttime = 'sorttime';
 
   int groupid;
   String name;
@@ -33,30 +39,30 @@ class GroupInfo {
   });
 
   factory GroupInfo.fromJson(Map<String, dynamic> json) => new GroupInfo(
-        groupid: json["groupid"],
-        name: json["name"],
-        desc: json["desc"],
-        createdBy: json["createdby"],
-        createdAt: json["createdAt"],
+        groupid: json[GroupInfo.columnGroupId],
+        name: json[GroupInfo.columnName],
+        desc: json[GroupInfo.columnDesc],
+        createdBy: json[GroupInfo.columnCreatedBy],
+        createdAt: json[GroupInfo.columnCreatedAt],
       );
 
   Map<String, dynamic> toJson() => {
-        "groupid": groupid,
-        "name": name,
-        "desc": desc,
-        "createdby": createdBy,
-        "createdAt": createdAt,
+        GroupInfo.columnGroupId: groupid,
+        GroupInfo.columnName: name,
+        GroupInfo.columnDesc: desc,
+        GroupInfo.columnCreatedBy: createdBy,
+        GroupInfo.columnCreatedAt: createdAt,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the groupinfo table
     await db.execute('''CREATE TABLE ${GroupInfo.tablename}(
-          groupid INTEGER PRIMARY KEY, 
-          name TEXT DEFAULT '',
-          desc TEXT DEFAULT '',
-          createdby INTEGER DEFAULT -1,
-          createdAt INTEGER DEFAULT 0,
-          sorttime INTEGER DEFAULT 0
+          ${GroupInfo.columnGroupId} INTEGER PRIMARY KEY, 
+          ${GroupInfo.columnName} TEXT DEFAULT '',
+          ${GroupInfo.columnDesc} TEXT DEFAULT '',
+          ${GroupInfo.columnCreatedBy} INTEGER DEFAULT -1,
+          ${GroupInfo.columnCreatedAt} INTEGER DEFAULT 0,
+          ${GroupInfo.columnSorttime} INTEGER DEFAULT 0
         )''');
   }
 
@@ -80,7 +86,7 @@ class GroupInfo {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps =
-        await db.query(GroupInfo.tablename, orderBy: 'createdAt DESC');
+        await db.query(GroupInfo.tablename, orderBy: '${GroupInfo.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -95,8 +101,8 @@ class GroupInfo {
     // Update the given Dog.
     await db.update(
       GroupInfo.tablename,
-      {'name': name},
-      where: "groupid = ?",
+      {GroupInfo.columnName: name},
+      where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [groupid],
     );
   }
@@ -108,8 +114,8 @@ class GroupInfo {
     // Update the given Dog.
     await db.update(
       GroupInfo.tablename,
-      {'desc': desc},
-      where: "groupid = ?",
+      {GroupInfo.columnDesc: desc},
+      where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [groupid],
     );
   }
@@ -121,7 +127,7 @@ class GroupInfo {
     // Remove the Dog from the database.
     await db.delete(
       GroupInfo.tablename,
-      where: "groupid = ?",
+      where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [id],
     );
   }
@@ -133,7 +139,7 @@ class GroupInfo {
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
       GroupInfo.tablename,
-      where: "groupid = ?",
+      where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [id],
     );
 
@@ -142,7 +148,7 @@ class GroupInfo {
       return GroupInfo.fromJson(maps[i]);
     });
 
-    if (groups.length > 0)
+    if (groups.isNotEmpty)
       return groups[0];
     else
       return null;
@@ -155,8 +161,8 @@ class GroupInfo {
     // Update the given Dog.
     await db.update(
       GroupInfo.tablename,
-      {'sorttime': DateTime.now().millisecondsSinceEpoch},
-      where: "groupid = ?",
+      {GroupInfo.columnSorttime: DateTime.now().millisecondsSinceEpoch},
+      where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [id],
     );
   }

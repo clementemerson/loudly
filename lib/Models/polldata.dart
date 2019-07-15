@@ -124,7 +124,7 @@ class PollData {
     List<Map<String, dynamic>> maps =
         await db.query(PollData.tablename, orderBy: 'createdAt DESC');
 
-    List<PollData> pollList = List<PollData>();
+    List<PollData> pollList = [];
     for (var poll in maps) {
       pollList.add(PollData.fromLocalDB(
           poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
@@ -141,7 +141,7 @@ class PollData {
     List<Map<String, dynamic>> maps = await db.query(PollData.tablename,
         where: 'createdby = ?', whereArgs: [userId], orderBy: 'createdAt DESC');
 
-    List<PollData> pollList = List<PollData>();
+    List<PollData> pollList = [];
     for (var poll in maps) {
       pollList.add(PollData.fromLocalDB(
           poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
@@ -151,7 +151,8 @@ class PollData {
   }
 
   static Future<List<PollData>> getPollDataForPolls(List<int> pollids) async {
-    if (pollids?.length == 0) return List<PollData>();
+    if (pollids == null || (pollids != null && pollids.isEmpty))
+      return List<PollData>();
 
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
@@ -162,7 +163,7 @@ class PollData {
         ")";
     List<Map<String, dynamic>> maps = await db.rawQuery(query);
 
-    List<PollData> pollList = List<PollData>();
+    List<PollData> pollList = [];
     for (var poll in maps) {
       pollList.add(PollData.fromLocalDB(
           poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
@@ -186,7 +187,7 @@ class PollData {
       return PollData.fromJson(maps[i]);
     });
 
-    if (polls.length > 0)
+    if (polls.isNotEmpty)
       return polls[0];
     else
       return null;

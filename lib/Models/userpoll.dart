@@ -122,12 +122,12 @@ class UserPoll {
     );
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
-    List<UserPoll> data = List.generate(maps.length, (i) {
+    List<UserPoll> userPolls = List.generate(maps.length, (i) {
       return UserPoll.fromJson(maps[i]);
     });
 
-    if (data.length > 0)
-      return data[0];
+    if (userPolls.isNotEmpty)
+      return userPolls[0];
     else
       return null;
   }

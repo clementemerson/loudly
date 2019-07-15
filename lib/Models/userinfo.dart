@@ -3,9 +3,7 @@
 //     final userInfo = userInfoFromJson(jsonString);
 
 import 'dart:convert';
-
 import 'package:loudly/data/database.dart';
-
 import 'package:sqflite/sqflite.dart';
 
 List<UserInfo> userInfoFromJson(String str) =>
@@ -19,6 +17,13 @@ String userInfoToJson(List<UserInfo> data) =>
 
 class UserInfo {
   static final String tablename = 'users';
+
+  static final String columnUserId = 'user_id';
+  static final String columnName = 'name';
+  static final String columnStatusMsg = 'statusmsg';
+  static final String columnPhoneNumber = 'phonenumber';
+  static final String columnCreatedAt = 'createdAt';  
+  static final String columnUpdatedAt = 'updatedAt';
 
   int userId;
   String name;
@@ -37,31 +42,31 @@ class UserInfo {
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => new UserInfo(
-      userId: json["user_id"],
-      name: json["name"],
-      statusMsg: json["statusmsg"],
-      phoneNumber: json["phonenumber"],
-      createdAt: json["createdAt"],
-      updatedAt: json["updatedAt"]);
+      userId: json[UserInfo.columnUserId],
+      name: json[UserInfo.columnName],
+      statusMsg: json[UserInfo.columnStatusMsg],
+      phoneNumber: json[UserInfo.columnPhoneNumber],
+      createdAt: json[UserInfo.columnCreatedAt],
+      updatedAt: json[UserInfo.columnUpdatedAt]);
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
-        "name": name,
-        "statusmsg": statusMsg,
-        "phonenumber": phoneNumber,
-        "createdAt": createdAt,
-        "updatedAt": updatedAt,
+        UserInfo.columnUserId: userId,
+        UserInfo.columnName: name,
+        UserInfo.columnStatusMsg: statusMsg,
+        UserInfo.columnPhoneNumber: phoneNumber,
+        UserInfo.columnCreatedAt: createdAt,
+        UserInfo.columnUpdatedAt: updatedAt,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the users table
     await db.execute('''CREATE TABLE ${UserInfo.tablename}(
-      user_id INTEGER PRIMARY KEY,
-      name TEXT DEFAULT '',
-      statusmsg TEXT DEFAULT '',
-      phonenumber TEXT DEFAULT '',
-      createdAt INTEGER DEFAULT 0,
-      updatedAt INTEGER DEFAULT 0
+      ${UserInfo.columnUserId} INTEGER PRIMARY KEY,
+      ${UserInfo.columnName} TEXT DEFAULT '',
+      ${UserInfo.columnStatusMsg} TEXT DEFAULT '',
+      ${UserInfo.columnPhoneNumber} TEXT DEFAULT '',
+      ${UserInfo.columnCreatedAt} INTEGER DEFAULT 0,
+      ${UserInfo.columnUpdatedAt} INTEGER DEFAULT 0
     )''');
   }
 
@@ -88,8 +93,7 @@ class UserInfo {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps =
-        await db.query(UserInfo.tablename);
+    final List<Map<String, dynamic>> maps = await db.query(UserInfo.tablename);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -105,7 +109,7 @@ class UserInfo {
     await db.update(
       UserInfo.tablename,
       data.toJson(),
-      where: "user_id = ?",
+      where: '${UserInfo.columnUserId} = ?',
       whereArgs: [data.userId],
     );
   }
@@ -117,7 +121,7 @@ class UserInfo {
     // Remove the Dog from the database.
     await db.delete(
       UserInfo.tablename,
-      where: "user_id = ?",
+      where: '${UserInfo.columnUserId} = ?',
       whereArgs: [id],
     );
   }
@@ -129,7 +133,7 @@ class UserInfo {
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
       UserInfo.tablename,
-      where: "user_id = ?",
+      where: '${UserInfo.columnUserId} = ?',
       whereArgs: [id],
     );
 
@@ -138,7 +142,7 @@ class UserInfo {
       return UserInfo.fromJson(maps[i]);
     });
 
-    if (users.length > 0)
+    if (users.isNotEmpty)
       return users[0];
     else
       return null;
