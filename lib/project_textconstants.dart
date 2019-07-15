@@ -1,17 +1,20 @@
-const String kEnterMobileNumberTxt = 'Enter your mobile number';
-const String kEnterOTPTxt = 'Enter OTP';
-const String kLoginRegister = 'Login / Register';
-const String kVerifyOTP = 'Verify OTP';
-const String kNewPoll = 'New Poll';
-const String kNewCountPoll = 'New Count Poll';
-const String kCreateNewGroup = 'New Group';
-const String kEditGroup = 'Edit Group';
-const String kSettings = 'Settings';
+const String enterMobileNumberTxt = 'Enter your mobile number';
+const String enterOTPTxt = 'Enter OTP';
+const String loginRegister = 'Login / Register';
+const String verifyOTP = 'Verify OTP';
+const String newPoll = 'New Poll';
+const String newCountPoll = 'New Count Poll';
+const String createNewGroup = 'New Group';
+const String editGroup = 'Edit Group';
+const String settings = 'Settings';
 
 //Text constanst poll
-const String kAskSomething = 'Ask Something';
-const String kOption1 = 'Option 1';
-const String kOption2 = 'Option 2';
-const String kOption3 = 'Option 3';
-const String kOption4 = 'Option 4';
-const String kCreate = 'Create Poll';
+const String askSomething = 'Ask Something';
+const String option1 = 'Option 1';
+const String option2 = 'Option 2';
+const String option3 = 'Option 3';
+const String option4 = 'Option 4';
+const String createPoll = 'Create Poll';
+
+//Exception
+const String failedGetContactsFromPhone = 'Failed to get contacts from phone';

@@ -22,10 +22,10 @@ class OptionData {
 }
 
 List<OptionData> optionsList = [
-  OptionData(optionText: kOption1, color: Colors.redAccent),
-  OptionData(optionText: kOption2, color: Colors.greenAccent),
-  OptionData(optionText: kOption3, color: Colors.blueAccent),
-  OptionData(optionText: kOption4, color: Colors.yellow),
+  OptionData(optionText: option1, color: Colors.redAccent),
+  OptionData(optionText: option2, color: Colors.greenAccent),
+  OptionData(optionText: option3, color: Colors.blueAccent),
+  OptionData(optionText: option4, color: Colors.yellow),
 ];
 
 Color kGetOptionColor(int index) {
@@ -39,5 +39,5 @@ String kGetOptionText(int index) {
   try {
     return optionsList[index].optionText;
   } catch (e) {}
-  return kOption1;
+  return option1;
 }

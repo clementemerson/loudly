@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 
-const IconData kProjectIcon = Icons.poll;
-const String kProjectName = 'Loudly';
+const IconData projectIcon = Icons.poll;
+const String projectName = 'Loudly';

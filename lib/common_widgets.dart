@@ -48,17 +48,17 @@ Widget kMainScreenPopupMenu(BuildContext context) {
     icon: Icon(Icons.more_vert),
     itemBuilder: (context) => [
           PopupMenuItem(
-            child: Text(kNewPoll),
+            child: Text(newPoll),
             value: PopupMenuValue.NewPoll,
           ),
           // PopupMenuItem(
           //     child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
           PopupMenuItem(
-            child: Text(kCreateNewGroup),
+            child: Text(createNewGroup),
             value: PopupMenuValue.CreateNewGroup,
           ),
           PopupMenuItem(
-            child: Text(kSettings),
+            child: Text(settings),
             value: PopupMenuValue.Settings,
           ),
         ],
@@ -99,17 +99,17 @@ Widget kGroupScreenPopupMenu(BuildContext context) {
     icon: Icon(Icons.more_vert),
     itemBuilder: (context) => [
           PopupMenuItem(
-            child: Text(kNewPoll),
+            child: Text(newPoll),
             value: PopupMenuValue.NewPoll,
           ),
           // PopupMenuItem(
           //     child: Text(kNewCountPoll), value: PopupMenuValue.NewCountPoll),
           PopupMenuItem(
-            child: Text(kEditGroup),
+            child: Text(editGroup),
             value: PopupMenuValue.EditGroup,
           ),
           PopupMenuItem(
-            child: Text(kSettings),
+            child: Text(settings),
             value: PopupMenuValue.Settings,
           ),
         ],
