@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:loudly/models/groupinfo.dart';
 import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/models/groupuser.dart';
+import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -35,7 +36,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -52,7 +53,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -69,7 +70,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -86,7 +87,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -108,7 +109,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -126,7 +127,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -144,7 +145,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -167,7 +168,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -185,7 +186,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -201,7 +202,7 @@ class WSGroupsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -255,7 +256,7 @@ class WSGroupsModule {
 
       await GroupInfo.insert(groupInfo);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -268,7 +269,7 @@ class WSGroupsModule {
         GroupInfo.insert(groupInfo);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -281,7 +282,7 @@ class WSGroupsModule {
         GroupUser.insert(groupUser);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -294,7 +295,7 @@ class WSGroupsModule {
         GroupPoll.insert(groupPoll);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -310,7 +311,7 @@ class WSGroupsModule {
 
       GroupUser.insert(data);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -321,7 +322,7 @@ class WSGroupsModule {
       GroupInfo.updateTitle(
           sentMessage.data['groupid'], sentMessage.data['name']);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -332,7 +333,7 @@ class WSGroupsModule {
       GroupInfo.updateDesc(
           sentMessage.data['groupid'], sentMessage.data['desc']);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -343,7 +344,7 @@ class WSGroupsModule {
       GroupUser.updatePermission(sentMessage.data['groupid'],
           sentMessage.data['user_id'], sentMessage.data['permission']);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -353,7 +354,7 @@ class WSGroupsModule {
       GroupUser.delete(
           sentMessage.data['groupid'], sentMessage.data['user_id']);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -366,7 +367,7 @@ class WSGroupsModule {
         await GroupInfo.insert(groupInfo);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 }

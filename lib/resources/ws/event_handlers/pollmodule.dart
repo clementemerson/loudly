@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:loudly/models/grouppoll.dart';
 import 'package:loudly/models/polldata.dart';
+import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -38,7 +39,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -55,7 +56,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -73,7 +74,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -95,7 +96,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -113,7 +114,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -131,7 +132,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -149,7 +150,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -167,7 +168,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -184,7 +185,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -200,7 +201,7 @@ class WSPollsModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -257,7 +258,7 @@ class WSPollsModule {
 
       PollData.insert(data);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -272,7 +273,7 @@ class WSPollsModule {
           archived: false);
       GroupPoll.insert(data);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -285,7 +286,7 @@ class WSPollsModule {
         await PollData.insert(pollInfo);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -293,7 +294,7 @@ class WSPollsModule {
     try {
       //Todo:
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -302,7 +303,7 @@ class WSPollsModule {
     try {
       //Todo:
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -311,7 +312,7 @@ class WSPollsModule {
     try {
       //Todo:
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -320,7 +321,7 @@ class WSPollsModule {
     try {
       //Todo:
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -329,7 +330,7 @@ class WSPollsModule {
     try {
       //Todo:
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -338,7 +339,7 @@ class WSPollsModule {
     try {
       PollData.delete(sentMessage.data['pollid']);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -351,7 +352,7 @@ class WSPollsModule {
         await PollData.insert(pollInfo);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:loudly/models/groupuser.dart';
 import 'package:loudly/models/userinfo.dart';
 import 'package:loudly/models/userpoll.dart';
+import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -32,7 +33,7 @@ class WSUsersModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -48,7 +49,7 @@ class WSUsersModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -64,7 +65,7 @@ class WSUsersModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -81,7 +82,7 @@ class WSUsersModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -98,7 +99,7 @@ class WSUsersModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -116,7 +117,7 @@ class WSUsersModule {
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
-      throw Exception('Failed to send message to server via websocket');
+      throw Exception(sendingWSMessageFailed);
     }
   }
 
@@ -154,7 +155,7 @@ class WSUsersModule {
         await UserInfo.insert(userInfo);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -167,7 +168,7 @@ class WSUsersModule {
         await GroupUser.insert(groupUser);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -180,7 +181,7 @@ class WSUsersModule {
         await UserPoll.insert(userPoll);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -192,7 +193,7 @@ class WSUsersModule {
         await UserInfo.insert(userInfo);
       }
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -206,7 +207,7 @@ class WSUsersModule {
       };
       await UserInfo.update(data);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 
@@ -219,7 +220,7 @@ class WSUsersModule {
       };
       await UserInfo.update(data);
     } catch (Exception) {
-      throw Exception('Failed to parse message from server');
+      throw Exception(parsingWSMessageFailed);
     }
   }
 }
