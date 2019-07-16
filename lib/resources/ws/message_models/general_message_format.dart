@@ -9,6 +9,10 @@ GeneralMessageFormat generalMessageFormatFromJson(String str) => GeneralMessageF
 String generalMessageFormatToJson(GeneralMessageFormat data) => json.encode(data.toJson());
 
 class GeneralMessageFormat {
+  static final String jsonStatus = 'Status';
+  static final String jsonDetails = 'Details';
+  static final String jsonSuccess = 'Success';
+
     String status;
     Message message;
 
@@ -18,17 +22,22 @@ class GeneralMessageFormat {
     });
 
     factory GeneralMessageFormat.fromJson(Map<String, dynamic> json) => new GeneralMessageFormat(
-        status: json["Status"],
-        message: Message.fromJson(json["Details"]),
+        status: json[GeneralMessageFormat.jsonStatus],
+        message: Message.fromJson(json[GeneralMessageFormat.jsonDetails]),
     );
 
     Map<String, dynamic> toJson() => {
-        "Status": status,
-        "Details": message.toJson(),
+        GeneralMessageFormat.jsonStatus: status,
+        GeneralMessageFormat.jsonDetails: message.toJson(),
     };
 }
 
 class Message {
+  static final String jsonModule = 'module';
+  static final String jsonEvent = 'event';
+  static final String jsonMessageId = 'messageid';
+  static final String jsonData = 'data';
+
     String module;
     String event;
     int messageid;
@@ -42,16 +51,16 @@ class Message {
     });
 
     factory Message.fromJson(Map<String, dynamic> json) => new Message(
-        module: json["module"],
-        event: json["event"],
-        messageid: json["messageid"],
-        data: json["data"],
+        module: json[Message.jsonModule],
+        event: json[Message.jsonEvent],
+        messageid: json[Message.jsonMessageId],
+        data: json[Message.jsonData],
     );
 
     Map<String, dynamic> toJson() => {
-        "module": module,
-        "event": event,
-        "messageid": messageid,
-        "data": data,
+        Message.jsonModule: module,
+        Message.jsonEvent: event,
+        Message.jsonMessageId: messageid,
+        Message.jsonData: data,
     };
 }
