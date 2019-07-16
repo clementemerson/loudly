@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 
 import 'network_helper.dart';
 
@@ -12,7 +13,7 @@ class LoginService {
       String requestUrl = serverName + '/getotp/$phoneNumber';
 
       dynamic data = await RestAPIHelper.getData(url: requestUrl);
-      if (data != null && data['Status'] == 'Success') {
+      if (data != null && data[GeneralMessageFormat.jsonStatus] == 'Success') {
         sessionId = data['Details'];
       } else {
         throw Exception('OTP not generated');
@@ -32,7 +33,7 @@ class LoginService {
       dynamic body = {"sessionid": sessionId, "otp": otp};
 
       dynamic data = await RestAPIHelper.postData(url: requestUrl, body: body);
-      if (data != null && data['Status'] == 'Success') {
+      if (data != null && data[GeneralMessageFormat.jsonStatus] == 'Success') {
         result = data['Details'];
       } else {
         throw Exception('Failed to verify OTP');
