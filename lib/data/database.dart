@@ -16,6 +16,7 @@ class DBProvider {
   DBProvider._();
 
   static final DBProvider db = DBProvider._();
+  static final String dbFile = 'loud01.db';
   Database _database;
 
   Future<Database> get database async {
@@ -32,7 +33,7 @@ class DBProvider {
     // and only our app, are stored. Files in this directory are deleted
     // when the app is deleted.
     Directory documentsDir = await getApplicationDocumentsDirectory();
-    String path = join(documentsDir.path, 'loud01.db');
+    String path = join(documentsDir.path, DBProvider.dbFile);
     print(path);
 
     return await openDatabase(
