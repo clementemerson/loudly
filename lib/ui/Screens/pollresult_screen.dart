@@ -11,11 +11,11 @@ import 'package:loudly/ui/widgets/voteshare.dart';
 import 'package:loudly/ui/widgets/votetitle.dart';
 
 class PollResultScreen extends StatefulWidget {
-  static const String id = 'pollresult_screen';
-  static const String appBarTitle = 'Poll Result';
-  static const String resultsFromGroup = 'Poll results from your groups';
-  static const String consolidated = 'Consolidated';
-  static const String votes = 'Votes';
+  static final String id = 'pollresult_screen';
+  static final String appBarTitle = 'Poll Result';
+  static final String resultsFromGroup = 'Poll results from your groups';
+  static final String consolidated = 'Consolidated';
+  static final String votes = 'Votes';
 
   @override
   _PollResultScreenState createState() => _PollResultScreenState();

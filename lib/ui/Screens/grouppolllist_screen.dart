@@ -5,7 +5,7 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
 
 class GroupPollListScreen extends StatelessWidget {
-  static const String id = 'grouppolllist_screen';
+  static final String id = 'grouppolllist_screen';
 
   @override
   Widget build(BuildContext context) {

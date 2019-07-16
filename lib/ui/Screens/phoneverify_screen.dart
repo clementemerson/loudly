@@ -12,7 +12,7 @@ import 'package:loudly/ui/Screens/setup_screen.dart';
 import 'package:loudly/ui/globals.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
-  static const String id = 'phoneverify_screen';
+  static final String id = 'phoneverify_screen';
 
   PhoneVerifyScreen();
 
@@ -23,6 +23,12 @@ class PhoneVerifyScreen extends StatefulWidget {
 class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
   String sessionId;
   String otp;
+
+  AppBar _getAppBar() {
+    return AppBar(
+      title: Text(projectName),
+    );
+  }
 
   onPressed() async {
     try {
@@ -60,9 +66,7 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(projectName),
-      ),
+      appBar: _getAppBar(),
       body: Container(
         padding: const EdgeInsets.all(40.0),
         child: ListView(

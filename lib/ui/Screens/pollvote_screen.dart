@@ -8,9 +8,9 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class PollVoteScreen extends StatefulWidget {
-  static const String id = 'pollvote_screen';
-  static const String secretVoting = 'Secret Voting';
-  static const String vote = 'Vote';
+  static final String id = 'pollvote_screen';
+  static final String secretVoting = 'Secret Voting';
+  static final String vote = 'Vote';
 
   PollVoteScreen();
 

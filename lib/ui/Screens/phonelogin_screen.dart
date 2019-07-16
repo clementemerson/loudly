@@ -7,7 +7,7 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
 
 class PhoneLoginScreen extends StatefulWidget {
-  static const String id = 'phonelogin_screen';
+  static final String id = 'phonelogin_screen';
 
   @override
   _PhoneLoginScreenState createState() => _PhoneLoginScreenState();
@@ -15,6 +15,12 @@ class PhoneLoginScreen extends StatefulWidget {
 
 class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   String phoneNumber;
+
+  AppBar _getAppBar() {
+    return AppBar(
+      title: Text(projectName),
+    );
+  }
 
   onPressed() async {
     phoneNumber = '+91$phoneNumber';
@@ -29,9 +35,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(projectName),
-      ),
+      appBar: _getAppBar(),
       body: Container(
         padding: const EdgeInsets.all(40.0),
         child: ListView(

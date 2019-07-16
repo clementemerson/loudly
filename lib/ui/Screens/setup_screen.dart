@@ -8,7 +8,7 @@ import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
 
 class SetupScreen extends StatefulWidget {
-  static const String id = 'setup_screen';
+  static final String id = 'setup_screen';
 
   @override
   _SetupScreenState createState() => _SetupScreenState();
@@ -22,12 +22,16 @@ class _SetupScreenState extends State<SetupScreen> {
     startSettingUp();
   }
 
+  AppBar _getAppBar() {
+    return AppBar(
+      title: Text(projectName),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(projectName),
-      ),
+      appBar: _getAppBar(),
       body: Container(
         child: Center(
           child: Text('Setup'),

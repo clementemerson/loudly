@@ -4,8 +4,8 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/ui/Lists/contact_list.dart';
 
 class GroupParticipantsScreen extends StatefulWidget {
-  static const String id = 'grpparticipants_screen';
-  static const String appBarTitle = 'Add or Remove Group Members';
+  static final String id = 'grpparticipants_screen';
+  static final String appBarTitle = 'Add or Remove Group Members';
 
   @override
   _GroupParticipantsScreenState createState() =>
@@ -13,8 +13,6 @@ class GroupParticipantsScreen extends StatefulWidget {
 }
 
 class _GroupParticipantsScreenState extends State<GroupParticipantsScreen> {
-  
-
   final List<UserInfo> _selectedUsers = List<UserInfo>();
   
   AppBar _getAppBar() {

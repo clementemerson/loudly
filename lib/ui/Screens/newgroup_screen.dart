@@ -7,11 +7,11 @@ import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 
 class NewGroupScreen extends StatefulWidget {
-  static const String id = 'newgroup_screen';
-  static const String appBarTitle = 'New Group';
-  static const String createGroup = 'Create Group';
-  static const String groupName = 'Group Name';
-  static const String groupStatus = 'Status Message';
+  static final String id = 'newgroup_screen';
+  static final String appBarTitle = 'New Group';
+  static final String createGroup = 'Create Group';
+  static final String groupName = 'Group Name';
+  static final String groupStatus = 'Status Message';
 
   @override
   _NewGroupScreenState createState() => _NewGroupScreenState();

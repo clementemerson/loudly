@@ -31,7 +31,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     if (userId != null) Globals.selfUserId = int.parse(userId);
     print(Globals.selfUserId);
 
-    print(token);
     await WebSocketHelper()
         .initConnection(token: token, initCallback: setupWebSocketConnection);
     if (WebSocketHelper().bConnectionEstablished == false) {

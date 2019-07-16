@@ -9,10 +9,10 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_settings.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String id = 'home_screen';
-  static const String homeTabTitle = 'HOME';
-  static const String groupsTabTitle = 'GROUPS';
-  static const String myPollsTabTitle = 'MY POLLS';
+  static final String id = 'home_screen';
+  static final String homeTabTitle = 'HOME';
+  static final String groupsTabTitle = 'GROUPS';
+  static final String myPollsTabTitle = 'MY POLLS';
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

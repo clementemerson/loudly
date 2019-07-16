@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-class SearchScreen extends StatelessWidget {  
-  static const String id = 'search_screen';
-  static const String appBarTitle = 'Search';
-  
+class SearchScreen extends StatelessWidget {
+  static final String id = 'search_screen';
+  static final String appBarTitle = 'Search';
+
+  AppBar _getAppBar() {
+    return AppBar(
+      title: Text(SearchScreen.appBarTitle),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(SearchScreen.appBarTitle),
-      ),
+      appBar: _getAppBar(),
       body: Container(
         child: Center(
           child: Text(SearchScreen.appBarTitle),
