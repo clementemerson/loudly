@@ -19,6 +19,11 @@ String groupPollToJson(GroupPoll data) => json.encode(data.toJson());
 
 class GroupPoll {
   static final String tablename = 'grouppoll';
+  static final String columnPollId = 'pollid';
+  static final String columnGroupId = 'groupid';
+  static final String columnSharedBy = 'sharedby';
+  static final String columnCreatedAt = 'createdAt';
+  static final String columnArchived = 'archived';
 
   int pollid;
   int groupid;
@@ -35,33 +40,35 @@ class GroupPoll {
   });
 
   factory GroupPoll.fromJson(Map<String, dynamic> json) => new GroupPoll(
-        pollid: json["pollid"],
-        groupid: json["groupid"],
-        sharedBy: json["sharedby"],
-        createdAt: json["createdAt"],
+        pollid: json[GroupPoll.columnPollId],
+        groupid: json[GroupPoll.columnGroupId],
+        sharedBy: json[GroupPoll.columnSharedBy],
+        createdAt: json[GroupPoll.columnCreatedAt],
         archived: false,
       );
 
   Map<String, dynamic> toJson() => {
-        "pollid": pollid,
-        "groupid": groupid,
-        "sharedby": sharedBy,
-        "createdAt": createdAt,
-        "archived": archived,
+        GroupPoll.columnPollId: pollid,
+        GroupPoll.columnGroupId: groupid,
+        GroupPoll.columnSharedBy: sharedBy,
+        GroupPoll.columnCreatedAt: createdAt,
+        GroupPoll.columnArchived: archived,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${GroupPoll.tablename}(
-          pollid INTEGER, 
-          groupid INTEGER,
-          sharedBy INTEGER DEFAULT -1,
-          createdAt INTEGER DEFAULT 0,
-          archived INTEGER DEFAULT 0,
-          PRIMARY KEY (pollid, groupid)
-          FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+          ${GroupPoll.columnPollId} INTEGER, 
+          ${GroupPoll.columnGroupId} INTEGER,
+          ${GroupPoll.columnSharedBy} INTEGER DEFAULT -1,
+          ${GroupPoll.columnCreatedAt} INTEGER DEFAULT 0,
+          ${GroupPoll.columnArchived} INTEGER DEFAULT 0,
+          PRIMARY KEY (${GroupPoll.columnPollId}, ${GroupPoll.columnGroupId})
+          FOREIGN KEY (${GroupPoll.columnPollId}) 
+          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
           ON DELETE CASCADE
-          FOREIGN KEY (groupid) REFERENCES ${GroupInfo.tablename}(groupid) 
+          FOREIGN KEY (${GroupPoll.columnGroupId}) 
+          REFERENCES ${GroupInfo.tablename}(${GroupInfo.columnGroupId}) 
           ON DELETE CASCADE
         )''');
   }
@@ -86,11 +93,11 @@ class GroupPoll {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db.query(GroupPoll.tablename,
-        distinct: true, columns: ['pollid'], orderBy: 'createdAt DESC');
+        distinct: true, columns: [GroupPoll.columnPollId], orderBy: '${GroupPoll.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return maps[i]['pollid'];
+      return maps[i][GroupPoll.columnPollId];
     });
   }
 
@@ -100,7 +107,7 @@ class GroupPoll {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db.query(GroupPoll.tablename,
-        where: 'groupid = ?', whereArgs: [groupid], orderBy: 'createdAt DESC');
+        where: '${GroupPoll.columnGroupId} = ?', whereArgs: [groupid], orderBy: '${GroupPoll.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -115,8 +122,8 @@ class GroupPoll {
     // Remove the Dog from the database.
     await db.update(
       GroupPoll.tablename,
-      {"archived": archive},
-      where: "pollid = ? AND groupid = ?",
+      {GroupPoll.columnArchived: archive},
+      where: "${GroupPoll.columnPollId} = ? AND ${GroupPoll.columnGroupId} = ?",
       whereArgs: [pollid, groupid],
     );
   }

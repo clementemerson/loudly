@@ -19,6 +19,11 @@ String groupUserToJson(GroupUser data) => json.encode(data.toJson());
 
 class GroupUser {
   static final String tablename = 'groupusers';
+  static final String columnGroupId = 'groupid';
+  static final String columnUserId = 'user_id';
+  static final String columnAddedBy = 'addedby';  
+  static final String columnPermission = 'permission';
+  static final String columnCreatedAt = 'createdAt';
 
   int groupid;
   int userId;
@@ -35,32 +40,34 @@ class GroupUser {
   });
 
   factory GroupUser.fromJson(Map<String, dynamic> json) => new GroupUser(
-      groupid: json["groupid"],
-      userId: json["user_id"],
-      addedBy: json["addedby"],
-      permission: json["permission"],
-      createdAt: json["createdAt"]);
+      groupid: json[GroupUser.columnGroupId],
+      userId: json[GroupUser.columnUserId],
+      addedBy: json[GroupUser.columnAddedBy],
+      permission: json[GroupUser.columnPermission],
+      createdAt: json[GroupUser.columnCreatedAt]);
 
   Map<String, dynamic> toJson() => {
-        "groupid": groupid,
-        "user_id": userId,
-        "addedby": addedBy,
-        "permission": permission,
-        "createdAt": createdAt,
+        GroupUser.columnGroupId: groupid,
+        GroupUser.columnUserId: userId,
+        GroupUser.columnAddedBy: addedBy,
+        GroupUser.columnPermission: permission,
+        GroupUser.columnCreatedAt: createdAt,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the users table
     await db.execute('''CREATE TABLE ${GroupUser.tablename}(
-          groupid INTEGER DEFAULT -1, 
-          user_id INTEGER DEFAULT -1,
-          addedby INTEGER DEFAULT -1,
-          permission TEXT DEFAULT 'USER',
-          createdAt INTEGER DEFAULT 0,
-          PRIMARY KEY (groupid, user_id)
-          FOREIGN KEY (user_id) REFERENCES ${UserInfo.tablename}(user_id) 
+          ${GroupUser.columnGroupId} INTEGER DEFAULT -1, 
+          ${GroupUser.columnUserId} INTEGER DEFAULT -1,
+          ${GroupUser.columnAddedBy} INTEGER DEFAULT -1,
+          ${GroupUser.columnPermission} TEXT DEFAULT 'USER',
+          ${GroupUser.columnCreatedAt} INTEGER DEFAULT 0,
+          PRIMARY KEY (${GroupUser.columnGroupId}, ${GroupUser.columnUserId})
+          FOREIGN KEY (${GroupUser.columnUserId}) 
+          REFERENCES ${UserInfo.tablename}(${UserInfo.columnUserId}) 
           ON DELETE CASCADE
-          FOREIGN KEY (groupid) REFERENCES ${GroupInfo.tablename}(groupid) 
+          FOREIGN KEY (${GroupUser.columnGroupId}) 
+          REFERENCES ${GroupInfo.tablename}(${GroupInfo.columnGroupId}) 
           ON DELETE CASCADE
         )''');
   }
@@ -85,7 +92,7 @@ class GroupUser {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db
-        .query(GroupUser.tablename, where: 'groupid = ?', whereArgs: [groupid]);
+        .query(GroupUser.tablename, where: '${GroupUser.columnGroupId} = ?', whereArgs: [groupid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -101,8 +108,8 @@ class GroupUser {
     // Update the given Dog.
     await db.update(
       GroupUser.tablename,
-      {'permission': permission},
-      where: "groupid = ? AND user_id = ?",
+      {GroupUser.columnPermission: permission},
+      where: "${GroupUser.columnGroupId} = ? AND ${GroupUser.columnUserId} = ?",
       whereArgs: [groupid, userid],
     );
   }
@@ -114,7 +121,7 @@ class GroupUser {
     // Remove the Dog from the database.
     await db.delete(
       GroupUser.tablename,
-      where: "groupid = ? AND user_id = ?",
+      where: "${GroupUser.columnGroupId} = ? AND ${GroupUser.columnUserId} = ?",
       whereArgs: [groupid, userId],
     );
   }
@@ -126,7 +133,7 @@ class GroupUser {
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
       GroupUser.tablename,
-      where: "user_id = ?",
+      where: "${GroupUser.columnUserId} = ?",
       whereArgs: [userId],
     );
 

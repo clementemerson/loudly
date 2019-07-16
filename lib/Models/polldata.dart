@@ -29,6 +29,15 @@ List<PollOption> pollOptionFromList(List<dynamic> list, int pollid) {
 
 class PollData {
   static final String tablename = 'polldata';
+  static final String columnPollId = 'pollid';
+  static final String columnTitle = 'title';
+  static final String columnCanBeShared = 'canbeshared';
+  static final String columnResultIsPublic = 'resultispublic';
+  static final String columnCreatedBy = 'createdby';
+  static final String columnCreatedAt = 'createdAt';
+  static final String columnVoted = 'voted';
+
+  static final String jsonOptions = 'options';
 
   int pollid;
   String title;
@@ -50,51 +59,51 @@ class PollData {
       this.voted});
 
   factory PollData.fromJson(Map<String, dynamic> json) => new PollData(
-        pollid: json["pollid"],
-        title: json["title"],
-        options: new List<PollOption>.from(json["options"]
-            .map((x) => PollOption.fromJson(x, pollid: json["pollid"]))),
-        canBeShared: json["canbeshared"] == 0 ? false : true,
-        resultIsPublic: json["resultispublic"] == 0 ? false : true,
-        createdBy: json["createdby"],
-        createdAt: json["createdAt"],
-        voted: json["voted"] ?? false,
+        pollid: json[PollData.columnPollId],
+        title: json[PollData.columnTitle],
+        options: new List<PollOption>.from(json[PollData.jsonOptions]
+            .map((x) => PollOption.fromJson(x, pollid: json[PollData.columnPollId]))),
+        canBeShared: json[PollData.columnCanBeShared] == 0 ? false : true,
+        resultIsPublic: json[PollData.columnResultIsPublic] == 0 ? false : true,
+        createdBy: json[PollData.columnCreatedBy],
+        createdAt: json[PollData.columnCreatedAt],
+        voted: json[PollData.columnVoted] ?? false,
       );
 
   factory PollData.fromLocalDB(
           Map<String, dynamic> json, List<PollOption> pollOptions) =>
       new PollData(
-        pollid: json["pollid"],
-        title: json["title"],
+        pollid: json[PollData.columnPollId],
+        title: json[PollData.columnTitle],
         options: pollOptions,
-        canBeShared: json["canbeshared"] == 0 ? false : true,
-        resultIsPublic: json["resultispublic"] == 0 ? false : true,
-        createdBy: json["createdby"],
-        createdAt: json["createdAt"],
-        voted: json["voted"] == 0 ? false : true,
+        canBeShared: json[PollData.columnCanBeShared] == 0 ? false : true,
+        resultIsPublic: json[PollData.columnResultIsPublic] == 0 ? false : true,
+        createdBy: json[PollData.columnCreatedBy],
+        createdAt: json[PollData.columnCreatedAt],
+        voted: json[PollData.columnVoted] == 0 ? false : true,
       );
 
   Map<String, dynamic> toJson() => {
-        "pollid": pollid,
-        "title": title,
+        PollData.columnPollId: pollid,
+        PollData.columnTitle: title,
         //"options": new List<dynamic>.from(options.map((x) => x.toJson())),
-        "canbeshared": canBeShared,
-        "resultispublic": resultIsPublic,
-        "createdby": createdBy,
-        "createdAt": createdAt,
-        "voted": voted,
+        PollData.columnCanBeShared: canBeShared,
+        PollData.columnResultIsPublic: resultIsPublic,
+        PollData.columnCreatedBy: createdBy,
+        PollData.columnCreatedAt: createdAt,
+        PollData.columnVoted: voted,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${PollData.tablename}(
-          pollid INTEGER PRIMARY KEY, 
-          title TEXT,
-          canbeshared INTEGER DEFAULT 0,
-          resultispublic INTEGER DEFAULT 0,
-          createdby INTEGER DEFAULT 0,
-          createdAt INTEGER DEFAULT 0,
-          voted INTEGER DEFAULT 0
+          ${PollData.columnPollId} INTEGER PRIMARY KEY, 
+          ${PollData.columnTitle} TEXT,
+          ${PollData.columnCanBeShared} INTEGER DEFAULT 0,
+          ${PollData.columnResultIsPublic} INTEGER DEFAULT 0,
+          ${PollData.columnCreatedBy} INTEGER DEFAULT 0,
+          ${PollData.columnCreatedAt} INTEGER DEFAULT 0,
+          ${PollData.columnVoted} INTEGER DEFAULT 0
         )''');
   }
 
@@ -122,12 +131,12 @@ class PollData {
 
     // Query the table for all The dogs.
     List<Map<String, dynamic>> maps =
-        await db.query(PollData.tablename, orderBy: 'createdAt DESC');
+        await db.query(PollData.tablename, orderBy: '${PollData.columnCreatedAt} DESC');
 
     List<PollData> pollList = [];
     for (var poll in maps) {
       pollList.add(PollData.fromLocalDB(
-          poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
+          poll, await PollOption.getOptionsOfPoll(poll[PollData.columnPollId])));
     }
 
     return pollList;
@@ -139,12 +148,12 @@ class PollData {
 
     // Query the table for all The dogs.
     List<Map<String, dynamic>> maps = await db.query(PollData.tablename,
-        where: 'createdby = ?', whereArgs: [userId], orderBy: 'createdAt DESC');
+        where: '${PollData.columnCreatedBy} = ?', whereArgs: [userId], orderBy: '${PollData.columnCreatedAt} DESC');
 
     List<PollData> pollList = [];
     for (var poll in maps) {
       pollList.add(PollData.fromLocalDB(
-          poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
+          poll, await PollOption.getOptionsOfPoll(poll[PollData.columnPollId])));
     }
 
     return pollList;
@@ -158,7 +167,7 @@ class PollData {
     final Database db = await DBProvider.db.database;
 
     String commaSeparated = pollids.join(',');
-    String query = "SELECT * FROM ${PollData.tablename} WHERE pollid IN (" +
+    String query = "SELECT * FROM ${PollData.tablename} WHERE ${PollData.columnPollId} IN (" +
         commaSeparated +
         ")";
     List<Map<String, dynamic>> maps = await db.rawQuery(query);
@@ -166,7 +175,7 @@ class PollData {
     List<PollData> pollList = [];
     for (var poll in maps) {
       pollList.add(PollData.fromLocalDB(
-          poll, await PollOption.getOptionsOfPoll(poll['pollid'])));
+          poll, await PollOption.getOptionsOfPoll(poll[PollData.columnPollId])));
     }
     return pollList;
   }
@@ -178,7 +187,7 @@ class PollData {
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
       PollData.tablename,
-      where: "pollid = ?",
+      where: "${PollData.columnPollId} = ?",
       whereArgs: [pollid],
     );
 
@@ -200,7 +209,7 @@ class PollData {
     // Remove the Dog from the database.
     await db.delete(
       PollData.tablename,
-      where: "pollid = ?",
+      where: "${PollData.columnPollId} = ?",
       whereArgs: [pollid],
     );
 
@@ -210,6 +219,11 @@ class PollData {
 
 class PollOption {
   static final String tablename = 'polloptions';
+  static final String columnPollId = 'pollid';
+  static final String columnOptionIndex = 'optionindex';
+  static final String columnDesc = 'desc';
+  static final String columnOpenVotes = 'openVotes';
+  static final String columnSecretVotes = 'secretVotes';
 
   int pollid;
   int optionindex;
@@ -228,37 +242,38 @@ class PollOption {
   factory PollOption.fromJson(Map<String, dynamic> json, {int pollid}) =>
       new PollOption(
         pollid: pollid ?? json[pollid],
-        optionindex: json["optionindex"],
-        desc: json["desc"] ?? '',
-        openVotes: json["openVotes"] ?? 0,
-        secretVotes: json["secretVotes"] ?? 0,
+        optionindex: json[PollOption.columnOptionIndex],
+        desc: json[PollOption.columnDesc] ?? '',
+        openVotes: json[PollOption.columnOpenVotes] ?? 0,
+        secretVotes: json[PollOption.columnSecretVotes] ?? 0,
       );
 
   Map<String, dynamic> toJsonForServer() => {
-        "optionindex": optionindex,
-        "desc": desc,
-        "openVotes": openVotes ?? 0,
-        "secretVotes": secretVotes ?? 0,
+        PollOption.columnOptionIndex: optionindex,
+        PollOption.columnDesc: desc,
+        PollOption.columnOpenVotes: openVotes ?? 0,
+        PollOption.columnSecretVotes: secretVotes ?? 0,
       };
 
   Map<String, dynamic> toJson() => {
-        "pollid": pollid,
-        "optionindex": optionindex,
-        "desc": desc,
-        "openVotes": openVotes,
-        "secretVotes": secretVotes,
+        PollOption.columnPollId: pollid,
+        PollOption.columnOptionIndex: optionindex,
+        PollOption.columnDesc: desc,
+        PollOption.columnOpenVotes: openVotes,
+        PollOption.columnSecretVotes: secretVotes,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
     await db.execute('''CREATE TABLE ${PollOption.tablename}(
-          pollid INTEGER, 
-          optionindex INTEGER DEFAULT -1,
-          desc TEXT,
-          openvotes INTEGER DEFAULT 0,
-          secretvotes INTEGER DEFAULT 0,
-          PRIMARY KEY (pollid, optionindex)
-          FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+          ${PollOption.columnPollId} INTEGER, 
+          ${PollOption.columnOptionIndex} INTEGER DEFAULT -1,
+          ${PollOption.columnDesc} TEXT,
+          ${PollOption.columnOpenVotes} INTEGER DEFAULT 0,
+          ${PollOption.columnSecretVotes} INTEGER DEFAULT 0,
+          PRIMARY KEY (${PollOption.columnPollId}, ${PollOption.columnOptionIndex})
+          FOREIGN KEY (${PollOption.columnPollId}) 
+          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
           ON DELETE CASCADE
         )''');
   }
@@ -283,7 +298,7 @@ class PollOption {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db
-        .query(PollOption.tablename, where: 'pollid = ?', whereArgs: [pollid]);
+        .query(PollOption.tablename, where: '${PollOption.columnPollId} = ?', whereArgs: [pollid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -299,7 +314,7 @@ class PollOption {
     await db.update(
       PollOption.tablename,
       data.toJson(),
-      where: "pollid = ? AND optionindex = ?",
+      where: "${PollOption.columnPollId} = ? AND ${PollOption.columnOptionIndex} = ?",
       whereArgs: [data.pollid, data.optionindex],
     );
   }
@@ -311,7 +326,7 @@ class PollOption {
     // Remove the Dog from the database.
     await db.delete(
       PollOption.tablename,
-      where: "pollid = ?",
+      where: "${PollOption.columnPollId} = ?",
       whereArgs: [pollid],
     );
   }

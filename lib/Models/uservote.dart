@@ -15,6 +15,11 @@ String userVoteToJson(UserVote data) => json.encode(data.toJson());
 
 class UserVote {
   static final String tablename = 'pollvotedata';
+  static final String columnPollId = 'pollid';
+  static final String columnUserId = 'user_id';
+  static final String columnVoteType = 'votetype';
+  static final String columnOption = 'option';
+  static final String columnVotedAt = 'votedat';
 
   int pollid;
   int userId;
@@ -31,33 +36,35 @@ class UserVote {
   });
 
   factory UserVote.fromJson(Map<String, dynamic> json) => new UserVote(
-        pollid: json["pollid"],
-        userId: json["user_id"],
-        votetype: json["votetype"],
-        option: json["option"],
-        votedAt: json["votedat"],
+        pollid: json[UserVote.columnPollId],
+        userId: json[UserVote.columnUserId],
+        votetype: json[UserVote.columnVoteType],
+        option: json[UserVote.columnOption],
+        votedAt: json[UserVote.columnVotedAt],
       );
 
   Map<String, dynamic> toJson() => {
-        "pollid": pollid,
-        "user_id": userId,
-        "votetype": votetype,
-        "option": option,
-        "votedat": votedAt,
+        UserVote.columnPollId: pollid,
+        UserVote.columnUserId: userId,
+        UserVote.columnVoteType: votetype,
+        UserVote.columnOption: option,
+        UserVote.columnVotedAt: votedAt,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the users table
     await db.execute('''CREATE TABLE ${UserVote.tablename}(
-          pollid INTEGER DEFAULT -1, 
-          user_id INTEGER DEFAULT -1,
-          votetype TEXT,
-          option INTEGER DEFAULT -1,
-          votedat INTEGER DEFAULT -1,
-          PRIMARY KEY (pollid, user_id)
-          FOREIGN KEY (pollid) REFERENCES ${PollData.tablename}(pollid) 
+          ${UserVote.columnPollId} INTEGER DEFAULT -1, 
+          ${UserVote.columnUserId} INTEGER DEFAULT -1,
+          ${UserVote.columnVoteType} TEXT,
+          ${UserVote.columnOption} INTEGER DEFAULT -1,
+          ${UserVote.columnVotedAt} INTEGER DEFAULT -1,
+          PRIMARY KEY (${UserVote.columnPollId}, ${UserVote.columnUserId})
+          FOREIGN KEY (${UserVote.columnPollId}) 
+          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
           ON DELETE CASCADE
-          FOREIGN KEY (user_id) REFERENCES ${UserInfo.tablename}(user_id) 
+          FOREIGN KEY (${UserVote.columnUserId}) 
+          REFERENCES ${UserInfo.tablename}(${UserInfo.columnUserId}) 
           ON DELETE CASCADE
         )''');
   }
@@ -81,8 +88,8 @@ class UserVote {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db
-        .query(UserVote.tablename, where: 'pollid = ?', whereArgs: [pollid]);
+    final List<Map<String, dynamic>> maps = await db.query(UserVote.tablename,
+        where: '${UserVote.columnPollId} = ?', whereArgs: [pollid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -97,7 +104,8 @@ class UserVote {
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db.query(UserVote.tablename,
-        where: 'pollid = ? AND user_id IN ?', whereArgs: [pollid, userids]);
+        where: '${UserVote.columnPollId} = ? AND ${UserVote.columnUserId} IN ?',
+        whereArgs: [pollid, userids]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
