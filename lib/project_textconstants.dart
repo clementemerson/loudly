@@ -7,6 +7,7 @@ const String newCountPoll = 'New Count Poll';
 const String createNewGroup = 'New Group';
 const String editGroup = 'Edit Group';
 const String settings = 'Settings';
+const String search = 'Search';
 
 //Text constanst poll
 const String askSomething = 'Ask Something';
@@ -18,3 +19,7 @@ const String createPoll = 'Create Poll';
 
 //Exception
 const String failedGetContactsFromPhone = 'Failed to get contacts from phone';
+const String sendingWSMessageFailed = 'Failed to send message to server via websocket';
+const String parsingWSMessageFailed = 'Failed to parse message from server';
+const String noWSConnection = 'Websocket connection is not established yet';
+const String initWSConnectionFailed = 'Failed to instantiate websocket connection';
