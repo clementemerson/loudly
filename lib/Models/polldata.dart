@@ -112,7 +112,7 @@ class PollData {
     final Database db = await DBProvider.db.database;
 
     // Insert the Dog into the correct table. Also specify the
-    // `conflictAlgorithm`. In this case, if the same groupInfo is inserted
+    // `conflictAlgorithm`. In this case, if the same Dog is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
       PollData.tablename,
