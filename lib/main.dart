@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/providers/appdata.dart';
+import 'package:loudly/providers/polllist.dart';
 import 'package:loudly/ui/Screens/setup_screen.dart';
 
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
@@ -15,6 +17,7 @@ import 'package:loudly/ui/Screens/search_screen.dart';
 import 'package:loudly/ui/Screens/settings_screen.dart';
 import 'package:loudly/ui/Screens/sharecontent_screen.dart';
 import 'package:loudly/ui/Screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,27 +27,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Loudly',
-      theme: ThemeData.dark(),
-      initialRoute: WelcomeScreen.id,
-      routes: {
-        WelcomeScreen.id: (context) => WelcomeScreen(),
-        GroupPollListScreen.id: (context) => GroupPollListScreen(),
-        GroupParticipantsScreen.id: (context) => GroupParticipantsScreen(),
-        HomeScreen.id: (context) => HomeScreen(),
-        ImagesScreen.id: (context) => ImagesScreen(),
-        NewGroupScreen.id: (context) => NewGroupScreen(),
-        NewPollScreen.id: (context) => NewPollScreen(),
-        PhoneLoginScreen.id: (context) => PhoneLoginScreen(),
-        PhoneVerifyScreen.id: (context) => PhoneVerifyScreen(),
-        PollResultScreen.id: (context) => PollResultScreen(),
-        PollVoteScreen.id: (context) => PollVoteScreen(),
-        SearchScreen.id: (context) => SearchScreen(),
-        SettingsScreen.id: (context) => SettingsScreen(),
-        ShareContentScreen.id: (context) => ShareContentScreen(),
-        SetupScreen.id: (context) => SetupScreen(),
-      },
+    return ChangeNotifierProvider(
+      builder: (ctx) => PollStore.store,
+      child: MaterialApp(
+        title: 'Loudly',
+        theme: ThemeData.dark(),
+        initialRoute: WelcomeScreen.id,
+        routes: {
+          WelcomeScreen.id: (context) => WelcomeScreen(),
+          GroupPollListScreen.id: (context) => GroupPollListScreen(),
+          GroupParticipantsScreen.id: (context) => GroupParticipantsScreen(),
+          HomeScreen.id: (context) => HomeScreen(),
+          ImagesScreen.id: (context) => ImagesScreen(),
+          NewGroupScreen.id: (context) => NewGroupScreen(),
+          NewPollScreen.id: (context) => NewPollScreen(),
+          PhoneLoginScreen.id: (context) => PhoneLoginScreen(),
+          PhoneVerifyScreen.id: (context) => PhoneVerifyScreen(),
+          PollResultScreen.id: (context) => PollResultScreen(),
+          PollVoteScreen.id: (context) => PollVoteScreen(),
+          SearchScreen.id: (context) => SearchScreen(),
+          SettingsScreen.id: (context) => SettingsScreen(),
+          ShareContentScreen.id: (context) => ShareContentScreen(),
+          SetupScreen.id: (context) => SetupScreen(),
+        },
+      ),
     );
   }
 }
