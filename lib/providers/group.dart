@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:loudly/providers/poll.dart';
+import 'package:loudly/providers/polllist.dart';
 import 'package:loudly/providers/user.dart';
+import 'package:loudly/providers/userlist.dart';
 
 class Group with ChangeNotifier {
   int groupid;
@@ -9,9 +11,6 @@ class Group with ChangeNotifier {
   int createdBy;
   int createdAt;
 
-  List<Poll> _polls = [];
-  List<User> _users = [];
-
   Group(
       {@required this.groupid,
       @required this.title,
@@ -19,29 +18,47 @@ class Group with ChangeNotifier {
       @required this.createdBy,
       @required this.createdAt});
 
-  List<Poll> get polls {
-    return [..._polls];
-  }
-
-  addPoll({@required Poll poll}) {
-    _polls.add(poll);
-    notifyListeners();
-  }
-
-  Poll findPollById({@required int id}) {
-    return _polls.firstWhere((poll) => poll.pollid == id);
-  }
-
   List<User> get users {
-    return [..._users];
+    return UserStore.store.users
+        .where((user) => user.isInGroup(groupid: this.groupid));
   }
 
-  addUser({@required User user}) {
-    _users.add(user);
-    notifyListeners();
+  addUser({@required int userid}) {
+    User user = UserStore.store.users
+        .firstWhere((user) => user.userid == userid, orElse: () => null);
+    if (user != null) {
+      if (user.addToGroup(groupid: this.groupid) == true) notifyListeners();
+    }
   }
 
-  User findUserById({@required int id}) {
-    return _users.firstWhere((user) => user.userid == id);
+  removeUser({@required int userid}) {
+    User user = UserStore.store.users
+        .firstWhere((user) => user.userid == userid, orElse: () => null);
+    if (user != null) {
+      if (user.removeFromGroup(groupid: this.groupid) == true)
+        notifyListeners();
+    }
+  }
+
+  List<Poll> get polls {
+    return PollStore.store.polls
+        .where((poll) => poll.isInGroup(groupid: this.groupid));
+  }
+
+  addPoll({@required int pollid}) {
+    Poll poll = PollStore.store.polls
+        .firstWhere((poll) => poll.pollid == pollid, orElse: () => null);
+    if (poll != null) {
+      if (poll.addToGroup(groupid: this.groupid) == true) notifyListeners();
+    }
+  }
+
+  removePoll({@required int pollid}) {
+    Poll poll = PollStore.store.polls
+        .firstWhere((poll) => poll.pollid == pollid, orElse: () => null);
+    if (poll != null) {
+      if (poll.removeFromGroup(groupid: this.groupid) == true)
+        notifyListeners();
+    }
   }
 }

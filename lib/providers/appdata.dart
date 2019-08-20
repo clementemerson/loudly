@@ -1,12 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:loudly/providers/grouplist.dart';
 import 'package:loudly/providers/polllist.dart';
 import 'package:loudly/providers/userlist.dart';
 
 class AppData with ChangeNotifier {
-  PollList pollList = PollList();
-  GroupList groupList = GroupList();
-  UserList userList = UserList();
+  PollStore pollList = PollStore.store;
+  GroupStore groupList = GroupStore.store;
+  UserStore userList = UserStore.store;
 
   // Create a singleton
   AppData._();
