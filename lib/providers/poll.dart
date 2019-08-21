@@ -28,6 +28,10 @@ class Poll with ChangeNotifier {
     return [..._options];
   }
 
+  set options(List<PollOption> options) {
+    _options = options;
+  }
+
   PollOption getOptionByIndex({@required int index}) {
     if (index < 0) return null;
     return _options[index];

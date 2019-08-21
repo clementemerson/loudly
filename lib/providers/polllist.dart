@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/providers/poll.dart';
+import 'package:loudly/providers/pollopts.dart';
 
 class PollStore with ChangeNotifier {
   // Create a singleton
-  PollStore._();
+  PollStore._() {
+    _initPollList();
+  }
 
   static final PollStore store = PollStore._();
 
@@ -28,5 +32,34 @@ class PollStore with ChangeNotifier {
 
   List<Poll> pollsCreatedBy({@required int userid}) {
     return _polls.where((poll) => poll.createdBy == userid);
+  }
+
+  _initPollList() async {
+    List<PollDataModel> pollList = await PollDataModel.getAll();
+    for (PollDataModel pollData in pollList) {
+      Poll poll = Poll(
+          pollid: pollData.pollid,
+          title: pollData.title,
+          canBeShared: pollData.canBeShared,
+          resultIsPublic: pollData.resultIsPublic,
+          createdAt: pollData.createdAt,
+          createdBy: pollData.createdBy,
+          voted: pollData.voted);
+
+      List<PollOption> pollOptions = [];
+      for (PollOptionModel pollOption in pollData.options) {
+        PollOption option = PollOption(
+            optionIndex: pollOption.optionindex,
+            optionText: pollOption.desc,
+            openVotes: pollOption.openVotes,
+            secretVotes: pollOption.secretVotes);
+
+        pollOptions.add(option);
+      }
+
+      poll.options = pollOptions;
+
+      this.addPoll(newPoll: poll);
+    }
   }
 }
