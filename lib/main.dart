@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/providers/appdata.dart';
+import 'package:loudly/providers/grouplist.dart';
 import 'package:loudly/providers/polllist.dart';
+import 'package:loudly/providers/userlist.dart';
 import 'package:loudly/ui/Screens/setup_screen.dart';
 
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
@@ -27,8 +29,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (ctx) => PollStore.store,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: PollStore.store),
+        ChangeNotifierProvider.value(value: GroupStore.store),
+        ChangeNotifierProvider.value(value: UserStore.store),
+      ],
       child: MaterialApp(
         title: 'Loudly',
         theme: ThemeData.dark(),
