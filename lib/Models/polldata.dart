@@ -5,29 +5,33 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+import 'package:loudly/providers/poll.dart';
+import 'package:loudly/providers/polllist.dart';
+import 'package:loudly/providers/pollopts.dart';
 import 'package:sqflite/sqflite.dart';
 
-PollData pollDataFromJson(Map<String, dynamic> map) => PollData.fromJson(map);
+PollDataModel pollDataFromJson(Map<String, dynamic> map) =>
+    PollDataModel.fromJson(map);
 
-List<PollData> pollInfoFromList(List<dynamic> list) =>
-    new List<PollData>.from(list.map((x) => PollData.fromJson(x)));
+List<PollDataModel> pollInfoFromList(List<dynamic> list) =>
+    new List<PollDataModel>.from(list.map((x) => PollDataModel.fromJson(x)));
 
-String pollDataToJson(PollData data) => json.encode(data.toJson());
+String pollDataToJson(PollDataModel data) => json.encode(data.toJson());
 
-List<String> pollOptionListToJson(List<PollOption> list) =>
+List<String> pollOptionListToJson(List<PollOptionModel> list) =>
     new List<String>.from(list.map((x) => json.encode(x.toJsonForServer())));
 
-List<PollOption> pollOptionFromList(List<dynamic> list, int pollid) {
-  List<PollOption> pollOptions = List<PollOption>();
+List<PollOptionModel> pollOptionFromList(List<dynamic> list, int pollid) {
+  List<PollOptionModel> pollOptions = List<PollOptionModel>();
   for (String x in list) {
-    pollOptions.add(PollOption.fromJson(json.decode(x), pollid: pollid));
+    pollOptions.add(PollOptionModel.fromJson(json.decode(x), pollid: pollid));
   }
   return pollOptions;
 }
 
 //json.encode(data.toJson());
 
-class PollData {
+class PollDataModel {
   static final String tablename = 'polldata';
   static final String columnPollId = 'pollid';
   static final String columnTitle = 'title';
@@ -41,14 +45,14 @@ class PollData {
 
   int pollid;
   String title;
-  List<PollOption> options;
+  List<PollOptionModel> options;
   bool canBeShared;
   bool resultIsPublic;
   int createdBy;
   int createdAt;
   bool voted;
 
-  PollData(
+  PollDataModel(
       {this.pollid,
       this.title,
       this.options,
@@ -58,56 +62,60 @@ class PollData {
       this.createdAt,
       this.voted});
 
-  factory PollData.fromJson(Map<String, dynamic> json) => new PollData(
-        pollid: json[PollData.columnPollId],
-        title: json[PollData.columnTitle],
-        options: new List<PollOption>.from(json[PollData.jsonOptions]
-            .map((x) => PollOption.fromJson(x, pollid: json[PollData.columnPollId]))),
-        canBeShared: json[PollData.columnCanBeShared] == 0 ? false : true,
-        resultIsPublic: json[PollData.columnResultIsPublic] == 0 ? false : true,
-        createdBy: json[PollData.columnCreatedBy],
-        createdAt: json[PollData.columnCreatedAt],
-        voted: json[PollData.columnVoted] ?? false,
+  factory PollDataModel.fromJson(Map<String, dynamic> json) =>
+      new PollDataModel(
+        pollid: json[PollDataModel.columnPollId],
+        title: json[PollDataModel.columnTitle],
+        options: new List<PollOptionModel>.from(json[PollDataModel.jsonOptions]
+            .map((x) => PollOptionModel.fromJson(x,
+                pollid: json[PollDataModel.columnPollId]))),
+        canBeShared: json[PollDataModel.columnCanBeShared] == 0 ? false : true,
+        resultIsPublic:
+            json[PollDataModel.columnResultIsPublic] == 0 ? false : true,
+        createdBy: json[PollDataModel.columnCreatedBy],
+        createdAt: json[PollDataModel.columnCreatedAt],
+        voted: json[PollDataModel.columnVoted] ?? false,
       );
 
-  factory PollData.fromLocalDB(
-          Map<String, dynamic> json, List<PollOption> pollOptions) =>
-      new PollData(
-        pollid: json[PollData.columnPollId],
-        title: json[PollData.columnTitle],
+  factory PollDataModel.fromLocalDB(
+          Map<String, dynamic> json, List<PollOptionModel> pollOptions) =>
+      new PollDataModel(
+        pollid: json[PollDataModel.columnPollId],
+        title: json[PollDataModel.columnTitle],
         options: pollOptions,
-        canBeShared: json[PollData.columnCanBeShared] == 0 ? false : true,
-        resultIsPublic: json[PollData.columnResultIsPublic] == 0 ? false : true,
-        createdBy: json[PollData.columnCreatedBy],
-        createdAt: json[PollData.columnCreatedAt],
-        voted: json[PollData.columnVoted] == 0 ? false : true,
+        canBeShared: json[PollDataModel.columnCanBeShared] == 0 ? false : true,
+        resultIsPublic:
+            json[PollDataModel.columnResultIsPublic] == 0 ? false : true,
+        createdBy: json[PollDataModel.columnCreatedBy],
+        createdAt: json[PollDataModel.columnCreatedAt],
+        voted: json[PollDataModel.columnVoted] == 0 ? false : true,
       );
 
   Map<String, dynamic> toJson() => {
-        PollData.columnPollId: pollid,
-        PollData.columnTitle: title,
+        PollDataModel.columnPollId: pollid,
+        PollDataModel.columnTitle: title,
         //"options": new List<dynamic>.from(options.map((x) => x.toJson())),
-        PollData.columnCanBeShared: canBeShared,
-        PollData.columnResultIsPublic: resultIsPublic,
-        PollData.columnCreatedBy: createdBy,
-        PollData.columnCreatedAt: createdAt,
-        PollData.columnVoted: voted,
+        PollDataModel.columnCanBeShared: canBeShared,
+        PollDataModel.columnResultIsPublic: resultIsPublic,
+        PollDataModel.columnCreatedBy: createdBy,
+        PollDataModel.columnCreatedAt: createdAt,
+        PollDataModel.columnVoted: voted,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
-    await db.execute('''CREATE TABLE ${PollData.tablename}(
-          ${PollData.columnPollId} INTEGER PRIMARY KEY, 
-          ${PollData.columnTitle} TEXT,
-          ${PollData.columnCanBeShared} INTEGER DEFAULT 0,
-          ${PollData.columnResultIsPublic} INTEGER DEFAULT 0,
-          ${PollData.columnCreatedBy} INTEGER DEFAULT 0,
-          ${PollData.columnCreatedAt} INTEGER DEFAULT 0,
-          ${PollData.columnVoted} INTEGER DEFAULT 0
+    await db.execute('''CREATE TABLE ${PollDataModel.tablename}(
+          ${PollDataModel.columnPollId} INTEGER PRIMARY KEY, 
+          ${PollDataModel.columnTitle} TEXT,
+          ${PollDataModel.columnCanBeShared} INTEGER DEFAULT 0,
+          ${PollDataModel.columnResultIsPublic} INTEGER DEFAULT 0,
+          ${PollDataModel.columnCreatedBy} INTEGER DEFAULT 0,
+          ${PollDataModel.columnCreatedAt} INTEGER DEFAULT 0,
+          ${PollDataModel.columnVoted} INTEGER DEFAULT 0
         )''');
   }
 
-  static Future<void> insert(PollData data) async {
+  static Future<void> insert(PollDataModel data) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -115,85 +123,117 @@ class PollData {
     // `conflictAlgorithm`. In this case, if the same Dog is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
-      PollData.tablename,
+      PollDataModel.tablename,
       data.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
+    List<PollOption> pollOptions = [];
     data.options.forEach((option) async {
-      await PollOption.insert(option);
+      await PollOptionModel.insert(option);
+      PollOption pollOption = PollOption(
+          optionIndex: option.optionindex,
+          optionText: option.desc,
+          openVotes: option.openVotes,
+          secretVotes: option.secretVotes);
+      pollOptions.add(pollOption);
     });
+
+    //construct Poll Object
+    Poll poll = Poll(
+        pollid: data.pollid,
+        title: data.title,
+        canBeShared: data.canBeShared,
+        resultIsPublic: data.resultIsPublic,
+        createdAt: data.createdAt,
+        createdBy: data.createdBy,
+        voted: data.voted);
+
+    poll.options = pollOptions;
+
+    //add poll object to pollstore
+    PollStore.store.addPoll(newPoll: poll);
   }
 
-  static Future<List<PollData>> getAll() async {
+  static Future<List<PollDataModel>> getAll() async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    List<Map<String, dynamic>> maps =
-        await db.query(PollData.tablename, orderBy: '${PollData.columnCreatedAt} DESC');
+    List<Map<String, dynamic>> maps = await db.query(PollDataModel.tablename,
+        orderBy: '${PollDataModel.columnCreatedAt} DESC');
 
-    List<PollData> pollList = [];
+    List<PollDataModel> pollList = [];
     for (var poll in maps) {
-      pollList.add(PollData.fromLocalDB(
-          poll, await PollOption.getOptionsOfPoll(poll[PollData.columnPollId])));
+      pollList.add(PollDataModel.fromLocalDB(
+          poll,
+          await PollOptionModel.getOptionsOfPoll(
+              poll[PollDataModel.columnPollId])));
     }
 
     return pollList;
   }
 
-  static Future<List<PollData>> getUserCreatedPolls(int userId) async {
+  static Future<List<PollDataModel>> getUserCreatedPolls(int userId) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    List<Map<String, dynamic>> maps = await db.query(PollData.tablename,
-        where: '${PollData.columnCreatedBy} = ?', whereArgs: [userId], orderBy: '${PollData.columnCreatedAt} DESC');
+    List<Map<String, dynamic>> maps = await db.query(PollDataModel.tablename,
+        where: '${PollDataModel.columnCreatedBy} = ?',
+        whereArgs: [userId],
+        orderBy: '${PollDataModel.columnCreatedAt} DESC');
 
-    List<PollData> pollList = [];
+    List<PollDataModel> pollList = [];
     for (var poll in maps) {
-      pollList.add(PollData.fromLocalDB(
-          poll, await PollOption.getOptionsOfPoll(poll[PollData.columnPollId])));
+      pollList.add(PollDataModel.fromLocalDB(
+          poll,
+          await PollOptionModel.getOptionsOfPoll(
+              poll[PollDataModel.columnPollId])));
     }
 
     return pollList;
   }
 
-  static Future<List<PollData>> getPollDataForPolls(List<int> pollids) async {
+  static Future<List<PollDataModel>> getPollDataForPolls(
+      List<int> pollids) async {
     if (pollids == null || (pollids != null && pollids.isEmpty))
-      return List<PollData>();
+      return List<PollDataModel>();
 
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     String commaSeparated = pollids.join(',');
-    String query = "SELECT * FROM ${PollData.tablename} WHERE ${PollData.columnPollId} IN (" +
-        commaSeparated +
-        ")";
+    String query =
+        "SELECT * FROM ${PollDataModel.tablename} WHERE ${PollDataModel.columnPollId} IN (" +
+            commaSeparated +
+            ")";
     List<Map<String, dynamic>> maps = await db.rawQuery(query);
 
-    List<PollData> pollList = [];
+    List<PollDataModel> pollList = [];
     for (var poll in maps) {
-      pollList.add(PollData.fromLocalDB(
-          poll, await PollOption.getOptionsOfPoll(poll[PollData.columnPollId])));
+      pollList.add(PollDataModel.fromLocalDB(
+          poll,
+          await PollOptionModel.getOptionsOfPoll(
+              poll[PollDataModel.columnPollId])));
     }
     return pollList;
   }
 
-  static Future<PollData> getOne(int pollid) async {
+  static Future<PollDataModel> getOne(int pollid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
-      PollData.tablename,
-      where: "${PollData.columnPollId} = ?",
+      PollDataModel.tablename,
+      where: "${PollDataModel.columnPollId} = ?",
       whereArgs: [pollid],
     );
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
-    List<PollData> polls = List.generate(maps.length, (i) {
-      return PollData.fromJson(maps[i]);
+    List<PollDataModel> polls = List.generate(maps.length, (i) {
+      return PollDataModel.fromJson(maps[i]);
     });
 
     if (polls.isNotEmpty)
@@ -208,16 +248,16 @@ class PollData {
 
     // Remove the Dog from the database.
     await db.delete(
-      PollData.tablename,
-      where: "${PollData.columnPollId} = ?",
+      PollDataModel.tablename,
+      where: "${PollDataModel.columnPollId} = ?",
       whereArgs: [pollid],
     );
 
-    await PollOption.delete(pollid);
+    await PollOptionModel.delete(pollid);
   }
 }
 
-class PollOption {
+class PollOptionModel {
   static final String tablename = 'polloptions';
   static final String columnPollId = 'pollid';
   static final String columnOptionIndex = 'optionindex';
@@ -231,7 +271,7 @@ class PollOption {
   int openVotes;
   int secretVotes;
 
-  PollOption({
+  PollOptionModel({
     this.pollid,
     this.optionindex,
     this.desc,
@@ -239,46 +279,46 @@ class PollOption {
     this.secretVotes,
   });
 
-  factory PollOption.fromJson(Map<String, dynamic> json, {int pollid}) =>
-      new PollOption(
+  factory PollOptionModel.fromJson(Map<String, dynamic> json, {int pollid}) =>
+      new PollOptionModel(
         pollid: pollid ?? json[pollid],
-        optionindex: json[PollOption.columnOptionIndex],
-        desc: json[PollOption.columnDesc] ?? '',
-        openVotes: json[PollOption.columnOpenVotes] ?? 0,
-        secretVotes: json[PollOption.columnSecretVotes] ?? 0,
+        optionindex: json[PollOptionModel.columnOptionIndex],
+        desc: json[PollOptionModel.columnDesc] ?? '',
+        openVotes: json[PollOptionModel.columnOpenVotes] ?? 0,
+        secretVotes: json[PollOptionModel.columnSecretVotes] ?? 0,
       );
 
   Map<String, dynamic> toJsonForServer() => {
-        PollOption.columnOptionIndex: optionindex,
-        PollOption.columnDesc: desc,
-        PollOption.columnOpenVotes: openVotes ?? 0,
-        PollOption.columnSecretVotes: secretVotes ?? 0,
+        PollOptionModel.columnOptionIndex: optionindex,
+        PollOptionModel.columnDesc: desc,
+        PollOptionModel.columnOpenVotes: openVotes ?? 0,
+        PollOptionModel.columnSecretVotes: secretVotes ?? 0,
       };
 
   Map<String, dynamic> toJson() => {
-        PollOption.columnPollId: pollid,
-        PollOption.columnOptionIndex: optionindex,
-        PollOption.columnDesc: desc,
-        PollOption.columnOpenVotes: openVotes,
-        PollOption.columnSecretVotes: secretVotes,
+        PollOptionModel.columnPollId: pollid,
+        PollOptionModel.columnOptionIndex: optionindex,
+        PollOptionModel.columnDesc: desc,
+        PollOptionModel.columnOpenVotes: openVotes,
+        PollOptionModel.columnSecretVotes: secretVotes,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
-    await db.execute('''CREATE TABLE ${PollOption.tablename}(
-          ${PollOption.columnPollId} INTEGER, 
-          ${PollOption.columnOptionIndex} INTEGER DEFAULT -1,
-          ${PollOption.columnDesc} TEXT,
-          ${PollOption.columnOpenVotes} INTEGER DEFAULT 0,
-          ${PollOption.columnSecretVotes} INTEGER DEFAULT 0,
-          PRIMARY KEY (${PollOption.columnPollId}, ${PollOption.columnOptionIndex})
-          FOREIGN KEY (${PollOption.columnPollId}) 
-          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
+    await db.execute('''CREATE TABLE ${PollOptionModel.tablename}(
+          ${PollOptionModel.columnPollId} INTEGER, 
+          ${PollOptionModel.columnOptionIndex} INTEGER DEFAULT -1,
+          ${PollOptionModel.columnDesc} TEXT,
+          ${PollOptionModel.columnOpenVotes} INTEGER DEFAULT 0,
+          ${PollOptionModel.columnSecretVotes} INTEGER DEFAULT 0,
+          PRIMARY KEY (${PollOptionModel.columnPollId}, ${PollOptionModel.columnOptionIndex})
+          FOREIGN KEY (${PollOptionModel.columnPollId}) 
+          REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
         )''');
   }
 
-  static Future<void> insert(PollOption data) async {
+  static Future<void> insert(PollOptionModel data) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -286,35 +326,38 @@ class PollOption {
     // `conflictAlgorithm`. In this case, if the same groupInfo is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
-      PollOption.tablename,
+      PollOptionModel.tablename,
       data.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  static Future<List<PollOption>> getOptionsOfPoll(int pollid) async {
+  static Future<List<PollOptionModel>> getOptionsOfPoll(int pollid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db
-        .query(PollOption.tablename, where: '${PollOption.columnPollId} = ?', whereArgs: [pollid]);
+    final List<Map<String, dynamic>> maps = await db.query(
+        PollOptionModel.tablename,
+        where: '${PollOptionModel.columnPollId} = ?',
+        whereArgs: [pollid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return PollOption.fromJson(maps[i]);
+      return PollOptionModel.fromJson(maps[i]);
     });
   }
 
-  static Future<void> update(PollOption data) async {
+  static Future<void> update(PollOptionModel data) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Update the given Dog.
     await db.update(
-      PollOption.tablename,
+      PollOptionModel.tablename,
       data.toJson(),
-      where: "${PollOption.columnPollId} = ? AND ${PollOption.columnOptionIndex} = ?",
+      where:
+          "${PollOptionModel.columnPollId} = ? AND ${PollOptionModel.columnOptionIndex} = ?",
       whereArgs: [data.pollid, data.optionindex],
     );
   }
@@ -325,8 +368,8 @@ class PollOption {
 
     // Remove the Dog from the database.
     await db.delete(
-      PollOption.tablename,
-      where: "${PollOption.columnPollId} = ?",
+      PollOptionModel.tablename,
+      where: "${PollOptionModel.columnPollId} = ?",
       whereArgs: [pollid],
     );
   }
