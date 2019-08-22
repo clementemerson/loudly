@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/ui/Lists/poll_list.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
@@ -9,7 +9,7 @@ class GroupPollListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GroupInfo groupInfo = ModalRoute.of(context).settings.arguments;
+    final GroupInfoModel groupInfo = ModalRoute.of(context).settings.arguments;
 
     return DefaultTabController(
       length: 3,

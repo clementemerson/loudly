@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/models/userinfo.dart';
+import 'package:loudly/Models/userinfo.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 
@@ -18,7 +18,7 @@ class NewGroupScreen extends StatefulWidget {
 }
 
 class _NewGroupScreenState extends State<NewGroupScreen> {
-  List<UserInfo> _selectedUsers = List<UserInfo>();
+  List<UserInfoModel> _selectedUsers = List<UserInfoModel>();
   String groupName = '';
   String groupDesc = '';
 

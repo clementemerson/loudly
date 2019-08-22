@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
@@ -78,10 +78,10 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getUsersAndPollsOfGroup() async {
-    List<GroupInfo> userGroups = await GroupInfo.getAll();
+    List<GroupInfoModel> userGroups = await GroupInfoModel.getAll();
     if (userGroups.isEmpty) _onCompleted();
 
-    for (GroupInfo group in userGroups) {
+    for (GroupInfoModel group in userGroups) {
       //The last function in this loop gets the callback function.
       Function callback = userGroups.length == (userGroups.indexOf(group) + 1)
           ? _onCompleted
