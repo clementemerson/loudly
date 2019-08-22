@@ -174,74 +174,6 @@ class PollDataModel {
     return pollList;
   }
 
-  static Future<List<PollDataModel>> getUserCreatedPolls(int userId) async {
-    // Get a reference to the database.
-    final Database db = await DBProvider.db.database;
-
-    // Query the table for all The dogs.
-    List<Map<String, dynamic>> maps = await db.query(PollDataModel.tablename,
-        where: '${PollDataModel.columnCreatedBy} = ?',
-        whereArgs: [userId],
-        orderBy: '${PollDataModel.columnCreatedAt} DESC');
-
-    List<PollDataModel> pollList = [];
-    for (var poll in maps) {
-      pollList.add(PollDataModel.fromLocalDB(
-          poll,
-          await PollOptionModel.getOptionsOfPoll(
-              poll[PollDataModel.columnPollId])));
-    }
-
-    return pollList;
-  }
-
-  static Future<List<PollDataModel>> getPollDataForPolls(
-      List<int> pollids) async {
-    if (pollids == null || (pollids != null && pollids.isEmpty))
-      return List<PollDataModel>();
-
-    // Get a reference to the database.
-    final Database db = await DBProvider.db.database;
-
-    String commaSeparated = pollids.join(',');
-    String query =
-        "SELECT * FROM ${PollDataModel.tablename} WHERE ${PollDataModel.columnPollId} IN (" +
-            commaSeparated +
-            ")";
-    List<Map<String, dynamic>> maps = await db.rawQuery(query);
-
-    List<PollDataModel> pollList = [];
-    for (var poll in maps) {
-      pollList.add(PollDataModel.fromLocalDB(
-          poll,
-          await PollOptionModel.getOptionsOfPoll(
-              poll[PollDataModel.columnPollId])));
-    }
-    return pollList;
-  }
-
-  static Future<PollDataModel> getOne(int pollid) async {
-    // Get a reference to the database.
-    final Database db = await DBProvider.db.database;
-
-    // Get the Dog from the database.
-    final List<Map<String, dynamic>> maps = await db.query(
-      PollDataModel.tablename,
-      where: "${PollDataModel.columnPollId} = ?",
-      whereArgs: [pollid],
-    );
-
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    List<PollDataModel> polls = List.generate(maps.length, (i) {
-      return PollDataModel.fromJson(maps[i]);
-    });
-
-    if (polls.isNotEmpty)
-      return polls[0];
-    else
-      return null;
-  }
-
   static Future<void> delete(int pollid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
@@ -360,6 +292,14 @@ class PollOptionModel {
           "${PollOptionModel.columnPollId} = ? AND ${PollOptionModel.columnOptionIndex} = ?",
       whereArgs: [data.pollid, data.optionindex],
     );
+
+    Poll poll = PollStore.store.findById(pollid: data.pollid);
+    poll.updateOption(
+        option: PollOption(
+            optionIndex: data.optionindex,
+            optionText: data.desc,
+            openVotes: data.openVotes,
+            secretVotes: data.secretVotes));
   }
 
   static Future<void> delete(int pollid) async {

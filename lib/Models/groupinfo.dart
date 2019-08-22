@@ -5,6 +5,8 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
+import 'package:loudly/providers/group.dart';
+import 'package:loudly/providers/grouplist.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -19,7 +21,7 @@ class GroupInfo {
   static final String tablename = 'groupinfo';
   static final String columnGroupId = 'groupid';
   static final String columnName = 'name';
-  static final String columnDesc = 'desc';  
+  static final String columnDesc = 'desc';
   static final String columnCreatedBy = 'createdby';
   static final String columnCreatedAt = 'createdAt';
   static final String columnSorttime = 'sorttime';
@@ -78,6 +80,14 @@ class GroupInfo {
       groupInfo.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    GroupStore.store.addGroup(
+        group: Group(
+            groupid: groupInfo.groupid,
+            title: groupInfo.name,
+            desc: groupInfo.desc,
+            createdBy: groupInfo.createdBy,
+            createdAt: groupInfo.createdAt));
   }
 
   static Future<List<GroupInfo>> getAll() async {
@@ -85,8 +95,8 @@ class GroupInfo {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps =
-        await db.query(GroupInfo.tablename, orderBy: '${GroupInfo.columnCreatedAt} DESC');
+    final List<Map<String, dynamic>> maps = await db.query(GroupInfo.tablename,
+        orderBy: '${GroupInfo.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -105,6 +115,8 @@ class GroupInfo {
       where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [groupid],
     );
+
+    GroupStore.store.findById(id: groupid).updateTitle(title: name);
   }
 
   static Future<void> updateDesc(int groupid, String desc) async {
@@ -118,6 +130,8 @@ class GroupInfo {
       where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [groupid],
     );
+
+    GroupStore.store.findById(id: groupid).updateDescription(desc: desc);
   }
 
   static Future<void> delete(int id) async {
@@ -130,28 +144,6 @@ class GroupInfo {
       where: '${GroupInfo.columnGroupId} = ?',
       whereArgs: [id],
     );
-  }
-
-  static Future<GroupInfo> getOne(int id) async {
-    // Get a reference to the database.
-    final Database db = await DBProvider.db.database;
-
-    // Get the Dog from the database.
-    final List<Map<String, dynamic>> maps = await db.query(
-      GroupInfo.tablename,
-      where: '${GroupInfo.columnGroupId} = ?',
-      whereArgs: [id],
-    );
-
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    List<GroupInfo> groups = List.generate(maps.length, (i) {
-      return GroupInfo.fromJson(maps[i]);
-    });
-
-    if (groups.isNotEmpty)
-      return groups[0];
-    else
-      return null;
   }
 
   static Future<void> updateSortTime(int id) async {

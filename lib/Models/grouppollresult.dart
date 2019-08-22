@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:loudly/models/polldata.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/providers/pollopts.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -42,13 +41,15 @@ class GroupPollResult {
         pollId: json[GroupPollResult.columnPollId],
         groupId: json[GroupPollResult.columnGroupId],
         options: new List<PollOptionModel>.from(
-            json[GroupPollResult.jsonOptions].map((x) => PollOptionModel.fromJson(x))),
+            json[GroupPollResult.jsonOptions]
+                .map((x) => PollOptionModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         GroupPollResult.columnPollId: pollId,
         GroupPollResult.columnGroupId: groupId,
-        GroupPollResult.jsonOptions: new List<dynamic>.from(options.map((x) => x.toJson())),
+        GroupPollResult.jsonOptions:
+            new List<dynamic>.from(options.map((x) => x.toJson())),
       };
 
   static Future<void> createTable(Database db) async {
