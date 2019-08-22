@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:loudly/models/polldata.dart';
-
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
+import 'package:loudly/providers/poll.dart';
+import 'package:loudly/providers/pollopts.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class PollVoteScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class PollVoteScreen extends StatefulWidget {
 class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
   int selectedOption;
-  PollData pollData;
+  Poll pollData;
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     int index = 0;
     for (PollOption option in pollData.options) {
       widgets.add(
-          _getOptionsField(optionText: option.desc, index: index, id: index));
+          _getOptionsField(optionText: option.optionText, index: index, id: index));
       widgets.add(kGetOptionsDivider());
       index++;
     }
