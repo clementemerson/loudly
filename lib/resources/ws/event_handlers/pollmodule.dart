@@ -21,7 +21,7 @@ class WSPollsModule {
   static const String deleteEvent = 'delete';
   static const String getMyPollsInfoEvent = 'getMyPollsInfo';
 
-  static Future<int> create(PollData pollData, {Function callback}) async {
+  static Future<int> create(PollDataModel pollData, {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
       Message message = Message(
@@ -246,7 +246,7 @@ class WSPollsModule {
       {@required Message sentMessage}) async {
     try {
       //Prepare data
-      PollData data = new PollData(
+      PollDataModel data = new PollDataModel(
           pollid: genFormatMessage.message.data['pollid'],
           title: sentMessage.data['title'],
           options: pollOptionFromList(sentMessage.data['options'], genFormatMessage.message.data['pollid']),
@@ -256,7 +256,7 @@ class WSPollsModule {
           createdAt: genFormatMessage.message.data['createdAt'],
           voted: false);
 
-      PollData.insert(data);
+      PollDataModel.insert(data);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
@@ -280,10 +280,10 @@ class WSPollsModule {
   static Future<void> getInfoReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<PollData> pollInfoList =
+      List<PollDataModel> pollInfoList =
           pollInfoFromList(genFormatMessage.message.data);
-      for (PollData pollInfo in pollInfoList) {
-        await PollData.insert(pollInfo);
+      for (PollDataModel pollInfo in pollInfoList) {
+        await PollDataModel.insert(pollInfo);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -337,7 +337,7 @@ class WSPollsModule {
   static Future<void> deleteReply(GeneralMessageFormat genFormatMessage,
       {Message sentMessage}) async {
     try {
-      PollData.delete(sentMessage.data['pollid']);
+      PollDataModel.delete(sentMessage.data['pollid']);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
@@ -346,10 +346,10 @@ class WSPollsModule {
   static Future<void> getMyPollsInfoReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<PollData> pollInfoList =
+      List<PollDataModel> pollInfoList =
           pollInfoFromList(genFormatMessage.message.data);
-      for (PollData pollInfo in pollInfoList) {
-        await PollData.insert(pollInfo);
+      for (PollDataModel pollInfo in pollInfoList) {
+        await PollDataModel.insert(pollInfo);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
