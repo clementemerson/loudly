@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/userinfo.dart';
 import 'package:loudly/project_enums.dart';
+import 'package:loudly/providers/user.dart';
 import 'package:loudly/ui/Lists/contact_list.dart';
 
 class GroupParticipantsScreen extends StatefulWidget {
@@ -13,7 +13,7 @@ class GroupParticipantsScreen extends StatefulWidget {
 }
 
 class _GroupParticipantsScreenState extends State<GroupParticipantsScreen> {
-  final List<UserInfoModel> _selectedUsers = List<UserInfoModel>();
+  final List<User> _selectedUsers = List<User>();
   
   AppBar _getAppBar() {
     return AppBar(
