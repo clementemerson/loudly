@@ -5,19 +5,19 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
-import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/models/polldata.dart';
+import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/Models/polldata.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-GroupPoll groupPollFromJson(String str) => GroupPoll.fromJson(json.decode(str));
+GroupPollModel groupPollFromJson(String str) => GroupPollModel.fromJson(json.decode(str));
 
-List<GroupPoll> groupPollFromList(List<dynamic> list) =>
-    new List<GroupPoll>.from(list.map((x) => GroupPoll.fromJson(x)));
+List<GroupPollModel> groupPollFromList(List<dynamic> list) =>
+    new List<GroupPollModel>.from(list.map((x) => GroupPollModel.fromJson(x)));
 
-String groupPollToJson(GroupPoll data) => json.encode(data.toJson());
+String groupPollToJson(GroupPollModel data) => json.encode(data.toJson());
 
-class GroupPoll {
+class GroupPollModel {
   static final String tablename = 'grouppoll';
   static final String columnPollId = 'pollid';
   static final String columnGroupId = 'groupid';
@@ -31,7 +31,7 @@ class GroupPoll {
   int createdAt;
   bool archived;
 
-  GroupPoll({
+  GroupPollModel({
     this.pollid,
     this.groupid,
     this.sharedBy,
@@ -39,41 +39,41 @@ class GroupPoll {
     this.archived,
   });
 
-  factory GroupPoll.fromJson(Map<String, dynamic> json) => new GroupPoll(
-        pollid: json[GroupPoll.columnPollId],
-        groupid: json[GroupPoll.columnGroupId],
-        sharedBy: json[GroupPoll.columnSharedBy],
-        createdAt: json[GroupPoll.columnCreatedAt],
+  factory GroupPollModel.fromJson(Map<String, dynamic> json) => new GroupPollModel(
+        pollid: json[GroupPollModel.columnPollId],
+        groupid: json[GroupPollModel.columnGroupId],
+        sharedBy: json[GroupPollModel.columnSharedBy],
+        createdAt: json[GroupPollModel.columnCreatedAt],
         archived: false,
       );
 
   Map<String, dynamic> toJson() => {
-        GroupPoll.columnPollId: pollid,
-        GroupPoll.columnGroupId: groupid,
-        GroupPoll.columnSharedBy: sharedBy,
-        GroupPoll.columnCreatedAt: createdAt,
-        GroupPoll.columnArchived: archived,
+        GroupPollModel.columnPollId: pollid,
+        GroupPollModel.columnGroupId: groupid,
+        GroupPollModel.columnSharedBy: sharedBy,
+        GroupPollModel.columnCreatedAt: createdAt,
+        GroupPollModel.columnArchived: archived,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
-    await db.execute('''CREATE TABLE ${GroupPoll.tablename}(
-          ${GroupPoll.columnPollId} INTEGER, 
-          ${GroupPoll.columnGroupId} INTEGER,
-          ${GroupPoll.columnSharedBy} INTEGER DEFAULT -1,
-          ${GroupPoll.columnCreatedAt} INTEGER DEFAULT 0,
-          ${GroupPoll.columnArchived} INTEGER DEFAULT 0,
-          PRIMARY KEY (${GroupPoll.columnPollId}, ${GroupPoll.columnGroupId})
-          FOREIGN KEY (${GroupPoll.columnPollId}) 
+    await db.execute('''CREATE TABLE ${GroupPollModel.tablename}(
+          ${GroupPollModel.columnPollId} INTEGER, 
+          ${GroupPollModel.columnGroupId} INTEGER,
+          ${GroupPollModel.columnSharedBy} INTEGER DEFAULT -1,
+          ${GroupPollModel.columnCreatedAt} INTEGER DEFAULT 0,
+          ${GroupPollModel.columnArchived} INTEGER DEFAULT 0,
+          PRIMARY KEY (${GroupPollModel.columnPollId}, ${GroupPollModel.columnGroupId})
+          FOREIGN KEY (${GroupPollModel.columnPollId}) 
           REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
-          FOREIGN KEY (${GroupPoll.columnGroupId}) 
-          REFERENCES ${GroupInfo.tablename}(${GroupInfo.columnGroupId}) 
+          FOREIGN KEY (${GroupPollModel.columnGroupId}) 
+          REFERENCES ${GroupInfoModel.tablename}(${GroupInfoModel.columnGroupId}) 
           ON DELETE CASCADE
         )''');
   }
 
-  static Future<void> insert(GroupPoll groupPoll) async {
+  static Future<void> insert(GroupPollModel groupPoll) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -81,7 +81,7 @@ class GroupPoll {
     // `conflictAlgorithm`. In this case, if the same groupPoll is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
-      GroupPoll.tablename,
+      GroupPollModel.tablename,
       groupPoll.toJson(),
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
@@ -92,26 +92,26 @@ class GroupPoll {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupPoll.tablename,
-        distinct: true, columns: [GroupPoll.columnPollId], orderBy: '${GroupPoll.columnCreatedAt} DESC');
+    final List<Map<String, dynamic>> maps = await db.query(GroupPollModel.tablename,
+        distinct: true, columns: [GroupPollModel.columnPollId], orderBy: '${GroupPollModel.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return maps[i][GroupPoll.columnPollId];
+      return maps[i][GroupPollModel.columnPollId];
     });
   }
 
-  static Future<List<GroupPoll>> getAllByGroup(int groupid) async {
+  static Future<List<GroupPollModel>> getAllByGroup(int groupid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupPoll.tablename,
-        where: '${GroupPoll.columnGroupId} = ?', whereArgs: [groupid], orderBy: '${GroupPoll.columnCreatedAt} DESC');
+    final List<Map<String, dynamic>> maps = await db.query(GroupPollModel.tablename,
+        where: '${GroupPollModel.columnGroupId} = ?', whereArgs: [groupid], orderBy: '${GroupPollModel.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return GroupPoll.fromJson(maps[i]);
+      return GroupPollModel.fromJson(maps[i]);
     });
   }
 
@@ -121,9 +121,9 @@ class GroupPoll {
 
     // Remove the Dog from the database.
     await db.update(
-      GroupPoll.tablename,
-      {GroupPoll.columnArchived: archive},
-      where: "${GroupPoll.columnPollId} = ? AND ${GroupPoll.columnGroupId} = ?",
+      GroupPollModel.tablename,
+      {GroupPollModel.columnArchived: archive},
+      where: "${GroupPollModel.columnPollId} = ? AND ${GroupPollModel.columnGroupId} = ?",
       whereArgs: [pollid, groupid],
     );
   }

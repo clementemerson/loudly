@@ -5,8 +5,8 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
-import 'package:loudly/models/polldata.dart';
-import 'package:loudly/models/userinfo.dart';
+import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/Models/userinfo.dart';
 import 'package:sqflite/sqflite.dart';
 
 UserVote userVoteFromJson(String str) => UserVote.fromJson(json.decode(str));
@@ -64,7 +64,7 @@ class UserVote {
           REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
           FOREIGN KEY (${UserVote.columnUserId}) 
-          REFERENCES ${UserInfo.tablename}(${UserInfo.columnUserId}) 
+          REFERENCES ${UserInfoModel.tablename}(${UserInfoModel.columnUserId}) 
           ON DELETE CASCADE
         )''');
   }

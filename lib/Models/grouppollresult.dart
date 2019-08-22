@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:loudly/models/polldata.dart';
+import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/data/database.dart';
-import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/Models/groupinfo.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -64,7 +64,7 @@ class GroupPollResult {
           REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
           FOREIGN KEY (${GroupPollResult.columnGroupId}) 
-          REFERENCES ${GroupInfo.tablename}(${GroupInfo.columnGroupId}) 
+          REFERENCES ${GroupInfoModel.tablename}(${GroupInfoModel.columnGroupId}) 
           ON DELETE CASCADE
         )''');
   }
@@ -85,27 +85,27 @@ class GroupPollResult {
         GroupPollResult.columnOpenVotes: option.openVotes,
       };
       await db.insert(
-        GroupInfo.tablename,
+        GroupInfoModel.tablename,
         data,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
   }
 
-  static Future<List<GroupInfo>> getByGroupAndPoll(
+  static Future<List<GroupInfoModel>> getByGroupAndPoll(
       int groupid, int pollid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupInfo.tablename,
+    final List<Map<String, dynamic>> maps = await db.query(GroupInfoModel.tablename,
         where:
             '${GroupPollResult.columnGroupId} = ? AND ${GroupPollResult.columnPollId} = ?',
         whereArgs: [groupid, pollid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return GroupInfo.fromJson(maps[i]);
+      return GroupInfoModel.fromJson(maps[i]);
     });
   }
 }

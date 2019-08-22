@@ -6,16 +6,16 @@ import 'dart:convert';
 import 'package:loudly/data/database.dart';
 import 'package:sqflite/sqflite.dart';
 
-List<UserInfo> userInfoFromJson(String str) =>
-    new List<UserInfo>.from(json.decode(str).map((x) => UserInfo.fromJson(x)));
+List<UserInfoModel> userInfoFromJson(String str) =>
+    new List<UserInfoModel>.from(json.decode(str).map((x) => UserInfoModel.fromJson(x)));
 
-List<UserInfo> userInfoFromList(List<dynamic> list) =>
-    new List<UserInfo>.from(list.map((x) => UserInfo.fromJson(x)));
+List<UserInfoModel> userInfoFromList(List<dynamic> list) =>
+    new List<UserInfoModel>.from(list.map((x) => UserInfoModel.fromJson(x)));
 
-String userInfoToJson(List<UserInfo> data) =>
+String userInfoToJson(List<UserInfoModel> data) =>
     json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
 
-class UserInfo {
+class UserInfoModel {
   static final String tablename = 'users';
 
   static final String columnUserId = 'user_id';
@@ -32,7 +32,7 @@ class UserInfo {
   int createdAt;
   int updatedAt;
 
-  UserInfo({
+  UserInfoModel({
     this.userId,
     this.name,
     this.statusMsg,
@@ -41,36 +41,36 @@ class UserInfo {
     this.updatedAt,
   });
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) => new UserInfo(
-      userId: json[UserInfo.columnUserId],
-      name: json[UserInfo.columnName],
-      statusMsg: json[UserInfo.columnStatusMsg],
-      phoneNumber: json[UserInfo.columnPhoneNumber],
-      createdAt: json[UserInfo.columnCreatedAt],
-      updatedAt: json[UserInfo.columnUpdatedAt]);
+  factory UserInfoModel.fromJson(Map<String, dynamic> json) => new UserInfoModel(
+      userId: json[UserInfoModel.columnUserId],
+      name: json[UserInfoModel.columnName],
+      statusMsg: json[UserInfoModel.columnStatusMsg],
+      phoneNumber: json[UserInfoModel.columnPhoneNumber],
+      createdAt: json[UserInfoModel.columnCreatedAt],
+      updatedAt: json[UserInfoModel.columnUpdatedAt]);
 
   Map<String, dynamic> toJson() => {
-        UserInfo.columnUserId: userId,
-        UserInfo.columnName: name,
-        UserInfo.columnStatusMsg: statusMsg,
-        UserInfo.columnPhoneNumber: phoneNumber,
-        UserInfo.columnCreatedAt: createdAt,
-        UserInfo.columnUpdatedAt: updatedAt,
+        UserInfoModel.columnUserId: userId,
+        UserInfoModel.columnName: name,
+        UserInfoModel.columnStatusMsg: statusMsg,
+        UserInfoModel.columnPhoneNumber: phoneNumber,
+        UserInfoModel.columnCreatedAt: createdAt,
+        UserInfoModel.columnUpdatedAt: updatedAt,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the users table
-    await db.execute('''CREATE TABLE ${UserInfo.tablename}(
-      ${UserInfo.columnUserId} INTEGER PRIMARY KEY,
-      ${UserInfo.columnName} TEXT DEFAULT '',
-      ${UserInfo.columnStatusMsg} TEXT DEFAULT '',
-      ${UserInfo.columnPhoneNumber} TEXT DEFAULT '',
-      ${UserInfo.columnCreatedAt} INTEGER DEFAULT 0,
-      ${UserInfo.columnUpdatedAt} INTEGER DEFAULT 0
+    await db.execute('''CREATE TABLE ${UserInfoModel.tablename}(
+      ${UserInfoModel.columnUserId} INTEGER PRIMARY KEY,
+      ${UserInfoModel.columnName} TEXT DEFAULT '',
+      ${UserInfoModel.columnStatusMsg} TEXT DEFAULT '',
+      ${UserInfoModel.columnPhoneNumber} TEXT DEFAULT '',
+      ${UserInfoModel.columnCreatedAt} INTEGER DEFAULT 0,
+      ${UserInfoModel.columnUpdatedAt} INTEGER DEFAULT 0
     )''');
   }
 
-  static Future<void> insert(UserInfo data) async {
+  static Future<void> insert(UserInfoModel data) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -79,7 +79,7 @@ class UserInfo {
     // multiple times, it replaces the previous data.
     try {
       await db.insert(
-        UserInfo.tablename,
+        UserInfoModel.tablename,
         data.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
@@ -88,28 +88,28 @@ class UserInfo {
     }
   }
 
-  static Future<List<UserInfo>> getAll() async {
+  static Future<List<UserInfoModel>> getAll() async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(UserInfo.tablename);
+    final List<Map<String, dynamic>> maps = await db.query(UserInfoModel.tablename);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return UserInfo.fromJson(maps[i]);
+      return UserInfoModel.fromJson(maps[i]);
     });
   }
 
-  static Future<void> update(UserInfo data) async {
+  static Future<void> update(UserInfoModel data) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Update the given Dog.
     await db.update(
-      UserInfo.tablename,
+      UserInfoModel.tablename,
       data.toJson(),
-      where: '${UserInfo.columnUserId} = ?',
+      where: '${UserInfoModel.columnUserId} = ?',
       whereArgs: [data.userId],
     );
   }
@@ -120,26 +120,26 @@ class UserInfo {
 
     // Remove the Dog from the database.
     await db.delete(
-      UserInfo.tablename,
-      where: '${UserInfo.columnUserId} = ?',
+      UserInfoModel.tablename,
+      where: '${UserInfoModel.columnUserId} = ?',
       whereArgs: [id],
     );
   }
 
-  static Future<UserInfo> getOne(int id) async {
+  static Future<UserInfoModel> getOne(int id) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
-      UserInfo.tablename,
-      where: '${UserInfo.columnUserId} = ?',
+      UserInfoModel.tablename,
+      where: '${UserInfoModel.columnUserId} = ?',
       whereArgs: [id],
     );
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
-    List<UserInfo> users = List.generate(maps.length, (i) {
-      return UserInfo.fromJson(maps[i]);
+    List<UserInfoModel> users = List.generate(maps.length, (i) {
+      return UserInfoModel.fromJson(maps[i]);
     });
 
     if (users.isNotEmpty)
