@@ -1,12 +1,12 @@
 import 'dart:io';
-import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/models/groupuser.dart';
-import 'package:loudly/models/userinfo.dart';
-import 'package:loudly/models/userpoll.dart';
-import 'package:loudly/models/grouppoll.dart';
-import 'package:loudly/models/grouppollresult.dart';
-import 'package:loudly/models/polldata.dart';
-import 'package:loudly/models/uservote.dart';
+import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/Models/groupuser.dart';
+import 'package:loudly/Models/userinfo.dart';
+import 'package:loudly/Models/userpoll.dart';
+import 'package:loudly/Models/grouppoll.dart';
+import 'package:loudly/Models/grouppollresult.dart';
+import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/Models/uservote.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -42,8 +42,8 @@ class DBProvider {
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
         var baseTablesCreation = <Future>[
-          UserInfo.createTable(db), //users table
-          GroupInfo.createTable(db), //groupinfo table
+          UserInfoModel.createTable(db), //users table
+          GroupInfoModel.createTable(db), //groupinfo table
           PollDataModel.createTable(db), //polldata table
           PollOptionModel.createTable(db), //polloption table
         ];
@@ -51,8 +51,8 @@ class DBProvider {
 
         var dataTablesCreation = <Future>[
           GroupUser.createTable(db),  //groupuser table
-          GroupPoll.createTable(db),  //grouppoll table
-          UserPoll.createTable(db), //userpoll table
+          GroupPollModel.createTable(db),  //grouppoll table
+          UserPollModel.createTable(db), //userpoll table
           GroupPollResult.createTable(db),  //grouppollresult table
           UserVote.createTable(db), //uservote table
         ];
