@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
 
 class GroupList extends StatefulWidget {
@@ -13,7 +13,7 @@ class GroupList extends StatefulWidget {
 }
 
 class _GroupListState extends State<GroupList> {
-  List<GroupInfo> _groupList = [];
+  List<GroupInfoModel> _groupList = [];
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _GroupListState extends State<GroupList> {
 
   _getGroupDataFromDB() async {
     try {
-      List<GroupInfo> groupList = await GroupInfo.getAll();
+      List<GroupInfoModel> groupList = await GroupInfoModel.getAll();
       setState(() {
         if (this.mounted) _groupList.addAll(groupList);
       });
@@ -52,7 +52,7 @@ class _GroupListState extends State<GroupList> {
         String groupDataCollection = response.body;
         var decodedData = jsonDecode(groupDataCollection);
         for (var groupData in decodedData) {
-          GroupInfo group = new GroupInfo(
+          GroupInfoModel group = new GroupInfoModel(
               groupid: groupData['id'],
               name: groupData['name'],
               desc: groupData['desc'],

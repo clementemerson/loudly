@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/models/userinfo.dart';
+import 'package:loudly/Models/userinfo.dart';
 
 import 'package:loudly/project_enums.dart';
 
@@ -13,7 +13,7 @@ class ContactList extends StatefulWidget {
   final ContactListType contactListType;
   final String groupId;
   final ContactListAction actionRequired;
-  final List<UserInfo> selectedUsers;
+  final List<UserInfoModel> selectedUsers;
 
   ContactList(
       {@required this.contactListType, this.groupId, this.actionRequired, this.selectedUsers});
@@ -23,7 +23,7 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  List<UserInfo> _contactList = [];
+  List<UserInfoModel> _contactList = [];
   
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _ContactListState extends State<ContactList> {
 
   _getContactDataFromDB() async {
     try {
-      List<UserInfo> userList = await UserInfo.getAll();
+      List<UserInfoModel> userList = await UserInfoModel.getAll();
       setState(() {
         if (this.mounted) _contactList.addAll(userList);
       });
@@ -62,7 +62,7 @@ class _ContactListState extends State<ContactList> {
         String groupDataCollection = response.body;
         var decodedData = jsonDecode(groupDataCollection);
         for (var contactData in decodedData) {
-          UserInfo group = UserInfo(
+          UserInfoModel group = UserInfoModel(
               userId: contactData['id'],
               name: contactData['name'],
               statusMsg: contactData['statusmsg'],
@@ -80,7 +80,7 @@ class _ContactListState extends State<ContactList> {
     }
   }
 
-  void _addRemoveSelectedList(UserInfo contact, bool add) {
+  void _addRemoveSelectedList(UserInfoModel contact, bool add) {
     if (add == true) {
       widget.selectedUsers.add(contact);
     } else {
@@ -176,7 +176,7 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  _isSelected(UserInfo contact) {
+  _isSelected(UserInfoModel contact) {
     return widget.selectedUsers.indexOf(contact) > -1 ? true : false;
   }
 }
