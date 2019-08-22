@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:loudly/models/grouppollresult.dart';
-import 'package:loudly/models/polldata.dart';
+import 'package:loudly/providers/pollopts.dart';
 import 'package:loudly/ui/widgets/consolidatedvotechart.dart';
 import 'package:loudly/ui/widgets/voteshare.dart';
 
