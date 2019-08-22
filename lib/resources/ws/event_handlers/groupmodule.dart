@@ -276,10 +276,10 @@ class WSGroupsModule {
   static Future<void> getUsersOfGroupReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<GroupUser> groupUserList =
+      List<GroupUserModel> groupUserList =
           groupUserFromList(genFormatMessage.message.data);
-      for (GroupUser groupUser in groupUserList) {
-        GroupUser.insert(groupUser);
+      for (GroupUserModel groupUser in groupUserList) {
+        GroupUserModel.insert(groupUser);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -302,14 +302,14 @@ class WSGroupsModule {
   static Future<void> addUserReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      GroupUser data = new GroupUser(
+      GroupUserModel data = new GroupUserModel(
           groupid: sentMessage.data['groupid'],
           userId: sentMessage.data['user_id'],
           permission: sentMessage.data['permission'],
           addedBy: Globals.selfUserId,
           createdAt: sentMessage.data['createdAt']);
 
-      GroupUser.insert(data);
+      GroupUserModel.insert(data);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
@@ -341,7 +341,7 @@ class WSGroupsModule {
       GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      GroupUser.updatePermission(sentMessage.data['groupid'],
+      GroupUserModel.updatePermission(sentMessage.data['groupid'],
           sentMessage.data['user_id'], sentMessage.data['permission']);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -351,7 +351,7 @@ class WSGroupsModule {
   static Future<void> removeUserReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      GroupUser.delete(
+      GroupUserModel.delete(
           sentMessage.data['groupid'], sentMessage.data['user_id']);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);

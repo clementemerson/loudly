@@ -162,10 +162,10 @@ class WSUsersModule {
   static Future<void> getGroupsReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<GroupUser> groupUserList =
+      List<GroupUserModel> groupUserList =
           groupUserFromList(genFormatMessage.message.data);
-      for (GroupUser groupUser in groupUserList) {
-        await GroupUser.insert(groupUser);
+      for (GroupUserModel groupUser in groupUserList) {
+        await GroupUserModel.insert(groupUser);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
