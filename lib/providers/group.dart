@@ -18,6 +18,16 @@ class Group with ChangeNotifier {
       @required this.createdBy,
       @required this.createdAt});
 
+  updateTitle({@required String title}) {
+    this.title = title;
+    notifyListeners();
+  }
+
+  updateDescription({@required String desc}) {
+    this.desc = desc;
+    notifyListeners();
+  }
+
   List<User> get users {
     return UserStore.store.users
         .where((user) => user.isInGroup(groupid: this.groupid));

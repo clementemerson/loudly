@@ -37,6 +37,12 @@ class Poll with ChangeNotifier {
     return _options[index];
   }
 
+  updateOption({@required PollOption option}) {
+    PollOption pollOption = _options[option.optionIndex];
+    pollOption.updateOpenVotes(noOfVotes: option.openVotes);
+    pollOption.updateSecretVotes(noOfVotes: option.secretVotes);
+  }
+
   List<Vote> getVotesOf({@required List<int> userids}) {
     return _votes.where((vote) => userids.contains(vote.votedBy));
   }
