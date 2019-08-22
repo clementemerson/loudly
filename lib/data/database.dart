@@ -44,8 +44,8 @@ class DBProvider {
         var baseTablesCreation = <Future>[
           UserInfo.createTable(db), //users table
           GroupInfo.createTable(db), //groupinfo table
-          PollData.createTable(db), //polldata table
-          PollOption.createTable(db), //polloption table
+          PollDataModel.createTable(db), //polldata table
+          PollOptionModel.createTable(db), //polloption table
         ];
         await Future.wait(baseTablesCreation);
 
