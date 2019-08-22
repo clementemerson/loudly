@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/models/groupinfo.dart';
-import 'package:loudly/models/grouppoll.dart';
-import 'package:loudly/models/groupuser.dart';
+import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/Models/grouppoll.dart';
+import 'package:loudly/Models/groupuser.dart';
 import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
@@ -247,14 +247,14 @@ class WSGroupsModule {
       {@required Message sentMessage}) async {
     try {
       //Prepare data
-      GroupInfo groupInfo = new GroupInfo(
+      GroupInfoModel groupInfo = new GroupInfoModel(
           groupid: genFormatMessage.message.data['groupid'],
           name: sentMessage.data['name'],
           desc: sentMessage.data['desc'],
           createdBy: Globals.selfUserId,
           createdAt: genFormatMessage.message.data['createdAt']);
 
-      await GroupInfo.insert(groupInfo);
+      await GroupInfoModel.insert(groupInfo);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
@@ -263,10 +263,10 @@ class WSGroupsModule {
   static Future<void> getInfoReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<GroupInfo> groupInfoList =
+      List<GroupInfoModel> groupInfoList =
           groupInfoFromList(genFormatMessage.message.data);
-      for (GroupInfo groupInfo in groupInfoList) {
-        GroupInfo.insert(groupInfo);
+      for (GroupInfoModel groupInfo in groupInfoList) {
+        GroupInfoModel.insert(groupInfo);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -289,10 +289,10 @@ class WSGroupsModule {
   static Future<void> getPollsReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<GroupPoll> groupPollList =
+      List<GroupPollModel> groupPollList =
           groupPollFromList(genFormatMessage.message.data);
-      for (GroupPoll groupPoll in groupPollList) {
-        GroupPoll.insert(groupPoll);
+      for (GroupPollModel groupPoll in groupPollList) {
+        GroupPollModel.insert(groupPoll);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -319,7 +319,7 @@ class WSGroupsModule {
       {@required Message sentMessage}) async {
     try {
       //Prepare data
-      GroupInfo.updateTitle(
+      GroupInfoModel.updateTitle(
           sentMessage.data['groupid'], sentMessage.data['name']);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -330,7 +330,7 @@ class WSGroupsModule {
       {@required Message sentMessage}) async {
     try {
       //Prepare data
-      GroupInfo.updateDesc(
+      GroupInfoModel.updateDesc(
           sentMessage.data['groupid'], sentMessage.data['desc']);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -361,10 +361,10 @@ class WSGroupsModule {
   static Future<void> getMyGroupsInfoReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<GroupInfo> groupInfoList =
+      List<GroupInfoModel> groupInfoList =
           groupInfoFromList(genFormatMessage.message.data);
-      for (GroupInfo groupInfo in groupInfoList) {
-        await GroupInfo.insert(groupInfo);
+      for (GroupInfoModel groupInfo in groupInfoList) {
+        await GroupInfoModel.insert(groupInfo);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);

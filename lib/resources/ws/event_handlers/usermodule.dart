@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/models/groupuser.dart';
-import 'package:loudly/models/userinfo.dart';
-import 'package:loudly/models/userpoll.dart';
+import 'package:loudly/Models/groupuser.dart';
+import 'package:loudly/Models/userinfo.dart';
+import 'package:loudly/Models/userpoll.dart';
 import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
@@ -149,10 +149,10 @@ class WSUsersModule {
   static Future<void> getUsersFromPhoneNumbersReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<UserInfo> userInfoList =
+      List<UserInfoModel> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
-      for (UserInfo userInfo in userInfoList) {
-        await UserInfo.insert(userInfo);
+      for (UserInfoModel userInfo in userInfoList) {
+        await UserInfoModel.insert(userInfo);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -175,10 +175,10 @@ class WSUsersModule {
   static Future<void> getPollsReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
-      List<UserPoll> userPollList =
+      List<UserPollModel> userPollList =
           userPollFromList(genFormatMessage.message.data);
-      for (UserPoll userPoll in userPollList) {
-        await UserPoll.insert(userPoll);
+      for (UserPollModel userPoll in userPollList) {
+        await UserPollModel.insert(userPoll);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -187,10 +187,10 @@ class WSUsersModule {
 
   static Future<void> getInfoReply(GeneralMessageFormat genFormatMessage) async {
     try {
-      List<UserInfo> userInfoList =
+      List<UserInfoModel> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
-      for (UserInfo userInfo in userInfoList) {
-        await UserInfo.insert(userInfo);
+      for (UserInfoModel userInfo in userInfoList) {
+        await UserInfoModel.insert(userInfo);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
@@ -205,7 +205,7 @@ class WSUsersModule {
         'user_id': Globals.selfUserId,
         'name': sentMessage.data['name']
       };
-      await UserInfo.update(data);
+      await UserInfoModel.update(data);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
@@ -218,7 +218,7 @@ class WSUsersModule {
         'user_id': Globals.selfUserId,
         'statusmsg': sentMessage.data['statusmsg']
       };
-      await UserInfo.update(data);
+      await UserInfoModel.update(data);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }

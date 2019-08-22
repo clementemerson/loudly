@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/models/grouppoll.dart';
-import 'package:loudly/models/polldata.dart';
+import 'package:loudly/Models/grouppoll.dart';
+import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
@@ -265,13 +265,13 @@ class WSPollsModule {
   static Future<void> shareToGroupReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      GroupPoll data = new GroupPoll(
+      GroupPollModel data = new GroupPollModel(
           pollid: sentMessage.data['pollid'],
           groupid: sentMessage.data['groupid'],
           sharedBy: Globals.selfUserId,
           createdAt: genFormatMessage.message.data.createdAt,
           archived: false);
-      GroupPoll.insert(data);
+      GroupPollModel.insert(data);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
