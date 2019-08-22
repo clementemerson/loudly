@@ -32,35 +32,6 @@ class _PollListState extends State<PollList> {
     super.initState();
   }
 
-// /// Gets polls list based on [pollListType] passed.
-//   _getPollData() async {
-//     try {
-//       List<PollData> pollList;
-//       switch (widget.pollListType) {
-//         case PollListType.All:
-//           pollList = await PollData.getAll();
-//           break;
-//         case PollListType.User:
-//           pollList = await PollData.getUserCreatedPolls(Globals.selfUserId);
-//           break;
-//         case PollListType.Group:
-//           List<GroupPoll> groupPolls =
-//               await GroupPoll.getAllByGroup(widget.groupId);
-//           List<int> pollIds = List.generate(groupPolls.length, (i) {
-//             return groupPolls[i].pollid;
-//           });
-//           pollList = await PollData.getPollDataForPolls(pollIds);
-//           break;
-//       }
-
-//       setState(() {
-//         if (this.mounted) _pollList.addAll(pollList);
-//       });
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-
 /// Prepares chart info
   _getChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
