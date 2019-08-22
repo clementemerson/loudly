@@ -50,7 +50,7 @@ class DBProvider {
         await Future.wait(baseTablesCreation);
 
         var dataTablesCreation = <Future>[
-          GroupUser.createTable(db),  //groupuser table
+          GroupUserModel.createTable(db),  //groupuser table
           GroupPollModel.createTable(db),  //grouppoll table
           UserPollModel.createTable(db), //userpoll table
           GroupPollResult.createTable(db),  //grouppollresult table
