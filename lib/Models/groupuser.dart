@@ -10,14 +10,14 @@ import 'package:loudly/Models/userinfo.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-GroupUser groupUserFromJson(String str) => GroupUser.fromJson(json.decode(str));
+GroupUserModel groupUserFromJson(String str) => GroupUserModel.fromJson(json.decode(str));
 
-List<GroupUser> groupUserFromList(List<dynamic> list) =>
-    new List<GroupUser>.from(list.map((x) => GroupUser.fromJson(x)));
+List<GroupUserModel> groupUserFromList(List<dynamic> list) =>
+    new List<GroupUserModel>.from(list.map((x) => GroupUserModel.fromJson(x)));
 
-String groupUserToJson(GroupUser data) => json.encode(data.toJson());
+String groupUserToJson(GroupUserModel data) => json.encode(data.toJson());
 
-class GroupUser {
+class GroupUserModel {
   static final String tablename = 'groupusers';
   static final String columnGroupId = 'groupid';
   static final String columnUserId = 'user_id';
@@ -31,7 +31,7 @@ class GroupUser {
   String permission;
   int createdAt;
 
-  GroupUser({
+  GroupUserModel({
     this.groupid,
     this.userId,
     this.addedBy,
@@ -39,40 +39,40 @@ class GroupUser {
     this.createdAt,
   });
 
-  factory GroupUser.fromJson(Map<String, dynamic> json) => new GroupUser(
-      groupid: json[GroupUser.columnGroupId],
-      userId: json[GroupUser.columnUserId],
-      addedBy: json[GroupUser.columnAddedBy],
-      permission: json[GroupUser.columnPermission],
-      createdAt: json[GroupUser.columnCreatedAt]);
+  factory GroupUserModel.fromJson(Map<String, dynamic> json) => new GroupUserModel(
+      groupid: json[GroupUserModel.columnGroupId],
+      userId: json[GroupUserModel.columnUserId],
+      addedBy: json[GroupUserModel.columnAddedBy],
+      permission: json[GroupUserModel.columnPermission],
+      createdAt: json[GroupUserModel.columnCreatedAt]);
 
   Map<String, dynamic> toJson() => {
-        GroupUser.columnGroupId: groupid,
-        GroupUser.columnUserId: userId,
-        GroupUser.columnAddedBy: addedBy,
-        GroupUser.columnPermission: permission,
-        GroupUser.columnCreatedAt: createdAt,
+        GroupUserModel.columnGroupId: groupid,
+        GroupUserModel.columnUserId: userId,
+        GroupUserModel.columnAddedBy: addedBy,
+        GroupUserModel.columnPermission: permission,
+        GroupUserModel.columnCreatedAt: createdAt,
       };
 
   static Future<void> createTable(Database db) async {
     // Create the users table
-    await db.execute('''CREATE TABLE ${GroupUser.tablename}(
-          ${GroupUser.columnGroupId} INTEGER DEFAULT -1, 
-          ${GroupUser.columnUserId} INTEGER DEFAULT -1,
-          ${GroupUser.columnAddedBy} INTEGER DEFAULT -1,
-          ${GroupUser.columnPermission} TEXT DEFAULT 'USER',
-          ${GroupUser.columnCreatedAt} INTEGER DEFAULT 0,
-          PRIMARY KEY (${GroupUser.columnGroupId}, ${GroupUser.columnUserId})
-          FOREIGN KEY (${GroupUser.columnUserId}) 
+    await db.execute('''CREATE TABLE ${GroupUserModel.tablename}(
+          ${GroupUserModel.columnGroupId} INTEGER DEFAULT -1, 
+          ${GroupUserModel.columnUserId} INTEGER DEFAULT -1,
+          ${GroupUserModel.columnAddedBy} INTEGER DEFAULT -1,
+          ${GroupUserModel.columnPermission} TEXT DEFAULT 'USER',
+          ${GroupUserModel.columnCreatedAt} INTEGER DEFAULT 0,
+          PRIMARY KEY (${GroupUserModel.columnGroupId}, ${GroupUserModel.columnUserId})
+          FOREIGN KEY (${GroupUserModel.columnUserId}) 
           REFERENCES ${UserInfoModel.tablename}(${UserInfoModel.columnUserId}) 
           ON DELETE CASCADE
-          FOREIGN KEY (${GroupUser.columnGroupId}) 
+          FOREIGN KEY (${GroupUserModel.columnGroupId}) 
           REFERENCES ${GroupInfoModel.tablename}(${GroupInfoModel.columnGroupId}) 
           ON DELETE CASCADE
         )''');
   }
 
-  static Future<void> insert(GroupUser data) async {
+  static Future<void> insert(GroupUserModel data) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -80,23 +80,23 @@ class GroupUser {
     // `conflictAlgorithm`. In this case, if the same groupInfo is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
-      GroupUser.tablename,
+      GroupUserModel.tablename,
       data.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  static Future<List<GroupUser>> getUsersOfGroup(int groupid) async {
+  static Future<List<GroupUserModel>> getUsersOfGroup(int groupid) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db
-        .query(GroupUser.tablename, where: '${GroupUser.columnGroupId} = ?', whereArgs: [groupid]);
+        .query(GroupUserModel.tablename, where: '${GroupUserModel.columnGroupId} = ?', whereArgs: [groupid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return GroupUser.fromJson(maps[i]);
+      return GroupUserModel.fromJson(maps[i]);
     });
   }
 
@@ -107,9 +107,9 @@ class GroupUser {
 
     // Update the given Dog.
     await db.update(
-      GroupUser.tablename,
-      {GroupUser.columnPermission: permission},
-      where: "${GroupUser.columnGroupId} = ? AND ${GroupUser.columnUserId} = ?",
+      GroupUserModel.tablename,
+      {GroupUserModel.columnPermission: permission},
+      where: "${GroupUserModel.columnGroupId} = ? AND ${GroupUserModel.columnUserId} = ?",
       whereArgs: [groupid, userid],
     );
   }
@@ -120,39 +120,39 @@ class GroupUser {
 
     // Remove the Dog from the database.
     await db.delete(
-      GroupUser.tablename,
-      where: "${GroupUser.columnGroupId} = ? AND ${GroupUser.columnUserId} = ?",
+      GroupUserModel.tablename,
+      where: "${GroupUserModel.columnGroupId} = ? AND ${GroupUserModel.columnUserId} = ?",
       whereArgs: [groupid, userId],
     );
   }
 
-  static Future<List<GroupUser>> getGroupsOfUser(int userId) async {
+  static Future<List<GroupUserModel>> getGroupsOfUser(int userId) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Get the Dog from the database.
     final List<Map<String, dynamic>> maps = await db.query(
-      GroupUser.tablename,
-      where: "${GroupUser.columnUserId} = ?",
+      GroupUserModel.tablename,
+      where: "${GroupUserModel.columnUserId} = ?",
       whereArgs: [userId],
     );
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return GroupUser.fromJson(maps[i]);
+      return GroupUserModel.fromJson(maps[i]);
     });
   }
 
-  static Future<List<GroupUser>> getAll() async {
+  static Future<List<GroupUserModel>> getAll() async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
     // Get the Dog from the database.
-    final List<Map<String, dynamic>> maps = await db.query(GroupUser.tablename);
+    final List<Map<String, dynamic>> maps = await db.query(GroupUserModel.tablename);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return GroupUser.fromJson(maps[i]);
+      return GroupUserModel.fromJson(maps[i]);
     });
   }
 }

@@ -4,10 +4,13 @@
 
 import 'dart:convert';
 import 'package:loudly/data/database.dart';
+import 'package:loudly/providers/user.dart';
+import 'package:loudly/providers/userlist.dart';
 import 'package:sqflite/sqflite.dart';
 
 List<UserInfoModel> userInfoFromJson(String str) =>
-    new List<UserInfoModel>.from(json.decode(str).map((x) => UserInfoModel.fromJson(x)));
+    new List<UserInfoModel>.from(
+        json.decode(str).map((x) => UserInfoModel.fromJson(x)));
 
 List<UserInfoModel> userInfoFromList(List<dynamic> list) =>
     new List<UserInfoModel>.from(list.map((x) => UserInfoModel.fromJson(x)));
@@ -22,7 +25,7 @@ class UserInfoModel {
   static final String columnName = 'name';
   static final String columnStatusMsg = 'statusmsg';
   static final String columnPhoneNumber = 'phonenumber';
-  static final String columnCreatedAt = 'createdAt';  
+  static final String columnCreatedAt = 'createdAt';
   static final String columnUpdatedAt = 'updatedAt';
 
   int userId;
@@ -41,13 +44,14 @@ class UserInfoModel {
     this.updatedAt,
   });
 
-  factory UserInfoModel.fromJson(Map<String, dynamic> json) => new UserInfoModel(
-      userId: json[UserInfoModel.columnUserId],
-      name: json[UserInfoModel.columnName],
-      statusMsg: json[UserInfoModel.columnStatusMsg],
-      phoneNumber: json[UserInfoModel.columnPhoneNumber],
-      createdAt: json[UserInfoModel.columnCreatedAt],
-      updatedAt: json[UserInfoModel.columnUpdatedAt]);
+  factory UserInfoModel.fromJson(Map<String, dynamic> json) =>
+      new UserInfoModel(
+          userId: json[UserInfoModel.columnUserId],
+          name: json[UserInfoModel.columnName],
+          statusMsg: json[UserInfoModel.columnStatusMsg],
+          phoneNumber: json[UserInfoModel.columnPhoneNumber],
+          createdAt: json[UserInfoModel.columnCreatedAt],
+          updatedAt: json[UserInfoModel.columnUpdatedAt]);
 
   Map<String, dynamic> toJson() => {
         UserInfoModel.columnUserId: userId,
@@ -86,6 +90,12 @@ class UserInfoModel {
     } catch (Exception) {
       print(Exception);
     }
+
+    UserStore.store.addUser(
+        newUser: User(
+            userid: data.userId,
+            displayName: data.name,
+            statusMsg: data.statusMsg));
   }
 
   static Future<List<UserInfoModel>> getAll() async {
@@ -93,7 +103,8 @@ class UserInfoModel {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(UserInfoModel.tablename);
+    final List<Map<String, dynamic>> maps =
+        await db.query(UserInfoModel.tablename);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

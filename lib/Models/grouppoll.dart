@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/providers/grouplist.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -85,6 +86,8 @@ class GroupPollModel {
       groupPoll.toJson(),
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
+
+    GroupStore.store.findById(id: groupPoll.groupid).addPoll(pollid: groupPoll.pollid);
   }
 
   static Future<List<int>> getAll() async {
@@ -99,32 +102,5 @@ class GroupPollModel {
     return List.generate(maps.length, (i) {
       return maps[i][GroupPollModel.columnPollId];
     });
-  }
-
-  static Future<List<GroupPollModel>> getAllByGroup(int groupid) async {
-    // Get a reference to the database.
-    final Database db = await DBProvider.db.database;
-
-    // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupPollModel.tablename,
-        where: '${GroupPollModel.columnGroupId} = ?', whereArgs: [groupid], orderBy: '${GroupPollModel.columnCreatedAt} DESC');
-
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    return List.generate(maps.length, (i) {
-      return GroupPollModel.fromJson(maps[i]);
-    });
-  }
-
-  static Future<void> archive(int pollid, int groupid, bool archive) async {
-    // Get a reference to the database.
-    final Database db = await DBProvider.db.database;
-
-    // Remove the Dog from the database.
-    await db.update(
-      GroupPollModel.tablename,
-      {GroupPollModel.columnArchived: archive},
-      where: "${GroupPollModel.columnPollId} = ? AND ${GroupPollModel.columnGroupId} = ?",
-      whereArgs: [pollid, groupid],
-    );
   }
 }
