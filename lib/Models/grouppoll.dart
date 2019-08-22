@@ -65,7 +65,7 @@ class GroupPoll {
           ${GroupPoll.columnArchived} INTEGER DEFAULT 0,
           PRIMARY KEY (${GroupPoll.columnPollId}, ${GroupPoll.columnGroupId})
           FOREIGN KEY (${GroupPoll.columnPollId}) 
-          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
+          REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
           FOREIGN KEY (${GroupPoll.columnGroupId}) 
           REFERENCES ${GroupInfo.tablename}(${GroupInfo.columnGroupId}) 

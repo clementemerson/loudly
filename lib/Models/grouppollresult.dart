@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:loudly/models/polldata.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/groupinfo.dart';
+import 'package:loudly/providers/pollopts.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -27,7 +28,7 @@ class GroupPollResult {
   int pollId;
   int groupId;
   String groupName;
-  List<PollOption> options;
+  List<PollOptionModel> options;
 
   GroupPollResult({
     this.pollId,
@@ -40,8 +41,8 @@ class GroupPollResult {
       new GroupPollResult(
         pollId: json[GroupPollResult.columnPollId],
         groupId: json[GroupPollResult.columnGroupId],
-        options: new List<PollOption>.from(
-            json[GroupPollResult.jsonOptions].map((x) => PollOption.fromJson(x))),
+        options: new List<PollOptionModel>.from(
+            json[GroupPollResult.jsonOptions].map((x) => PollOptionModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,7 +60,7 @@ class GroupPollResult {
           ${GroupPollResult.columnOpenVotes} INTEGER DEFAULT 0,
           PRIMARY KEY (${GroupPollResult.columnPollId}, ${GroupPollResult.columnGroupId}, ${GroupPollResult.columnOptionIndex})
           FOREIGN KEY (${GroupPollResult.columnPollId}) 
-          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
+          REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
           FOREIGN KEY (${GroupPollResult.columnGroupId}) 
           REFERENCES ${GroupInfo.tablename}(${GroupInfo.columnGroupId}) 
@@ -74,7 +75,7 @@ class GroupPollResult {
     // Insert the Dog into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same groupInfo is inserted
     // multiple times, it replaces the previous data.
-    for (PollOption option in groupPollResult.options) {
+    for (PollOptionModel option in groupPollResult.options) {
       //Prepare data
       dynamic data = {
         GroupPollResult.columnPollId: groupPollResult.pollId,

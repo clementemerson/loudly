@@ -57,7 +57,7 @@ class UserPoll {
       ${UserPoll.columnCreatedAt} INTEGER DEFAULT 0,
       ${UserPoll.columnUpdatedAt} INTEGER DEFAULT 0,
       FOREIGN KEY (${UserPoll.columnPollId}) 
-      REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
+      REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
       ON DELETE CASCADE
     )''');
   }

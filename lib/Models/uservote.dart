@@ -61,7 +61,7 @@ class UserVote {
           ${UserVote.columnVotedAt} INTEGER DEFAULT -1,
           PRIMARY KEY (${UserVote.columnPollId}, ${UserVote.columnUserId})
           FOREIGN KEY (${UserVote.columnPollId}) 
-          REFERENCES ${PollData.tablename}(${PollData.columnPollId}) 
+          REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
           FOREIGN KEY (${UserVote.columnUserId}) 
           REFERENCES ${UserInfo.tablename}(${UserInfo.columnUserId}) 
