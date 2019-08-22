@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/Models/userinfo.dart';
 import 'package:loudly/providers/user.dart';
 
 class UserStore with ChangeNotifier {
   // Create a singleton
-  UserStore._();
+  UserStore._() {
+    _initUserList();
+  }
 
   static final UserStore store = UserStore._();
 
@@ -24,5 +27,17 @@ class UserStore with ChangeNotifier {
 
   User findById({@required int id}) {
     return _users.firstWhere((user) => user.userid == id);
+  }
+
+  _initUserList() async {
+    List<UserInfoModel> groupList = await UserInfoModel.getAll();
+    for (UserInfoModel data in groupList) {
+      User user = User(
+          userid: data.userId,
+          displayName: data.name,
+          statusMsg: data.statusMsg);
+
+      this.addUser(newUser: user);
+    }
   }
 }
