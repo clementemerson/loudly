@@ -1,19 +1,19 @@
-import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/Models/userinfo.dart';
 
 import 'package:loudly/project_enums.dart';
+import 'package:loudly/providers/user.dart';
+import 'package:loudly/providers/userlist.dart';
+import 'package:provider/provider.dart';
 
 class ContactList extends StatefulWidget {
   final ContactListType contactListType;
   final String groupId;
   final ContactListAction actionRequired;
-  final List<UserInfoModel> selectedUsers;
+  final List<User> selectedUsers;
 
   ContactList(
       {@required this.contactListType, this.groupId, this.actionRequired, this.selectedUsers});
@@ -23,64 +23,13 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  List<UserInfoModel> _contactList = [];
   
   @override
   void initState() {
-    _getContactDataFromDB();
-
     super.initState();
   }
 
-  _getContactDataFromDB() async {
-    try {
-      List<UserInfoModel> userList = await UserInfoModel.getAll();
-      setState(() {
-        if (this.mounted) _contactList.addAll(userList);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  getContactsData() async {
-    List<String> urls = [];
-    urls.add('https://my.api.mockaroo.com/contacts.json?key=17d9cc40');
-    urls.add('https://my.api.mockaroo.com/contacts.json?key=3b82acd0');
-    urls.add('https://my.api.mockaroo.com/contacts.json?key=873a3a70');
-
-    http.Response response;
-    for (var url in urls) {
-      response = await http.get(url);
-      if (response.statusCode == 200) {
-        break;
-      }
-    }
-
-    try {
-      if (response.statusCode == 200) {
-        String groupDataCollection = response.body;
-        var decodedData = jsonDecode(groupDataCollection);
-        for (var contactData in decodedData) {
-          UserInfoModel group = UserInfoModel(
-              userId: contactData['id'],
-              name: contactData['name'],
-              statusMsg: contactData['statusmsg'],
-              phoneNumber: 'dfsdfsdf');
-
-          if (this.mounted == true) {
-            setState(() {
-              _contactList.add(group);
-            });
-          }
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void _addRemoveSelectedList(UserInfoModel contact, bool add) {
+  void _addRemoveSelectedList(User contact, bool add) {
     if (add == true) {
       widget.selectedUsers.add(contact);
     } else {
@@ -89,29 +38,32 @@ class _ContactListState extends State<ContactList> {
   }
 
   Widget _getParticipantsList() {
+    final userStore = Provider.of<UserStore>(context);
+    final userList = userStore.users;
+
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
         height: 4.0,
         color: Colors.grey,
       ),
-      itemCount: _contactList.length,
+      itemCount: userList.length,
       itemBuilder: (context, index) {
         return ListTile(
           title: Text(
-            '${_contactList[index].name}',
+            '${userList[index].displayName}',
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            '${_contactList[index].statusMsg}',
+            '${userList[index].statusMsg}',
             overflow: TextOverflow.ellipsis,
           ),
           trailing: widget.actionRequired == ContactListAction.Select
               ? Checkbox(
-                  value: _isSelected(_contactList[index]),
+                  value: _isSelected(userList[index]),
                   onChanged: (value) {
                     if (this.mounted) {
                       setState(() {
-                        _addRemoveSelectedList(_contactList[index], value);
+                        _addRemoveSelectedList(userList[index], value);
                       });
                     }
                   },
@@ -124,8 +76,8 @@ class _ContactListState extends State<ContactList> {
               ? () {
                   if (this.mounted) {
                     setState(() {
-                      _addRemoveSelectedList(_contactList[index],
-                          !_isSelected(_contactList[index]));
+                      _addRemoveSelectedList(userList[index],
+                          !_isSelected(userList[index]));
                     });
                   }
                 }
@@ -176,26 +128,7 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  _isSelected(UserInfoModel contact) {
+  _isSelected(User contact) {
     return widget.selectedUsers.indexOf(contact) > -1 ? true : false;
   }
-}
-
-class Contact {
-  int id;
-  String name;
-  String statusMsg;
-  String image;
-  int createdAt;
-  int updatedAt;
-  bool selected;
-
-  Contact(
-      {this.id,
-      this.name,
-      this.statusMsg,
-      this.image,
-      this.createdAt,
-      this.updatedAt,
-      this.selected = false});
 }
