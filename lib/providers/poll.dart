@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/providers/grouppollcatalog.dart';
+import 'package:loudly/providers/grouppollinfo.dart';
 import 'package:loudly/providers/pollopts.dart';
 import 'package:loudly/providers/vote.dart';
 
@@ -12,8 +14,8 @@ class Poll with ChangeNotifier {
   bool voted;
 
   List<PollOption> _options = [];
-  List<int> _groupIds = [];
   List<Vote> _votes = [];
+  GroupPollCatalog _groupPollCatalog;
 
   Poll(
       {@required this.pollid,
@@ -26,6 +28,10 @@ class Poll with ChangeNotifier {
 
   List<PollOption> get options {
     return [..._options];
+  }
+
+  GroupPollCatalog get groupPollCatalog {
+    return _groupPollCatalog;
   }
 
   set options(List<PollOption> options) {
@@ -41,6 +47,7 @@ class Poll with ChangeNotifier {
     PollOption pollOption = _options[option.optionIndex];
     pollOption.updateOpenVotes(noOfVotes: option.openVotes);
     pollOption.updateSecretVotes(noOfVotes: option.secretVotes);
+    notifyListeners();
   }
 
   List<Vote> getVotesOf({@required List<int> userids}) {
@@ -56,21 +63,35 @@ class Poll with ChangeNotifier {
     }
   }
 
-  isInGroup({@required int groupid}) {
-    return _groupIds.contains(groupid);
+  bool isInGroup({@required int groupid}) {
+    return _groupPollCatalog.isGroupExists(groupid: groupid);
   }
 
   addToGroup({@required int groupid}) {
-    if (!_groupIds.contains(groupid)) {
-      _groupIds.add(groupid);
-      notifyListeners();
+    if (_groupPollCatalog.isGroupExists(groupid: groupid) == false) {
+
+      GroupPollResultInfo groupPollInfo = GroupPollResultInfo(
+        groupid: groupid,
+      );
+      List<PollOption> pollOptions = [];
+      for (PollOption pollOption in _options) {
+        PollOption option = PollOption(
+            optionIndex: pollOption.optionIndex,
+            optionText: pollOption.optionText,
+            openVotes: -1,
+            secretVotes: -1);
+
+        pollOptions.add(option);
+      }
+      groupPollInfo.options = pollOptions;
+
+      _groupPollCatalog.add(groupPollInfo: groupPollInfo);
     }
   }
 
   removeFromGroup({@required int groupid}) {
-    if (_groupIds.contains(groupid)) {
-      _groupIds.remove(groupid);
-      notifyListeners();
+    if (_groupPollCatalog.isGroupExists(groupid: groupid) == true) {
+      _groupPollCatalog.remove(groupid: groupid);
     }
   }
 }

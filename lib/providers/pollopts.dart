@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PollOption with ChangeNotifier {
+class PollOption {
   int optionIndex;
   String optionText;
   int openVotes = -1;
@@ -15,14 +15,12 @@ class PollOption with ChangeNotifier {
   updateOpenVotes({@required int noOfVotes}) {
     if (openVotes != noOfVotes) {
       openVotes = noOfVotes;
-      notifyListeners();
     }
   }
 
   updateSecretVotes({@required int noOfVotes}) {
     if (secretVotes != noOfVotes) {
       secretVotes = noOfVotes;
-      notifyListeners();
     }
   }
 }

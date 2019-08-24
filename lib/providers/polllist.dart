@@ -34,6 +34,10 @@ class PollStore with ChangeNotifier {
     return _polls.where((poll) => poll.createdBy == userid);
   }
 
+  List<Poll> pollsInGroup({@required int groupid}) {
+    return _polls.where((poll) => poll.isInGroup(groupid: groupid));
+  }
+
   _initPollList() async {
     List<PollDataModel> pollList = await PollDataModel.getAll();
     for (PollDataModel pollData in pollList) {
