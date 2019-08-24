@@ -6,6 +6,7 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/pollopts.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
+import 'package:loudly/ui/widgets/votetitle.dart';
 
 class PollVoteScreen extends StatefulWidget {
   static final String id = 'pollvote_screen';
@@ -42,24 +43,6 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     );
   }
 
-  Widget _getVoteTitleTextField() {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 12.0,
-        right: 12.0,
-      ),
-      child: Text(
-        pollData.title,
-        textAlign: TextAlign.justify,
-        style: TextStyle(
-          color: Colors.blueAccent,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
   Row _getSecretVoteControls() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -88,8 +71,8 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     final List<Widget> widgets = [];
     int index = 0;
     for (PollOption option in pollData.options) {
-      widgets.add(
-          _getOptionsField(optionText: option.optionText, index: index, id: index));
+      widgets.add(_getOptionsField(
+          optionText: option.optionText, index: index, id: index));
       widgets.add(kGetOptionsDivider());
       index++;
     }
@@ -203,7 +186,9 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
                   color: Colors.blue,
                 ),
                 Expanded(
-                  child: _getVoteTitleTextField(),
+                  child: VoteTitle(
+                    title: pollData.title,
+                  ),
                 ),
               ],
             ),

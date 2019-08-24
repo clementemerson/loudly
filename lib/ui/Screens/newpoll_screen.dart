@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/models/polldata.dart';
+import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
+import 'package:loudly/providers/pollopts.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class NewPollScreen extends StatefulWidget {
@@ -33,13 +34,13 @@ class _NewPollScreenState extends State<NewPollScreen> {
         FlatButton(
           textColor: Colors.white,
           onPressed: () {
-            List<PollOption> pollOptions = [
-              PollOption(optionindex: 0, desc: pollOption1Controller.text),
-              PollOption(optionindex: 1, desc: pollOption2Controller.text),
-              PollOption(optionindex: 2, desc: pollOption3Controller.text),
-              PollOption(optionindex: 3, desc: pollOption4Controller.text)
+            List<PollOptionModel> pollOptions = [
+              PollOptionModel(optionindex: 0, desc: pollOption1Controller.text),
+              PollOptionModel(optionindex: 1, desc: pollOption2Controller.text),
+              PollOptionModel(optionindex: 2, desc: pollOption3Controller.text),
+              PollOptionModel(optionindex: 3, desc: pollOption4Controller.text)
             ];
-            PollData pollData = PollData(
+            PollDataModel pollData = PollDataModel(
                 title: pollTitleController.text,
                 canBeShared: this.canBeShared,
                 resultIsPublic: this.resultIsPublic,
