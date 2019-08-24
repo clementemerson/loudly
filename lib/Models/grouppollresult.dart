@@ -10,13 +10,13 @@ import 'package:loudly/Models/groupinfo.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-GroupPollResult groupPollResultFromJson(Map<String, dynamic> json) =>
-    GroupPollResult.fromJson(json);
+GroupPollResultModel groupPollResultFromJson(Map<String, dynamic> json) =>
+    GroupPollResultModel.fromJson(json);
 
-String groupPollResultToJson(GroupPollResult data) =>
+String groupPollResultToJson(GroupPollResultModel data) =>
     json.encode(data.toJson());
 
-class GroupPollResult {
+class GroupPollResultModel {
   static final String tablename = 'grouppollresult';
   static final String columnPollId = 'pollid';
   static final String columnGroupId = 'groupid';
@@ -29,47 +29,47 @@ class GroupPollResult {
   String groupName;
   List<PollOptionModel> options;
 
-  GroupPollResult({
+  GroupPollResultModel({
     this.pollId,
     this.groupId,
     this.groupName,
     this.options,
   });
 
-  factory GroupPollResult.fromJson(Map<String, dynamic> json) =>
-      new GroupPollResult(
-        pollId: json[GroupPollResult.columnPollId],
-        groupId: json[GroupPollResult.columnGroupId],
+  factory GroupPollResultModel.fromJson(Map<String, dynamic> json) =>
+      new GroupPollResultModel(
+        pollId: json[GroupPollResultModel.columnPollId],
+        groupId: json[GroupPollResultModel.columnGroupId],
         options: new List<PollOptionModel>.from(
-            json[GroupPollResult.jsonOptions]
+            json[GroupPollResultModel.jsonOptions]
                 .map((x) => PollOptionModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        GroupPollResult.columnPollId: pollId,
-        GroupPollResult.columnGroupId: groupId,
-        GroupPollResult.jsonOptions:
+        GroupPollResultModel.columnPollId: pollId,
+        GroupPollResultModel.columnGroupId: groupId,
+        GroupPollResultModel.jsonOptions:
             new List<dynamic>.from(options.map((x) => x.toJson())),
       };
 
   static Future<void> createTable(Database db) async {
     // Create the grouppoll table
-    await db.execute('''CREATE TABLE ${GroupPollResult.tablename}(
-          ${GroupPollResult.columnPollId} INTEGER, 
-          ${GroupPollResult.columnGroupId} INTEGER,
-          ${GroupPollResult.columnOptionIndex} INTEGER DEFAULT -1,
-          ${GroupPollResult.columnOpenVotes} INTEGER DEFAULT 0,
-          PRIMARY KEY (${GroupPollResult.columnPollId}, ${GroupPollResult.columnGroupId}, ${GroupPollResult.columnOptionIndex})
-          FOREIGN KEY (${GroupPollResult.columnPollId}) 
+    await db.execute('''CREATE TABLE ${GroupPollResultModel.tablename}(
+          ${GroupPollResultModel.columnPollId} INTEGER, 
+          ${GroupPollResultModel.columnGroupId} INTEGER,
+          ${GroupPollResultModel.columnOptionIndex} INTEGER DEFAULT -1,
+          ${GroupPollResultModel.columnOpenVotes} INTEGER DEFAULT 0,
+          PRIMARY KEY (${GroupPollResultModel.columnPollId}, ${GroupPollResultModel.columnGroupId}, ${GroupPollResultModel.columnOptionIndex})
+          FOREIGN KEY (${GroupPollResultModel.columnPollId}) 
           REFERENCES ${PollDataModel.tablename}(${PollDataModel.columnPollId}) 
           ON DELETE CASCADE
-          FOREIGN KEY (${GroupPollResult.columnGroupId}) 
+          FOREIGN KEY (${GroupPollResultModel.columnGroupId}) 
           REFERENCES ${GroupInfoModel.tablename}(${GroupInfoModel.columnGroupId}) 
           ON DELETE CASCADE
         )''');
   }
 
-  static Future<void> insert(GroupPollResult groupPollResult) async {
+  static Future<void> insert(GroupPollResultModel groupPollResult) async {
     // Get a reference to the database.
     final Database db = await DBProvider.db.database;
 
@@ -79,10 +79,10 @@ class GroupPollResult {
     for (PollOptionModel option in groupPollResult.options) {
       //Prepare data
       dynamic data = {
-        GroupPollResult.columnPollId: groupPollResult.pollId,
-        GroupPollResult.columnGroupId: groupPollResult.groupId,
-        GroupPollResult.columnOptionIndex: option.optionindex,
-        GroupPollResult.columnOpenVotes: option.openVotes,
+        GroupPollResultModel.columnPollId: groupPollResult.pollId,
+        GroupPollResultModel.columnGroupId: groupPollResult.groupId,
+        GroupPollResultModel.columnOptionIndex: option.optionindex,
+        GroupPollResultModel.columnOpenVotes: option.openVotes,
       };
       await db.insert(
         GroupInfoModel.tablename,
@@ -100,7 +100,7 @@ class GroupPollResult {
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db.query(GroupInfoModel.tablename,
         where:
-            '${GroupPollResult.columnGroupId} = ? AND ${GroupPollResult.columnPollId} = ?',
+            '${GroupPollResultModel.columnGroupId} = ? AND ${GroupPollResultModel.columnPollId} = ?',
         whereArgs: [groupid, pollid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
