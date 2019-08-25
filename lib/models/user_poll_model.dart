@@ -9,7 +9,8 @@ import 'package:loudly/models/poll_data_model.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-UserPollModel userPollFromJson(String str) => UserPollModel.fromJson(json.decode(str));
+UserPollModel userPollFromJson(String str) =>
+    UserPollModel.fromJson(json.decode(str));
 
 List<UserPollModel> userPollFromList(List<dynamic> list) =>
     new List<UserPollModel>.from(list.map((x) => UserPollModel.fromJson(x)));
@@ -35,12 +36,12 @@ class UserPollModel {
     this.updatedAt,
   });
 
-  factory UserPollModel.fromJson(Map<String, dynamic> json) => new UserPollModel(
-        pollid: json[UserPollModel.columnPollId],
-        sharedby: json[UserPollModel.columnSharedBy],
-        createdAt: json[UserPollModel.columnCreatedAt],
-        updatedAt: json[UserPollModel.columnUpdatedAt]
-      );
+  factory UserPollModel.fromJson(Map<String, dynamic> json) =>
+      new UserPollModel(
+          pollid: json[UserPollModel.columnPollId],
+          sharedby: json[UserPollModel.columnSharedBy],
+          createdAt: json[UserPollModel.columnCreatedAt],
+          updatedAt: json[UserPollModel.columnUpdatedAt]);
 
   Map<String, dynamic> toJson() => {
         UserPollModel.columnPollId: pollid,
@@ -81,8 +82,9 @@ class UserPollModel {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps =
-        await db.query(UserPollModel.tablename, orderBy: '${UserPollModel.columnUpdatedAt} DESC');
+    final List<Map<String, dynamic>> maps = await db.query(
+        UserPollModel.tablename,
+        orderBy: '${UserPollModel.columnUpdatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

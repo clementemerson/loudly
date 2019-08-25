@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/polllist.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/ui/Lists/pollresults_groups.dart';
 import 'package:loudly/ui/widgets/poll_consolidated_result.dart';
 import 'package:loudly/ui/widgets/votetitle.dart';

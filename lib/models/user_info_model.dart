@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/providers/user.dart';
-import 'package:loudly/providers/userlist.dart';
+import 'package:loudly/providers/user_store.dart';
 import 'package:sqflite/sqflite.dart';
 
 List<UserInfoModel> userInfoFromJson(String str) =>

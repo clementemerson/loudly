@@ -98,7 +98,8 @@ class GroupPollResultModel {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupInfoModel.tablename,
+    final List<Map<String, dynamic>> maps = await db.query(
+        GroupInfoModel.tablename,
         where:
             '${GroupPollResultModel.columnGroupId} = ? AND ${GroupPollResultModel.columnPollId} = ?',
         whereArgs: [groupid, pollid]);

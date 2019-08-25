@@ -4,7 +4,7 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/ui/widgets/votetitle.dart';
 

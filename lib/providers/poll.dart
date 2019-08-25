@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/providers/grouppollcatalog.dart';
-import 'package:loudly/providers/grouppollinfo.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/group_poll_catalog.dart';
+import 'package:loudly/providers/group_poll_result_info.dart';
+import 'package:loudly/providers/poll_option.dart';
+
 import 'package:loudly/providers/vote.dart';
 
 class Poll with ChangeNotifier {
@@ -69,7 +70,6 @@ class Poll with ChangeNotifier {
 
   addToGroup({@required int groupid}) {
     if (_groupPollCatalog.isGroupExists(groupid: groupid) == false) {
-
       GroupPollResultInfo groupPollInfo = GroupPollResultInfo(
         groupid: groupid,
       );

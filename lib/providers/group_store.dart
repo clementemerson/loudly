@@ -22,7 +22,8 @@ class GroupStore with ChangeNotifier {
   }
 
   Group findById({@required int id}) {
-    return _groups.firstWhere((group) => group.groupid == id, orElse: () => null);
+    return _groups.firstWhere((group) => group.groupid == id,
+        orElse: () => null);
   }
 
   _initGroupList() async {

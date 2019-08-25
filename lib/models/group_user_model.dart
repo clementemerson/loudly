@@ -10,7 +10,8 @@ import 'package:loudly/models/user_info_model.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-GroupUserModel groupUserFromJson(String str) => GroupUserModel.fromJson(json.decode(str));
+GroupUserModel groupUserFromJson(String str) =>
+    GroupUserModel.fromJson(json.decode(str));
 
 List<GroupUserModel> groupUserFromList(List<dynamic> list) =>
     new List<GroupUserModel>.from(list.map((x) => GroupUserModel.fromJson(x)));
@@ -21,7 +22,7 @@ class GroupUserModel {
   static final String tablename = 'groupusers';
   static final String columnGroupId = 'groupid';
   static final String columnUserId = 'user_id';
-  static final String columnAddedBy = 'addedby';  
+  static final String columnAddedBy = 'addedby';
   static final String columnPermission = 'permission';
   static final String columnCreatedAt = 'createdAt';
 
@@ -39,12 +40,13 @@ class GroupUserModel {
     this.createdAt,
   });
 
-  factory GroupUserModel.fromJson(Map<String, dynamic> json) => new GroupUserModel(
-      groupid: json[GroupUserModel.columnGroupId],
-      userId: json[GroupUserModel.columnUserId],
-      addedBy: json[GroupUserModel.columnAddedBy],
-      permission: json[GroupUserModel.columnPermission],
-      createdAt: json[GroupUserModel.columnCreatedAt]);
+  factory GroupUserModel.fromJson(Map<String, dynamic> json) =>
+      new GroupUserModel(
+          groupid: json[GroupUserModel.columnGroupId],
+          userId: json[GroupUserModel.columnUserId],
+          addedBy: json[GroupUserModel.columnAddedBy],
+          permission: json[GroupUserModel.columnPermission],
+          createdAt: json[GroupUserModel.columnCreatedAt]);
 
   Map<String, dynamic> toJson() => {
         GroupUserModel.columnGroupId: groupid,
@@ -91,8 +93,10 @@ class GroupUserModel {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db
-        .query(GroupUserModel.tablename, where: '${GroupUserModel.columnGroupId} = ?', whereArgs: [groupid]);
+    final List<Map<String, dynamic>> maps = await db.query(
+        GroupUserModel.tablename,
+        where: '${GroupUserModel.columnGroupId} = ?',
+        whereArgs: [groupid]);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
@@ -109,7 +113,8 @@ class GroupUserModel {
     await db.update(
       GroupUserModel.tablename,
       {GroupUserModel.columnPermission: permission},
-      where: "${GroupUserModel.columnGroupId} = ? AND ${GroupUserModel.columnUserId} = ?",
+      where:
+          "${GroupUserModel.columnGroupId} = ? AND ${GroupUserModel.columnUserId} = ?",
       whereArgs: [groupid, userid],
     );
   }
@@ -121,7 +126,8 @@ class GroupUserModel {
     // Remove the Dog from the database.
     await db.delete(
       GroupUserModel.tablename,
-      where: "${GroupUserModel.columnGroupId} = ? AND ${GroupUserModel.columnUserId} = ?",
+      where:
+          "${GroupUserModel.columnGroupId} = ? AND ${GroupUserModel.columnUserId} = ?",
       whereArgs: [groupid, userId],
     );
   }
@@ -148,7 +154,8 @@ class GroupUserModel {
     final Database db = await DBProvider.db.database;
 
     // Get the Dog from the database.
-    final List<Map<String, dynamic>> maps = await db.query(GroupUserModel.tablename);
+    final List<Map<String, dynamic>> maps =
+        await db.query(GroupUserModel.tablename);
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

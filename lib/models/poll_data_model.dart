@@ -6,8 +6,8 @@ import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/polllist.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:sqflite/sqflite.dart';
 
 PollDataModel pollDataFromJson(Map<String, dynamic> map) =>

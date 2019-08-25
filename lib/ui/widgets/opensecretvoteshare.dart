@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
 import 'package:loudly/project_styles.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 import 'package:loudly/ui/widgets/pollresultwidgets.dart';
 
 class OpenSecretVoteShare extends StatefulWidget {

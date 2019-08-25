@@ -6,11 +6,12 @@ import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
 import 'package:loudly/providers/group.dart';
-import 'package:loudly/providers/grouplist.dart';
+import 'package:loudly/providers/group_store.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-GroupInfoModel groupInfoFromJson(String str) => GroupInfoModel.fromJson(json.decode(str));
+GroupInfoModel groupInfoFromJson(String str) =>
+    GroupInfoModel.fromJson(json.decode(str));
 
 List<GroupInfoModel> groupInfoFromList(List<dynamic> list) =>
     new List<GroupInfoModel>.from(list.map((x) => GroupInfoModel.fromJson(x)));
@@ -40,7 +41,8 @@ class GroupInfoModel {
     this.createdAt,
   });
 
-  factory GroupInfoModel.fromJson(Map<String, dynamic> json) => new GroupInfoModel(
+  factory GroupInfoModel.fromJson(Map<String, dynamic> json) =>
+      new GroupInfoModel(
         groupid: json[GroupInfoModel.columnGroupId],
         name: json[GroupInfoModel.columnName],
         desc: json[GroupInfoModel.columnDesc],
@@ -95,7 +97,8 @@ class GroupInfoModel {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupInfoModel.tablename,
+    final List<Map<String, dynamic>> maps = await db.query(
+        GroupInfoModel.tablename,
         orderBy: '${GroupInfoModel.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.

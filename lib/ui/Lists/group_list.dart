@@ -1,8 +1,8 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:loudly/providers/group_store.dart';
 
-import 'package:loudly/providers/grouplist.dart';
 import 'package:loudly/ui/widgets/group_tile.dart';
 import 'package:provider/provider.dart';
 

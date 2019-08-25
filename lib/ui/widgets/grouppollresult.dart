@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/providers/grouplist.dart';
-import 'package:loudly/providers/grouppollinfo.dart';
+import 'package:loudly/providers/group_poll_result_info.dart';
+import 'package:loudly/providers/group_store.dart';
 import 'package:loudly/ui/widgets/consolidatedvotechart.dart';
 import 'package:loudly/ui/widgets/voteshare.dart';
 import 'package:loudly/utilities.dart';

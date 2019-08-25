@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 
 class GroupPollResultInfo with ChangeNotifier {
   int groupid;
   List<PollOption> _options = [];
 
-  GroupPollResultInfo({
-    @required this.groupid
-  });
+  GroupPollResultInfo({@required this.groupid});
 
   List<PollOption> get options {
     return [..._options];

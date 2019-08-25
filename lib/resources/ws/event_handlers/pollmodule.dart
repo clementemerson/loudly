@@ -249,7 +249,8 @@ class WSPollsModule {
       PollDataModel data = new PollDataModel(
           pollid: genFormatMessage.message.data['pollid'],
           title: sentMessage.data['title'],
-          options: pollOptionFromList(sentMessage.data['options'], genFormatMessage.message.data['pollid']),
+          options: pollOptionFromList(sentMessage.data['options'],
+              genFormatMessage.message.data['pollid']),
           canBeShared: sentMessage.data['canbeshared'],
           resultIsPublic: sentMessage.data['resultispublic'],
           createdBy: Globals.selfUserId,

@@ -185,7 +185,8 @@ class WSUsersModule {
     }
   }
 
-  static Future<void> getInfoReply(GeneralMessageFormat genFormatMessage) async {
+  static Future<void> getInfoReply(
+      GeneralMessageFormat genFormatMessage) async {
     try {
       List<UserInfoModel> userInfoList =
           userInfoFromList(genFormatMessage.message.data);
@@ -211,7 +212,8 @@ class WSUsersModule {
     }
   }
 
-  static Future<void> changeStatusMsgReply(GeneralMessageFormat genFormatMessage,
+  static Future<void> changeStatusMsgReply(
+      GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
       dynamic data = {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/providers/grouplist.dart';
-import 'package:loudly/providers/polllist.dart';
-import 'package:loudly/providers/userlist.dart';
+import 'package:loudly/providers/group_store.dart';
+import 'package:loudly/providers/poll_store.dart';
+import 'package:loudly/providers/user_store.dart';
 import 'package:loudly/ui/Screens/setup_screen.dart';
 
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';

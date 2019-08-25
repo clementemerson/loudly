@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/providers/grouppollinfo.dart';
+import 'package:loudly/providers/group_poll_result_info.dart';
 
 class GroupPollCatalog with ChangeNotifier {
   List<GroupPollResultInfo> _catalog;
@@ -15,8 +15,9 @@ class GroupPollCatalog with ChangeNotifier {
   }
 
   GroupPollResultInfo getGroupPollInfo({@required int groupid}) {
-    GroupPollResultInfo groupPollInfo = _catalog
-        .firstWhere((groupInfo) => groupInfo.groupid == groupid, orElse: () => null);
+    GroupPollResultInfo groupPollInfo = _catalog.firstWhere(
+        (groupInfo) => groupInfo.groupid == groupid,
+        orElse: () => null);
     return groupPollInfo;
   }
 

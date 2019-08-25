@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 import 'package:loudly/ui/Screens/pollresult_screen.dart';
 import 'package:loudly/ui/Screens/pollvote_screen.dart';
 import 'package:loudly/utilities.dart';
 import 'package:provider/provider.dart';
 
 class PollTile extends StatelessWidget {
-
   /// Prepares chart info
   _getChartData(List<PollOption> options) {
     List<CircularSegmentEntry> entries = [];
@@ -61,8 +60,10 @@ class PollTile extends StatelessWidget {
             ),
       onTap: () {
         poll.voted == true
-            ? Navigator.pushNamed(context, PollResultScreen.id, arguments: poll.pollid)
-            : Navigator.pushNamed(context, PollVoteScreen.id, arguments: poll.pollid);
+            ? Navigator.pushNamed(context, PollResultScreen.id,
+                arguments: poll.pollid)
+            : Navigator.pushNamed(context, PollVoteScreen.id,
+                arguments: poll.pollid);
       },
     );
   }

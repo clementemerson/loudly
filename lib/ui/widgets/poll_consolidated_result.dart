@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 import 'package:loudly/ui/widgets/consolidatedvotechart.dart';
 import 'package:loudly/ui/widgets/opensecretvoteshare.dart';
 import 'package:loudly/ui/widgets/pollresultwidgets.dart';

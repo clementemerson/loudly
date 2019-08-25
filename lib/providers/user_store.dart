@@ -18,7 +18,7 @@ class UserStore with ChangeNotifier {
   }
 
   addUser({@required User newUser}) {
-    if ( _users.firstWhere((user) => user.userid == newUser.userid,
+    if (_users.firstWhere((user) => user.userid == newUser.userid,
             orElse: () => null) ==
         null) {
       _users.add(newUser);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/polllist.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/providers/user.dart';
-import 'package:loudly/providers/userlist.dart';
+import 'package:loudly/providers/user_store.dart';
 
 class Group with ChangeNotifier {
   int groupid;

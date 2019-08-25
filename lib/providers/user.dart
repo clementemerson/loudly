@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/providers/group.dart';
-import 'package:loudly/providers/grouplist.dart';
+import 'package:loudly/providers/group_store.dart';
 
 class User with ChangeNotifier {
   int userid;

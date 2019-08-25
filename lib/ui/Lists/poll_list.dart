@@ -3,9 +3,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:loudly/providers/poll.dart';
 
-import 'package:loudly/providers/polllist.dart';
-
 import 'package:loudly/project_enums.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/ui/globals.dart';
 import 'package:loudly/ui/widgets/poll_tile.dart';
 
@@ -21,7 +20,7 @@ class PollList extends StatelessWidget {
   Widget build(BuildContext context) {
     final pollStore = Provider.of<PollStore>(context);
     List<Poll> pollList = [];
-    
+
     switch (pollListType) {
       case PollListType.All:
         pollList = pollStore.polls;

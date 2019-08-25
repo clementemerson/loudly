@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/poll_data_model.dart';
 import 'package:loudly/providers/poll.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 
 class PollStore with ChangeNotifier {
   // Create a singleton
@@ -27,7 +27,8 @@ class PollStore with ChangeNotifier {
   }
 
   Poll findById({@required int pollid}) {
-    return _polls.firstWhere((poll) => poll.pollid == pollid, orElse: () => null);
+    return _polls.firstWhere((poll) => poll.pollid == pollid,
+        orElse: () => null);
   }
 
   List<Poll> pollsCreatedBy({@required int userid}) {

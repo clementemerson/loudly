@@ -7,11 +7,12 @@ import 'dart:convert';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/group_info_model.dart';
 import 'package:loudly/models/poll_data_model.dart';
-import 'package:loudly/providers/grouplist.dart';
+import 'package:loudly/providers/group_store.dart';
 
 import 'package:sqflite/sqflite.dart';
 
-GroupPollModel groupPollFromJson(String str) => GroupPollModel.fromJson(json.decode(str));
+GroupPollModel groupPollFromJson(String str) =>
+    GroupPollModel.fromJson(json.decode(str));
 
 List<GroupPollModel> groupPollFromList(List<dynamic> list) =>
     new List<GroupPollModel>.from(list.map((x) => GroupPollModel.fromJson(x)));
@@ -40,7 +41,8 @@ class GroupPollModel {
     this.archived,
   });
 
-  factory GroupPollModel.fromJson(Map<String, dynamic> json) => new GroupPollModel(
+  factory GroupPollModel.fromJson(Map<String, dynamic> json) =>
+      new GroupPollModel(
         pollid: json[GroupPollModel.columnPollId],
         groupid: json[GroupPollModel.columnGroupId],
         sharedBy: json[GroupPollModel.columnSharedBy],
@@ -87,7 +89,9 @@ class GroupPollModel {
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
 
-    GroupStore.store.findById(id: groupPoll.groupid).addPoll(pollid: groupPoll.pollid);
+    GroupStore.store
+        .findById(id: groupPoll.groupid)
+        .addPoll(pollid: groupPoll.pollid);
   }
 
   static Future<List<int>> getAll() async {
@@ -95,8 +99,11 @@ class GroupPollModel {
     final Database db = await DBProvider.db.database;
 
     // Query the table for all The dogs.
-    final List<Map<String, dynamic>> maps = await db.query(GroupPollModel.tablename,
-        distinct: true, columns: [GroupPollModel.columnPollId], orderBy: '${GroupPollModel.columnCreatedAt} DESC');
+    final List<Map<String, dynamic>> maps = await db.query(
+        GroupPollModel.tablename,
+        distinct: true,
+        columns: [GroupPollModel.columnPollId],
+        orderBy: '${GroupPollModel.columnCreatedAt} DESC');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

@@ -1,9 +1,9 @@
-  import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 
 int getTotalVotes(List<PollOption> options) {
-    int sum = 0;
-    for (PollOption option in options) {
-      sum += option.openVotes;
-    }
-    return sum;
+  int sum = 0;
+  for (PollOption option in options) {
+    sum += option.openVotes;
   }
+  return sum;
+}

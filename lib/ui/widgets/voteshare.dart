@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:loudly/project_styles.dart';
-import 'package:loudly/providers/pollopts.dart';
+import 'package:loudly/providers/poll_option.dart';
 
 class VoteShare extends StatefulWidget {
   final List<PollOption> pollResultOptions;
@@ -24,7 +24,8 @@ class _VoteShareState extends State<VoteShare> {
     return true;
   }
 
-  Widget _getTotalVoteShareForOption({PollOption option, int index, bool isMax}) {
+  Widget _getTotalVoteShareForOption(
+      {PollOption option, int index, bool isMax}) {
     return Row(
       children: <Widget>[
         _getColorBox(index: index),

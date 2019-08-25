@@ -6,7 +6,7 @@ import 'package:loudly/common_widgets.dart';
 
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/user.dart';
-import 'package:loudly/providers/userlist.dart';
+import 'package:loudly/providers/user_store.dart';
 import 'package:provider/provider.dart';
 
 class ContactList extends StatefulWidget {
@@ -16,14 +16,16 @@ class ContactList extends StatefulWidget {
   final List<User> selectedUsers;
 
   ContactList(
-      {@required this.contactListType, this.groupId, this.actionRequired, this.selectedUsers});
+      {@required this.contactListType,
+      this.groupId,
+      this.actionRequired,
+      this.selectedUsers});
 
   @override
   _ContactListState createState() => _ContactListState();
 }
 
 class _ContactListState extends State<ContactList> {
-  
   @override
   void initState() {
     super.initState();
@@ -76,8 +78,8 @@ class _ContactListState extends State<ContactList> {
               ? () {
                   if (this.mounted) {
                     setState(() {
-                      _addRemoveSelectedList(userList[index],
-                          !_isSelected(userList[index]));
+                      _addRemoveSelectedList(
+                          userList[index], !_isSelected(userList[index]));
                     });
                   }
                 }
