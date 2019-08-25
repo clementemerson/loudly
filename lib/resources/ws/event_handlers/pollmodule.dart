@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/Models/grouppoll.dart';
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/group_poll_model.dart';
+import 'package:loudly/models/poll_data_model.dart';
 import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';

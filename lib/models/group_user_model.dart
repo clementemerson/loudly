@@ -5,8 +5,8 @@
 import 'dart:convert';
 
 import 'package:loudly/data/database.dart';
-import 'package:loudly/Models/groupinfo.dart';
-import 'package:loudly/Models/userinfo.dart';
+import 'package:loudly/models/group_info_model.dart';
+import 'package:loudly/models/user_info_model.dart';
 
 import 'package:sqflite/sqflite.dart';
 

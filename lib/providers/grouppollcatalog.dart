@@ -16,7 +16,7 @@ class GroupPollCatalog with ChangeNotifier {
 
   GroupPollResultInfo getGroupPollInfo({@required int groupid}) {
     GroupPollResultInfo groupPollInfo = _catalog
-        .firstWhere((groupInfo) => groupInfo.groupid == groupid, orElse: null);
+        .firstWhere((groupInfo) => groupInfo.groupid == groupid, orElse: () => null);
     return groupPollInfo;
   }
 

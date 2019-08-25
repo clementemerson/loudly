@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/poll_data_model.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
-import 'package:loudly/providers/pollopts.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class NewPollScreen extends StatefulWidget {

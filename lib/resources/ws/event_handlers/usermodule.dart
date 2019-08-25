@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:loudly/Models/groupuser.dart';
-import 'package:loudly/Models/userinfo.dart';
-import 'package:loudly/Models/userpoll.dart';
+import 'package:loudly/models/group_user_model.dart';
+import 'package:loudly/models/user_info_model.dart';
+import 'package:loudly/models/user_poll_model.dart';
 import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/data/database.dart';
+import 'package:loudly/models/group_info_model.dart';
 import 'package:loudly/project_settings.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';

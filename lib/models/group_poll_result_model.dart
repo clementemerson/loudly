@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:loudly/Models/polldata.dart';
 import 'package:loudly/data/database.dart';
-import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/models/group_info_model.dart';
+import 'package:loudly/models/poll_data_model.dart';
 
 import 'package:sqflite/sqflite.dart';
 

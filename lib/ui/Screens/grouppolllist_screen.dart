@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/groupinfo.dart';
 import 'package:loudly/providers/grouplist.dart';
 import 'package:loudly/ui/Lists/poll_list.dart';
 import 'package:loudly/common_widgets.dart';

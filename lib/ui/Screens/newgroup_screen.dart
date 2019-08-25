@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/Models/userinfo.dart';
+import 'package:loudly/models/user_info_model.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 

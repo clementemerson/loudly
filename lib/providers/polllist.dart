@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/polldata.dart';
+import 'package:loudly/models/poll_data_model.dart';
 import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/pollopts.dart';
 
@@ -19,7 +19,7 @@ class PollStore with ChangeNotifier {
 
   addPoll({@required Poll newPoll}) {
     if (_polls.firstWhere((poll) => poll.pollid == newPoll.pollid,
-            orElse: null) ==
+            orElse: () => null) ==
         null) {
       _polls.add(newPoll);
       notifyListeners();
@@ -27,7 +27,7 @@ class PollStore with ChangeNotifier {
   }
 
   Poll findById({@required int pollid}) {
-    return _polls.firstWhere((poll) => poll.pollid == pollid);
+    return _polls.firstWhere((poll) => poll.pollid == pollid, orElse: () => null);
   }
 
   List<Poll> pollsCreatedBy({@required int userid}) {

@@ -71,10 +71,8 @@ class _OpenSecretVoteShareState extends State<OpenSecretVoteShare> {
 
   List<Widget> _getColorBoxWidgets() {
     final List<Widget> widgets = [];
-    int index = 0;
-    for (PollOption option in widget.pollResultOptions) {
-      widgets.add(_getColorBoxWidgetsForOption(index: index));
-      index++;
+    for (var i = 0; i < widget.pollResultOptions.length; i++) {
+      widgets.add(_getColorBoxWidgetsForOption(index: i));
     }
     return widgets;
   }

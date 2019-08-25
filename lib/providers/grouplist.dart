@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/groupinfo.dart';
+import 'package:loudly/models/group_info_model.dart';
 import 'package:loudly/providers/group.dart';
 
 class GroupStore with ChangeNotifier {
@@ -22,7 +22,7 @@ class GroupStore with ChangeNotifier {
   }
 
   Group findById({@required int id}) {
-    return _groups.firstWhere((group) => group.groupid == id);
+    return _groups.firstWhere((group) => group.groupid == id, orElse: () => null);
   }
 
   _initGroupList() async {

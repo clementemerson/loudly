@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/Models/userinfo.dart';
+import 'package:loudly/models/user_info_model.dart';
 import 'package:loudly/providers/user.dart';
 
 class UserStore with ChangeNotifier {
   // Create a singleton
   UserStore._() {
+    _users = [];
     _initUserList();
   }
 
@@ -17,8 +18,8 @@ class UserStore with ChangeNotifier {
   }
 
   addUser({@required User newUser}) {
-    if (_users.firstWhere((user) => user.userid == newUser.userid,
-            orElse: null) ==
+    if ( _users.firstWhere((user) => user.userid == newUser.userid,
+            orElse: () => null) ==
         null) {
       _users.add(newUser);
       notifyListeners();
@@ -26,7 +27,7 @@ class UserStore with ChangeNotifier {
   }
 
   User findById({@required int id}) {
-    return _users.firstWhere((user) => user.userid == id);
+    return _users.firstWhere((user) => user.userid == id, orElse: () => null);
   }
 
   _initUserList() async {
