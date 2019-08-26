@@ -5,8 +5,10 @@ import 'package:loudly/project_settings.dart';
 import 'package:loudly/project_styles.dart';
 import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/poll_option.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/ui/widgets/votetitle.dart';
+import 'package:provider/provider.dart';
 
 class PollVoteScreen extends StatefulWidget {
   static final String id = 'pollvote_screen';
@@ -22,12 +24,6 @@ class PollVoteScreen extends StatefulWidget {
 class _PollVoteScreenState extends State<PollVoteScreen> {
   bool secretVoting = false;
   int selectedOption;
-  Poll pollData;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   AppBar _getAppBar() {
     return AppBar(
@@ -67,10 +63,10 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     );
   }
 
-  List<Widget> _getAllOptions() {
+  List<Widget> _getAllOptions(Poll poll) {
     final List<Widget> widgets = [];
     int index = 0;
-    for (PollOption option in pollData.options) {
+    for (PollOption option in poll.options) {
       widgets.add(_getOptionsField(
           optionText: option.optionText, index: index, id: index));
       widgets.add(kGetOptionsDivider());
@@ -136,7 +132,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
     );
   }
 
-  Widget _getVoteButton() {
+  Widget _getVoteButton(Poll poll) {
     return RaisedButton(
       padding: EdgeInsets.all(10.0),
       shape: RoundedRectangleBorder(
@@ -147,7 +143,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
       onPressed: selectedOption == null
           ? null
           : () {
-              WSPollsModule.vote(pollData.pollid, selectedOption, secretVoting,
+              WSPollsModule.vote(poll.pollid, selectedOption, secretVoting,
                   callback: () {
                 Navigator.pop(context);
               });
@@ -163,13 +159,10 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    pollData = ModalRoute.of(context).settings.arguments;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final int pollid = ModalRoute.of(context).settings.arguments as int;
+    final Poll poll = Provider.of<PollStore>(context).findById(pollid: pollid);
+    
     return Scaffold(
       appBar: _getAppBar(),
       body: Container(
@@ -187,7 +180,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
                 ),
                 Expanded(
                   child: VoteTitle(
-                    title: pollData.title,
+                    title: poll.title,
                   ),
                 ),
               ],
@@ -203,7 +196,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
               child: ListView(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
-                children: _getAllOptions(),
+                children: _getAllOptions(poll),
               ),
             ),
             SizedBox(
@@ -213,7 +206,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
             SizedBox(
               height: 12.0,
             ),
-            _getVoteButton(),
+            _getVoteButton(poll),
           ],
         ),
       ),

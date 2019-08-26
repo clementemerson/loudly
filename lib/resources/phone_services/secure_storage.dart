@@ -3,8 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Gets and Sets keys and values to secure storage
 class SecureStorage {
-  static final String jwtToken = 'jwtToken';
-  static final String selfUser = 'user_id';
+
 
   static final SecureStorage _instance = SecureStorage._internal();
   FlutterSecureStorage _storage;

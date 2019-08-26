@@ -1,3 +1,8 @@
+const String version = '05';
+const String jwtToken = 'jwtToken' + version;
+const String selfUser = 'userid' + version;
+const String dbFile = 'loud' + version + '.db';
+
 const String enterMobileNumberTxt = 'Enter your mobile number';
 const String enterOTPTxt = 'Enter OTP';
 const String loginRegister = 'Login / Register';
@@ -19,7 +24,9 @@ const String createPoll = 'Create Poll';
 
 //Exception
 const String failedGetContactsFromPhone = 'Failed to get contacts from phone';
-const String sendingWSMessageFailed = 'Failed to send message to server via websocket';
+const String sendingWSMessageFailed =
+    'Failed to send message to server via websocket';
 const String parsingWSMessageFailed = 'Failed to parse message from server';
 const String noWSConnection = 'Websocket connection is not established yet';
-const String initWSConnectionFailed = 'Failed to instantiate websocket connection';
+const String initWSConnectionFailed =
+    'Failed to instantiate websocket connection';

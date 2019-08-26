@@ -32,11 +32,11 @@ class PollStore with ChangeNotifier {
   }
 
   List<Poll> pollsCreatedBy({@required int userid}) {
-    return _polls.where((poll) => poll.createdBy == userid);
+    return _polls.where((poll) => poll.createdBy == userid).toList();
   }
 
   List<Poll> pollsInGroup({@required int groupid}) {
-    return _polls.where((poll) => poll.isInGroup(groupid: groupid));
+    return _polls.where((poll) => poll.isInGroup(groupid: groupid)).toList();
   }
 
   _initPollList() async {

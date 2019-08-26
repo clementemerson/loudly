@@ -26,13 +26,11 @@ class GroupPollResults extends StatelessWidget {
           color: Colors.grey,
         ),
         itemCount: poll.groupPollCatalog.pollInfos.length,
-        itemBuilder: (context, index) => ChangeNotifierProvider(
-          builder: (ctx) => poll.groupPollCatalog.pollInfos[index],
+        itemBuilder: (context, index) => ChangeNotifierProvider.value(
+          value: poll.groupPollCatalog.pollInfos[index],
           child: GroupPollResult(),
         ),
       )
     ]);
   }
 }
-
-

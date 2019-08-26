@@ -36,8 +36,8 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
           await LoginService.verifyOTP(sessionId: sessionId, otp: otp);
       String token = data['token'];
       Globals.selfUserId = data['user_id'];
-      await SecureStorage().write(key: SecureStorage.jwtToken, value: token);
-      await SecureStorage().write(key: SecureStorage.selfUser, value: Globals.selfUserId.toString());
+      await SecureStorage().write(key: jwtToken, value: token);
+      await SecureStorage().write(key: selfUser, value: Globals.selfUserId.toString());
       
       WebSocketHelper()
           .initConnection(token: token, initCallback: setupWebSocketConnection);

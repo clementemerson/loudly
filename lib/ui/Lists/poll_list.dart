@@ -39,8 +39,8 @@ class PollList extends StatelessWidget {
         color: Colors.grey,
       ),
       itemCount: pollList.length,
-      itemBuilder: (context, index) => ChangeNotifierProvider(
-        builder: (ctx) => pollList[index],
+      itemBuilder: (context, index) => ChangeNotifierProvider.value(
+        value: pollList[index],
         child: PollTile(),
       ),
     );

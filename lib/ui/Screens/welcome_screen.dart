@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/phone_services/secure_storage.dart';
 
 import 'package:loudly/resources/ws/websocket.dart';
@@ -25,8 +26,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   checkForCredentials() async {
-    final String token =  await SecureStorage().read(key: SecureStorage.jwtToken);
-    final String userId =  await SecureStorage().read(key: SecureStorage.selfUser);
+    final String token =  await SecureStorage().read(key: jwtToken);
+    final String userId =  await SecureStorage().read(key: selfUser);
     
     if (userId != null) Globals.selfUserId = int.parse(userId);
     print(Globals.selfUserId);

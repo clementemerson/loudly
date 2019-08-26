@@ -16,7 +16,7 @@ class Poll with ChangeNotifier {
 
   List<PollOption> _options = [];
   List<Vote> _votes = [];
-  GroupPollCatalog _groupPollCatalog;
+  GroupPollCatalog _groupPollCatalog = GroupPollCatalog();
 
   Poll(
       {@required this.pollid,

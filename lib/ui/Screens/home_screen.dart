@@ -1,12 +1,16 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:loudly/providers/group_store.dart';
+import 'package:loudly/providers/poll_store.dart';
+import 'package:loudly/providers/user_store.dart';
 import 'package:loudly/ui/Lists/group_list.dart';
 import 'package:loudly/ui/Lists/poll_list.dart';
 
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/project_settings.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static final String id = 'home_screen';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loudly/providers/group_poll_result_info.dart';
 
 class GroupPollCatalog with ChangeNotifier {
-  List<GroupPollResultInfo> _catalog;
+  List<GroupPollResultInfo> _catalog = [];
 
   List<GroupPollResultInfo> get pollInfos {
     return [..._catalog];
