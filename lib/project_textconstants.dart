@@ -1,4 +1,4 @@
-const String version = '05';
+const String version = '11';
 const String jwtToken = 'jwtToken' + version;
 const String selfUser = 'userid' + version;
 const String dbFile = 'loud' + version + '.db';

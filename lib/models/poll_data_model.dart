@@ -18,8 +18,8 @@ List<PollDataModel> pollInfoFromList(List<dynamic> list) =>
 
 String pollDataToJson(PollDataModel data) => json.encode(data.toJson());
 
-List<String> pollOptionListToJson(List<PollOptionModel> list) =>
-    new List<String>.from(list.map((x) => json.encode(x.toJsonForServer())));
+List<dynamic> pollOptionListToJson(List<PollOptionModel> list) =>
+    new List<dynamic>.from(list.map((x) => x.toJsonForServer()));
 
 List<PollOptionModel> pollOptionFromList(List<dynamic> list, int pollid) {
   List<PollOptionModel> pollOptions = List<PollOptionModel>();

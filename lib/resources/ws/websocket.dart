@@ -10,8 +10,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'message_models/general_message_format.dart';
 
 class WebSocketHelper {
-  static final String serverName = 'wss://loudly.loudspeakerdev.net:8080';
-  //static final String serverName = 'ws://127.0.0.1:8080';
+  //static final String serverName = 'wss://loudly.loudspeakerdev.net:8080';
+  static final String serverName = 'ws://127.0.0.1:8080';
   //static final String serverName = 'ws://10.0.2.2:8080';
 
   static final String wsConnectionDone = '';
