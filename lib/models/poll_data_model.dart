@@ -13,8 +13,14 @@ import 'package:sqflite/sqflite.dart';
 PollDataModel pollDataFromJson(Map<String, dynamic> map) =>
     PollDataModel.fromJson(map);
 
-List<PollDataModel> pollInfoFromList(List<dynamic> list) =>
-    new List<PollDataModel>.from(list.map((x) => PollDataModel.fromJson(x)));
+List<PollDataModel> pollInfoFromList(List<dynamic> list) {
+  List<PollDataModel> pollDataList = List<PollDataModel>();
+  for (var item in list) {
+    PollDataModel pollData = PollDataModel.fromJson(item);
+    if (pollData != null) pollDataList.add(pollData);
+  }
+  return pollDataList;
+}
 
 String pollDataToJson(PollDataModel data) => json.encode(data.toJson());
 
@@ -62,8 +68,9 @@ class PollDataModel {
       this.createdAt,
       this.voted});
 
-  factory PollDataModel.fromJson(Map<String, dynamic> json) =>
-      new PollDataModel(
+  factory PollDataModel.fromJson(Map<String, dynamic> json) {
+    try {
+      return PollDataModel(
         pollid: json[PollDataModel.columnPollId],
         title: json[PollDataModel.columnTitle],
         options: new List<PollOptionModel>.from(json[PollDataModel.jsonOptions]
@@ -76,6 +83,10 @@ class PollDataModel {
         createdAt: json[PollDataModel.columnCreatedAt],
         voted: json[PollDataModel.columnVoted] ?? false,
       );
+    } catch (err) {
+      return null;
+    }
+  }
 
   factory PollDataModel.fromLocalDB(
           Map<String, dynamic> json, List<PollOptionModel> pollOptions) =>
@@ -223,8 +234,6 @@ class PollOptionModel {
   Map<String, dynamic> toJsonForServer() => {
         PollOptionModel.columnOptionIndex: optionindex,
         PollOptionModel.columnDesc: desc,
-        PollOptionModel.columnOpenVotes: openVotes ?? 0,
-        PollOptionModel.columnSecretVotes: secretVotes ?? 0,
       };
 
   Map<String, dynamic> toJson() => {
