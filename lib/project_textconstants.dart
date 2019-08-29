@@ -14,6 +14,9 @@ const String editGroup = 'Edit Group';
 const String settings = 'Settings';
 const String search = 'Search';
 
+//Toast messages
+const String creatingPoll = 'Creating Poll...';
+
 //Text constanst poll
 const String askSomething = 'Ask Something';
 const String option1 = 'Option 1';
