@@ -9,6 +9,7 @@ import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/resources/ws/wsutility.dart';
 import 'package:loudly/ui/globals.dart';
+import 'package:loudly/ui/widgets/toast_generator.dart';
 
 class WSPollsModule {
 //Event List
@@ -38,6 +39,7 @@ class WSPollsModule {
           });
       MessageStore().add(message);
 
+      ToastGenerator.showCenterToast(creatingPoll);
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
       return messageid;
     } catch (Exception) {
@@ -260,6 +262,7 @@ class WSPollsModule {
           voted: false);
 
       PollDataModel.insert(data);
+      ToastGenerator.cancelToast();
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
