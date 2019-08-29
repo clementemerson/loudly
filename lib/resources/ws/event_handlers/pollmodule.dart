@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:loudly/models/group_poll_model.dart';
 import 'package:loudly/models/poll_data_model.dart';
 import 'package:loudly/project_textconstants.dart';
+import 'package:loudly/providers/poll.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -219,7 +221,7 @@ class WSPollsModule {
         await getInfoReply(genFormatMessage);
         break;
       case voteEvent:
-        await voteReply(genFormatMessage);
+        await voteReply(genFormatMessage, sentMessage: sentMessage);
         break;
       case getUsersVoteInfoEvent:
         await getUsersVoteInfoReply(genFormatMessage);
@@ -291,9 +293,11 @@ class WSPollsModule {
     }
   }
 
-  static Future<void> voteReply(GeneralMessageFormat genFormatMessage) async {
+  static Future<void> voteReply(GeneralMessageFormat genFormatMessage,
+      {@required Message sentMessage}) async {
     try {
-      //Todo:
+      Poll poll = PollStore.store.findById(pollid: sentMessage.data['pollid']);
+      poll?.voted = true;
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }

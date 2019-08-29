@@ -29,8 +29,8 @@ List<dynamic> pollOptionListToJson(List<PollOptionModel> list) =>
 
 List<PollOptionModel> pollOptionFromList(List<dynamic> list, int pollid) {
   List<PollOptionModel> pollOptions = List<PollOptionModel>();
-  for (String x in list) {
-    pollOptions.add(PollOptionModel.fromJson(json.decode(x), pollid: pollid));
+  for (Map<String, dynamic> x in list) {
+    pollOptions.add(PollOptionModel.fromJson(x, pollid: pollid));
   }
   return pollOptions;
 }
@@ -172,7 +172,7 @@ class PollDataModel {
 
     // Query the table for all The dogs.
     List<Map<String, dynamic>> maps = await db.query(PollDataModel.tablename,
-        orderBy: '${PollDataModel.columnCreatedAt} DESC');
+        orderBy: '${PollDataModel.columnCreatedAt}');
 
     List<PollDataModel> pollList = [];
     for (var poll in maps) {

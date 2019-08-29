@@ -21,7 +21,7 @@ class PollStore with ChangeNotifier {
     if (_polls.firstWhere((poll) => poll.pollid == newPoll.pollid,
             orElse: () => null) ==
         null) {
-      _polls.add(newPoll);
+      _polls.insert(0, newPoll);
       notifyListeners();
     }
   }
