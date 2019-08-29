@@ -34,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     await WebSocketHelper()
         .initConnection(token: token, initCallback: setupWebSocketConnection);
-    if (WebSocketHelper().bConnectionEstablished == false) {
+    if (WebSocketHelper().connectionEstablished == false) {
       Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
     }
   }
