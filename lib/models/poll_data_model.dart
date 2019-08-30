@@ -198,6 +198,23 @@ class PollDataModel {
 
     await PollOptionModel.delete(pollid);
   }
+
+  static Future<void> markAsVoted(int pollid) async {
+    Poll poll = PollStore.store.findById(pollid: pollid);
+    if (poll == null) return;
+
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    // Update the given Dog.
+    await db.update(
+      PollDataModel.tablename,
+      {PollDataModel.columnVoted: true},
+      where: "${PollDataModel.columnPollId} = ?",
+      whereArgs: [pollid],
+    );
+    poll.voted = true;  //Update the localdb
+  }
 }
 
 class PollOptionModel {

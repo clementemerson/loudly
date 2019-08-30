@@ -299,8 +299,7 @@ class WSPollsModule {
   static Future<void> voteReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      Poll poll = PollStore.store.findById(pollid: sentMessage.data['pollid']);
-      poll?.voted = true;
+      PollDataModel.markAsVoted(sentMessage.data['pollid']);
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }

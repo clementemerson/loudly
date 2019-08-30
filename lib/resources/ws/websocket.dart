@@ -21,7 +21,8 @@ class WebSocketHelper {
   static final String receiving = 'receiving';
 
   WebSocketChannel channel;
-  bool _connectionEstablished = false;
+  bool _connEstablished = false;
+  bool _connIsBeingEstablished = false;
   final callbackRegister = new Map();
 
   static final WebSocketHelper _instance = WebSocketHelper._internal();
@@ -30,16 +31,17 @@ class WebSocketHelper {
 
   WebSocketHelper._internal() {
     // init things inside this
-    _connectionEstablished = false;
+    _connEstablished = false;
   }
 
   bool get connectionEstablished {
-    return this._connectionEstablished;
+    return this._connEstablished;
   }
 
   Future initConnection({@required String token, Function initCallback}) async {
     try {
-      if (_connectionEstablished == true) return;
+      if (_connEstablished == true || _connIsBeingEstablished == true) return;
+      _connIsBeingEstablished = true;
 
       //var headers = {'token': token};
       String connectionString = WebSocketHelper.serverName + '?token=$token';
@@ -50,13 +52,15 @@ class WebSocketHelper {
           handleIncomingMessage(message, initCallback: initCallback);
         },
         onDone: () {
-          _connectionEstablished = false;
+          _connEstablished = false;
+          _connIsBeingEstablished = false;
           initCallback(false);
           ws.close();
           print(wsConnectionClosed);
         },
         onError: (error) {
-          _connectionEstablished = false;
+          _connEstablished = false;
+          _connIsBeingEstablished = false;
           initCallback(false);
           ws.close();
           print('$wsConnectionError = $error');
@@ -64,10 +68,12 @@ class WebSocketHelper {
       );
       this.channel = IOWebSocketChannel(ws);
 
-      _connectionEstablished = true;
+      _connEstablished = true;
+      _connIsBeingEstablished = false;
     } catch (Exception) {
       print(Exception);
-      _connectionEstablished = false;
+      _connEstablished = false;
+      _connIsBeingEstablished = false;
       throw Exception(initWSConnectionFailed);
     }
   }
@@ -75,7 +81,7 @@ class WebSocketHelper {
   void sendMessage(var message, {Function callback}) {
     try {
       print('$sending: $message');
-      if (_connectionEstablished == true) {
+      if (_connEstablished == true) {
         callbackRegister[message[Message.jsonMessageId]] = callback;
         channel.sink.add(json.encode(message));
       } else {
@@ -91,7 +97,7 @@ class WebSocketHelper {
       print('$receiving: $message');
       if (firstMessageReceived == false) {
         firstMessageReceived = true;
-        _connectionEstablished = true;
+        _connEstablished = true;
         initCallback(true);
       }
 

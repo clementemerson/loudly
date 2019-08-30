@@ -5,7 +5,7 @@ class ToastGenerator {
   static Future<bool> showCenterToast(String msg) {
     return Fluttertoast.showToast(
         msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
+        toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 1,
         fontSize: 16.0);
@@ -43,6 +43,7 @@ class ToastGenerator {
   }
 
   static void cancelToast() {
+    //Note: Not working in iOS
     Fluttertoast.cancel();
   }
 }
