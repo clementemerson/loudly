@@ -84,7 +84,7 @@ class GroupInfoModel {
     );
 
     GroupStore.store.addGroup(
-        group: Group(
+        newGroup: Group(
             groupid: groupInfo.groupid,
             title: groupInfo.name,
             desc: groupInfo.desc,
@@ -99,7 +99,7 @@ class GroupInfoModel {
     // Query the table for all The dogs.
     final List<Map<String, dynamic>> maps = await db.query(
         GroupInfoModel.tablename,
-        orderBy: '${GroupInfoModel.columnCreatedAt} DESC');
+        orderBy: '${GroupInfoModel.columnCreatedAt}');
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {

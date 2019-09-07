@@ -110,9 +110,13 @@ class _ContactListState extends State<ContactList> {
                         ),
                     itemCount: widget.selectedUsers.length,
                     itemBuilder: (context, index) {
-                      return Text(
-                        '+',
-                        style: TextStyle(fontSize: 12.0),
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.brown.shade200,
+                          child:
+                              Text(widget.selectedUsers[index].displayName[0]),
+                        ),
                       );
                     }),
               )

@@ -7,6 +7,7 @@ import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/poll_option.dart';
 import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
+import 'package:loudly/ui/Screens/pollresult_screen.dart';
 import 'package:loudly/ui/widgets/votetitle.dart';
 import 'package:provider/provider.dart';
 
@@ -145,7 +146,8 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
           : () {
               WSPollsModule.vote(poll.pollid, selectedOption, secretVoting,
                   callback: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, PollResultScreen.id,
+                    arguments: poll.pollid);
               });
             },
       child: Text(
@@ -162,7 +164,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
   Widget build(BuildContext context) {
     final int pollid = ModalRoute.of(context).settings.arguments as int;
     final Poll poll = Provider.of<PollStore>(context).findById(pollid: pollid);
-    
+
     return Scaffold(
       appBar: _getAppBar(),
       body: Container(

@@ -16,9 +16,13 @@ class GroupStore with ChangeNotifier {
     return [..._groups];
   }
 
-  addGroup({@required Group group}) {
-    _groups.add(group);
-    notifyListeners();
+  addGroup({@required Group newGroup}) {
+    if (_groups.firstWhere((group) => group.groupid == newGroup.groupid,
+            orElse: () => null) ==
+        null) {
+      _groups.insert(0, newGroup);
+      notifyListeners();
+    }
   }
 
   Group findById({@required int id}) {
@@ -36,7 +40,7 @@ class GroupStore with ChangeNotifier {
           createdBy: data.createdBy,
           createdAt: data.createdAt);
 
-      this.addGroup(group: group);
+      this.addGroup(newGroup: group);
     }
   }
 }

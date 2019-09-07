@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:loudly/common_widgets.dart';
-import 'package:loudly/models/user_info_model.dart';
+import 'package:loudly/providers/user.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
+import 'package:loudly/ui/globals.dart';
 
 class NewGroupScreen extends StatefulWidget {
   static final String id = 'newgroup_screen';
@@ -18,7 +19,7 @@ class NewGroupScreen extends StatefulWidget {
 }
 
 class _NewGroupScreenState extends State<NewGroupScreen> {
-  List<UserInfoModel> _selectedUsers = List<UserInfoModel>();
+  List<User> _selectedUsers = List<User>();
   String groupName = '';
   String groupDesc = '';
 
@@ -88,7 +89,6 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                     _selectedUsers.clear();
                     _selectedUsers.addAll(onValue);
                   });
-                  print(onValue);
                 });
               },
             ),
@@ -105,9 +105,14 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                                 ),
                             itemCount: _selectedUsers.length,
                             itemBuilder: (context, index) {
-                              return Text(
-                                '+',
-                                style: TextStyle(fontSize: 12.0),
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.brown.shade200,
+                                  child: Text(
+                                      _selectedUsers[index].displayName[0]),
+                                ),
                               );
                             }),
                       ),
@@ -117,9 +122,13 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                               children: <Widget>[
                                 Expanded(
                                   child: _getCreateGroupButton(onPressed: () {
+                                    Set<int> userids = Set<int>.from(this
+                                        ._selectedUsers
+                                        .map((user) => user.userid));
                                     WSGroupsModule.create(
-                                        groupName.trim(), groupDesc.trim(),
-                                        callback: () {
+                                        groupName.trim(),
+                                        groupDesc.trim(),
+                                        userids, callback: () {
                                       Navigator.pop(context);
                                     });
                                   }),

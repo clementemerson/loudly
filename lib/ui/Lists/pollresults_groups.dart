@@ -21,6 +21,7 @@ class GroupPollResults extends StatelessWidget {
         height: 10.0,
       ),
       ListView.separated(
+        shrinkWrap: true,
         separatorBuilder: (context, index) => Divider(
           height: 4.0,
           color: Colors.grey,

@@ -55,7 +55,7 @@ class DBProvider {
           GroupPollModel.createTable(db), //grouppoll table
           UserPollModel.createTable(db), //userpoll table
           GroupPollResultModel.createTable(db), //grouppollresult table
-          UserVote.createTable(db), //uservote table
+          UserVoteModel.createTable(db), //uservote table
         ];
         await Future.wait(dataTablesCreation);
       },

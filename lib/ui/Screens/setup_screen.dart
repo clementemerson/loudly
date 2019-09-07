@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/models/group_info_model.dart';
 import 'package:loudly/project_settings.dart';
+import 'package:loudly/resources/phone_services/contacts_helper.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
+import 'package:phone_number/phone_number.dart';
 
 class SetupScreen extends StatefulWidget {
   static final String id = 'setup_screen';
@@ -48,18 +50,19 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   Future<List<String>> _getPhoneNumbersFromDevice() async {
-    // List<PhoneContacts> phoneContacts = await ContactsHelper.getPhoneContacts();
-    // List<String> phoneNumbers = List<String>();
-    // for (var contact in phoneContacts) {
-    //   try {
-    //     dynamic phoneParsed =
-    //         await PhoneNumber.parse(contact.phoneNumber, region: 'IN');
-    //     phoneNumbers.add(phoneParsed['e164']);
-    //   } catch (Exception) {}
-    // }
-    // return phoneNumbers;
+    List<PhoneContacts> phoneContacts = await ContactsHelper.getPhoneContacts();
     List<String> phoneNumbers = List<String>();
-    phoneNumbers.add('+919884386484');
+    for (var contact in phoneContacts) {
+      try {
+        dynamic phoneParsed =
+            await PhoneNumber.parse(contact.phoneNumber, region: 'IN');
+        phoneNumbers.add(phoneParsed['e164'].toString());
+      } catch (Exception) {}
+    }
+    print(phoneNumbers);
+    // return phoneNumbers;
+    List<String> numbers = List<String>();
+    numbers.add('+919884386484');
     return phoneNumbers;
   }
 
@@ -74,7 +77,11 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   _getMyPollsInfo() async {
-    await WSPollsModule.getMyPollsInfo(callback: _getUsersAndPollsOfGroup);
+    await WSPollsModule.getMyPollsInfo(callback: _getMyVotes);
+  }
+
+  _getMyVotes() async {
+    await WSPollsModule.getMyVotesInfo(callback: _getUsersAndPollsOfGroup);
   }
 
   _getUsersAndPollsOfGroup() async {

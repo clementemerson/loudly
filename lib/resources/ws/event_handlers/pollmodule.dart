@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:loudly/models/group_poll_model.dart';
 import 'package:loudly/models/poll_data_model.dart';
+import 'package:loudly/models/user_vote_model.dart';
 import 'package:loudly/project_textconstants.dart';
-import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
@@ -23,6 +23,7 @@ class WSPollsModule {
   static const String unSubscribeToPollResultEvent = 'unSubscribeToPollResult';
   static const String deleteEvent = 'delete';
   static const String getMyPollsInfoEvent = 'getMyPollsInfo';
+  static const String getMyVotesEvent = 'getMyVotes';
 
   static Future<int> create(PollDataModel pollData, {Function callback}) async {
     try {
@@ -209,6 +210,22 @@ class WSPollsModule {
     }
   }
 
+  static Future<int> getMyVotesInfo({Function callback}) async {
+    try {
+      int messageid = await WSUtility.getNextMessageId();
+      Message message = Message(
+          module: WSUtility.pollModule,
+          event: getMyVotesEvent,
+          messageid: messageid);
+      MessageStore().add(message);
+
+      WebSocketHelper().sendMessage(message.toJson(), callback: callback);
+      return messageid;
+    } catch (Exception) {
+      throw Exception(sendingWSMessageFailed);
+    }
+  }
+
 //----------------------------------------------------------------------------------------------------------------------------
   static Future<void> onMessage(
       GeneralMessageFormat genFormatMessage, Message sentMessage) async {
@@ -242,6 +259,9 @@ class WSPollsModule {
         break;
       case getMyPollsInfoEvent:
         await getMyPollsInfoReply(genFormatMessage);
+        break;
+      case getMyVotesEvent:
+        await getMyVotesReply(genFormatMessage);
         break;
     }
   }
@@ -300,6 +320,7 @@ class WSPollsModule {
       {@required Message sentMessage}) async {
     try {
       PollDataModel.markAsVoted(sentMessage.data['pollid']);
+      ToastGenerator.showBottomToast('Voted successfully');
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }
@@ -357,6 +378,20 @@ class WSPollsModule {
           pollInfoFromList(genFormatMessage.message.data);
       for (PollDataModel pollInfo in pollInfoList) {
         await PollDataModel.insert(pollInfo);
+      }
+    } catch (Exception) {
+      throw Exception(parsingWSMessageFailed);
+    }
+  }
+
+  static Future<void> getMyVotesReply(
+      GeneralMessageFormat genFormatMessage) async {
+    try {
+      List<UserVoteModel> userVoteList =
+          userVoteFromList(genFormatMessage.message.data);
+      for (UserVoteModel userVote in userVoteList) {
+        await UserVoteModel.insert(userVote);
+        PollStore.store.findById(pollid: userVote.pollid).voted = true;
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);

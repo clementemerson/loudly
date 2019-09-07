@@ -13,7 +13,7 @@ class PhoneContacts {
 }
 
 class ContactsHelper {
-  static List<PhoneContacts> phoneContacts;
+  static List<PhoneContacts> phoneContacts = List<PhoneContacts>();
   static DateTime lastSynchedTime;
 
   static Future<List<PhoneContacts>> getPhoneContacts() async {
