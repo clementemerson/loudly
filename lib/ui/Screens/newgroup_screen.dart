@@ -5,7 +5,6 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/providers/user.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
-import 'package:loudly/ui/globals.dart';
 import 'package:loudly/ui/widgets/peopleavatarlist.dart';
 
 class NewGroupScreen extends StatefulWidget {
@@ -84,8 +83,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
               icon: Icon(Icons.group),
               onPressed: () {
                 Navigator.pushNamed(context, GroupParticipantsScreen.route,
-                        arguments: [..._selectedUsers])
-                    .then((onValue) {
+                    arguments: [..._selectedUsers]).then((onValue) {
                   setState(() {
                     _selectedUsers.clear();
                     _selectedUsers.addAll(onValue);
@@ -94,40 +92,29 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
               },
             ),
             _selectedUsers.isNotEmpty
-                ? Column(
-                    children: [
-                      PeopleAvatarList(
-                        selectedUsers: _selectedUsers,
-                      ),
-                      (groupName.trim().isNotEmpty &&
-                              groupDesc.trim().isNotEmpty)
-                          ? Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: _getCreateGroupButton(onPressed: () {
-                                    Set<int> userids = Set<int>.from(this
-                                        ._selectedUsers
-                                        .map((user) => user.userid));
-                                    WSGroupsModule.create(
-                                        groupName.trim(),
-                                        groupDesc.trim(),
-                                        userids, callback: () {
-                                      Navigator.pop(context);
-                                    });
-                                  }),
-                                ),
-                              ],
-                            )
-                          : Container(
-                              height: 0.0,
-                              width: 0.0,
-                            ),
-                    ],
+                ? Container(
+                    child: PeopleAvatarList(
+                      selectedUsers: _selectedUsers,
+                    ),
                   )
                 : Container(
                     height: 0.0,
                     width: 0.0,
                   ),
+            _getCreateGroupButton(
+                onPressed: (_selectedUsers.isNotEmpty &&
+                        groupName.isNotEmpty &&
+                        groupDesc.isNotEmpty)
+                    ? () {
+                        Set<int> userids = Set<int>.from(
+                            this._selectedUsers.map((user) => user.userid));
+                        WSGroupsModule.create(
+                            groupName.trim(), groupDesc.trim(), userids,
+                            callback: () {
+                          Navigator.pop(context);
+                        });
+                      }
+                    : null),
           ],
         ),
       ),

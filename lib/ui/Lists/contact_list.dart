@@ -27,22 +27,16 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
+  String searchText = '';
+
   @override
   void initState() {
     super.initState();
   }
 
-  void _addRemoveSelectedList(User contact, bool add) {
-    if (add == true) {
-      widget.selectedUsers.add(contact);
-    } else {
-      widget.selectedUsers.remove(contact);
-    }
-  }
-
-  Widget _getParticipantsList() {
+  Widget _getParticipantsList(String searchText) {
     final userStore = Provider.of<UserStore>(context);
-    final userList = userStore.users;
+    final List<User> userList = _getUserList(userStore);
 
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
@@ -50,43 +44,24 @@ class _ContactListState extends State<ContactList> {
         color: Colors.grey,
       ),
       itemCount: userList.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(
-            '${userList[index].displayName}',
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            '${userList[index].statusMsg}',
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: widget.actionRequired == ContactListAction.Select
-              ? Checkbox(
-                  value: _isSelected(userList[index]),
-                  onChanged: (value) {
-                    if (this.mounted) {
-                      setState(() {
-                        _addRemoveSelectedList(userList[index], value);
-                      });
-                    }
-                  },
-                )
-              : Container(
-                  width: 0,
-                  height: 0,
-                ),
-          onTap: widget.actionRequired == ContactListAction.Select
-              ? () {
-                  if (this.mounted) {
-                    setState(() {
-                      _addRemoveSelectedList(
-                          userList[index], !_isSelected(userList[index]));
-                    });
-                  }
+      itemBuilder: (context, index) => ChangeNotifierProvider.value(
+        value: userList[index],
+        child: ContactTile(
+          actionRequired: widget.actionRequired,
+          isSelected: _isSelected(userList[index]),
+          onTap: () {
+            setState(() {
+              if (this.mounted == true) {
+                if (widget.selectedUsers.contains(userList[index])) {
+                  widget.selectedUsers.remove(userList[index]);
+                } else {
+                  widget.selectedUsers.add(userList[index]);
                 }
-              : null,
-        );
-      },
+              }
+            });
+          },
+        ),
+      ),
     );
   }
 
@@ -95,11 +70,17 @@ class _ContactListState extends State<ContactList> {
     return Column(
       children: <Widget>[
         kUserInputTextField(
-          helperText: 'Search',
-          maxLen: null,
-          fontSize: 16.0,
-          keyboardType: TextInputType.text,
-        ),
+            helperText: 'Search',
+            maxLen: null,
+            fontSize: 16.0,
+            keyboardType: TextInputType.text,
+            onChanged: (text) {
+              setState(() {
+                if (this.mounted == true) {
+                  searchText = text;
+                }
+              });
+            }),
         widget.selectedUsers.isNotEmpty
             ? PeopleAvatarList(
                 selectedUsers: widget.selectedUsers,
@@ -112,7 +93,7 @@ class _ContactListState extends State<ContactList> {
           color: Colors.blueAccent,
         ),
         Expanded(
-          child: _getParticipantsList(),
+          child: _getParticipantsList(searchText),
         ),
       ],
     );
@@ -120,5 +101,54 @@ class _ContactListState extends State<ContactList> {
 
   _isSelected(User contact) {
     return widget.selectedUsers.indexOf(contact) > -1 ? true : false;
+  }
+
+  _getUserList(UserStore userStore) {
+    if (searchText.length > 0)
+      return userStore.searchByText(searchText);
+    else
+      return userStore.users;
+  }
+}
+
+class ContactTile extends StatelessWidget {
+  final ContactListAction actionRequired;
+  final bool isSelected;
+  final Function onTap;
+
+  ContactTile({
+    @required this.actionRequired,
+    @required this.isSelected,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    return ListTile(
+      title: Text(
+        '${user.displayName}',
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(
+        '${user.statusMsg}',
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: actionRequired == ContactListAction.Select
+          ? Checkbox(
+              value: isSelected,
+              onChanged: (value) {},
+            )
+          : Container(
+              width: 0,
+              height: 0,
+            ),
+      onTap: actionRequired == ContactListAction.Select
+          ? () {
+              if (onTap != null) onTap();
+            }
+          : null,
+    );
   }
 }

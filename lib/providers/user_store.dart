@@ -30,6 +30,13 @@ class UserStore with ChangeNotifier {
     return _users.firstWhere((user) => user.userid == id, orElse: () => null);
   }
 
+  List<User> searchByText(String searchText) {
+    return _users
+        .where((user) =>
+            user.displayName.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+  }
+
   _initUserList() async {
     List<UserInfoModel> groupList = await UserInfoModel.getAll();
     for (UserInfoModel data in groupList) {

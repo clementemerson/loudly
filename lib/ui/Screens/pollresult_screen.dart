@@ -5,6 +5,7 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/ui/Lists/pollresults_groups.dart';
+import 'package:loudly/ui/Screens/sharecontent_screen.dart';
 import 'package:loudly/ui/widgets/poll_consolidated_result.dart';
 import 'package:loudly/ui/widgets/votetitle.dart';
 import 'package:provider/provider.dart';
@@ -13,25 +14,13 @@ class PollResultScreen extends StatelessWidget {
   static final String route = 'pollresult_screen';
   static final String appBarTitle = 'Poll Result';
 
-  AppBar _getAppBar() {
-    return AppBar(title: Text(PollResultScreen.appBarTitle), actions: <Widget>[
-      IconButton(
-        icon: Icon(
-          Icons.reply,
-          textDirection: TextDirection.rtl,
-        ),
-        onPressed: () {},
-      )
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     final int pollid = ModalRoute.of(context).settings.arguments as int;
     final Poll poll = Provider.of<PollStore>(context).findById(pollid: pollid);
 
     return Scaffold(
-      appBar: _getAppBar(),
+      appBar: buildAppBar(context, poll),
       body: Container(
         padding: const EdgeInsets.only(
           left: 8.0,
@@ -77,5 +66,20 @@ class PollResultScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  AppBar buildAppBar(BuildContext context, Poll poll) {
+    return AppBar(title: Text(PollResultScreen.appBarTitle), actions: <Widget>[
+      IconButton(
+        icon: Icon(
+          Icons.reply,
+          textDirection: TextDirection.rtl,
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, ShareContentScreen.route,
+              arguments: poll.pollid);
+        },
+      )
+    ]);
   }
 }
