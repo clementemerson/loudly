@@ -7,7 +7,7 @@ import 'package:loudly/project_styles.dart';
 import 'package:loudly/project_textconstants.dart';
 
 class PhoneLoginScreen extends StatefulWidget {
-  static final String id = 'phonelogin_screen';
+  static final String route = 'phonelogin_screen';
 
   @override
   _PhoneLoginScreenState createState() => _PhoneLoginScreenState();
@@ -27,7 +27,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
     String sessionId = await LoginService.getOTP(phoneNumber: phoneNumber);
     Navigator.pushNamed(
       context,
-      PhoneVerifyScreen.id,
+      PhoneVerifyScreen.route,
       arguments: sessionId
     );
   }

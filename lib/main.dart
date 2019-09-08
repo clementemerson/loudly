@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loudly/lifecycle_manager.dart';
 import 'package:loudly/providers/group_store.dart';
 import 'package:loudly/providers/poll_store.dart';
+import 'package:loudly/providers/user.dart';
 import 'package:loudly/providers/user_store.dart';
 import 'package:loudly/ui/Screens/setup_screen.dart';
 
@@ -39,23 +40,35 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
         child: MaterialApp(
           title: 'Loudly',
           theme: ThemeData.dark(),
-          initialRoute: WelcomeScreen.id,
+          initialRoute: WelcomeScreen.route,
           routes: {
-            WelcomeScreen.id: (context) => WelcomeScreen(),
-            GroupPollListScreen.id: (context) => GroupPollListScreen(),
-            GroupParticipantsScreen.id: (context) => GroupParticipantsScreen(),
-            HomeScreen.id: (context) => HomeScreen(),
-            ImagesScreen.id: (context) => ImagesScreen(),
-            NewGroupScreen.id: (context) => NewGroupScreen(),
-            NewPollScreen.id: (context) => NewPollScreen(),
-            PhoneLoginScreen.id: (context) => PhoneLoginScreen(),
-            PhoneVerifyScreen.id: (context) => PhoneVerifyScreen(),
-            PollResultScreen.id: (context) => PollResultScreen(),
-            PollVoteScreen.id: (context) => PollVoteScreen(),
-            SearchScreen.id: (context) => SearchScreen(),
-            SettingsScreen.id: (context) => SettingsScreen(),
-            ShareContentScreen.id: (context) => ShareContentScreen(),
-            SetupScreen.id: (context) => SetupScreen(),
+            WelcomeScreen.route: (context) => WelcomeScreen(),
+            GroupPollListScreen.route: (context) => GroupPollListScreen(),
+            HomeScreen.route: (context) => HomeScreen(),
+            ImagesScreen.route: (context) => ImagesScreen(),
+            NewGroupScreen.route: (context) => NewGroupScreen(),
+            NewPollScreen.route: (context) => NewPollScreen(),
+            PhoneLoginScreen.route: (context) => PhoneLoginScreen(),
+            PhoneVerifyScreen.route: (context) => PhoneVerifyScreen(),
+            PollResultScreen.route: (context) => PollResultScreen(),
+            PollVoteScreen.route: (context) => PollVoteScreen(),
+            SearchScreen.route: (context) => SearchScreen(),
+            SettingsScreen.route: (context) => SettingsScreen(),
+            ShareContentScreen.route: (context) => ShareContentScreen(),
+            SetupScreen.route: (context) => SetupScreen(),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name == GroupParticipantsScreen.route) {
+              final List<User> args = settings.arguments;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return GroupParticipantsScreen(
+                    selectedUsers: args,
+                  );
+                },
+              );
+            }
+            return null;
           },
         ),
       ),

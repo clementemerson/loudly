@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
-  static final String id = 'settings_screen';
+  static final String route = 'settings_screen';
   static final String appBarTitle = 'Settings';
 
   AppBar _getAppBar() {

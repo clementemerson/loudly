@@ -12,7 +12,7 @@ import 'package:loudly/ui/Screens/setup_screen.dart';
 import 'package:loudly/ui/globals.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
-  static final String id = 'phoneverify_screen';
+  static final String route = 'phoneverify_screen';
 
   PhoneVerifyScreen();
 
@@ -51,9 +51,9 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
   setupWebSocketConnection(bool connectionEstablished) {
     if (connectionEstablished == true) {
       Navigator.pushNamedAndRemoveUntil(
-          context, SetupScreen.id, (Route<dynamic> route) => false);
+          context, SetupScreen.route, (Route<dynamic> route) => false);
     } else {
-      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
+      Navigator.pushReplacementNamed(context, PhoneLoginScreen.route);
     }
   }
 

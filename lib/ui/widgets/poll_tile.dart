@@ -60,9 +60,9 @@ class PollTile extends StatelessWidget {
             ),
       onTap: () {
         poll.voted == true
-            ? Navigator.pushNamed(context, PollResultScreen.id,
+            ? Navigator.pushNamed(context, PollResultScreen.route,
                 arguments: poll.pollid)
-            : Navigator.pushNamed(context, PollVoteScreen.id,
+            : Navigator.pushNamed(context, PollVoteScreen.route,
                 arguments: poll.pollid);
       },
     );

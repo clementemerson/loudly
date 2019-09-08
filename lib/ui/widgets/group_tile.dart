@@ -19,7 +19,7 @@ class GroupTile extends StatelessWidget {
       ),
       //leading: Image.network(_groupList[index].image),
       onTap: () {
-        Navigator.pushNamed(context, GroupPollListScreen.id,
+        Navigator.pushNamed(context, GroupPollListScreen.route,
             arguments: group.groupid);
       },
     );

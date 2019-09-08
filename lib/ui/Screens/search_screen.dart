@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
-  static final String id = 'search_screen';
+  static final String route = 'search_screen';
   static final String appBarTitle = 'Search';
 
   AppBar _getAppBar() {

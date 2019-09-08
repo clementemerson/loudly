@@ -9,7 +9,7 @@ import 'package:loudly/project_textconstants.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 
 class NewPollScreen extends StatefulWidget {
-  static final String id = 'newpoll_screen';
+  static final String route = 'newpoll_screen';
   static final String canShareThisPoll =
       'Anyone can share this poll in their groups';
   static final String pollResultIsPublic = 'Everyone can see the poll results';

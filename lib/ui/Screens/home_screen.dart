@@ -13,7 +13,7 @@ import 'package:loudly/project_settings.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  static final String id = 'home_screen';
+  static final String route = 'home_screen';
   static final String homeTabTitle = 'HOME';
   static final String groupsTabTitle = 'GROUPS';
   static final String myPollsTabTitle = 'MY POLLS';

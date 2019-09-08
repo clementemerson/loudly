@@ -6,9 +6,10 @@ import 'package:loudly/providers/user.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
 import 'package:loudly/ui/globals.dart';
+import 'package:loudly/ui/widgets/peopleavatarlist.dart';
 
 class NewGroupScreen extends StatefulWidget {
-  static final String id = 'newgroup_screen';
+  static final String route = 'newgroup_screen';
   static final String appBarTitle = 'New Group';
   static final String createGroup = 'Create Group';
   static final String groupName = 'Group Name';
@@ -82,8 +83,8 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             IconButton(
               icon: Icon(Icons.group),
               onPressed: () {
-                Navigator.pushNamed(context, GroupParticipantsScreen.id,
-                        arguments: _selectedUsers)
+                Navigator.pushNamed(context, GroupParticipantsScreen.route,
+                        arguments: [..._selectedUsers])
                     .then((onValue) {
                   setState(() {
                     _selectedUsers.clear();
@@ -95,26 +96,8 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             _selectedUsers.isNotEmpty
                 ? Column(
                     children: [
-                      Container(
-                        height: 80.0,
-                        child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) => Divider(
-                                  height: 4.0,
-                                  color: Colors.grey,
-                                ),
-                            itemCount: _selectedUsers.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.brown.shade200,
-                                  child: Text(
-                                      _selectedUsers[index].displayName[0]),
-                                ),
-                              );
-                            }),
+                      PeopleAvatarList(
+                        selectedUsers: _selectedUsers,
                       ),
                       (groupName.trim().isNotEmpty &&
                               groupDesc.trim().isNotEmpty)

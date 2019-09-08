@@ -10,7 +10,7 @@ import 'package:loudly/ui/widgets/votetitle.dart';
 import 'package:provider/provider.dart';
 
 class PollResultScreen extends StatelessWidget {
-  static final String id = 'pollresult_screen';
+  static final String route = 'pollresult_screen';
   static final String appBarTitle = 'Poll Result';
 
   AppBar _getAppBar() {

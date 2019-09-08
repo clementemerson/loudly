@@ -11,7 +11,7 @@ import 'package:loudly/platform_widgets.dart';
 import 'package:loudly/ui/globals.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static final String id = 'welcome_screen';
+  static final String route = 'welcome_screen';
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -35,16 +35,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     await WebSocketHelper()
         .initConnection(token: token, initCallback: setupWebSocketConnection);
     if (WebSocketHelper().connectionEstablished == false) {
-      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
+      Navigator.pushReplacementNamed(context, PhoneLoginScreen.route);
     }
   }
 
   setupWebSocketConnection(bool connectionEstablished) {
     if (connectionEstablished == true) {
       Navigator.pushNamedAndRemoveUntil(
-          context, HomeScreen.id, (Route<dynamic> route) => false);
+          context, HomeScreen.route, (Route<dynamic> route) => false);
     } else {
-      Navigator.pushReplacementNamed(context, PhoneLoginScreen.id);
+      Navigator.pushReplacementNamed(context, PhoneLoginScreen.route);
     }
   }
 

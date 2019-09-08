@@ -3,7 +3,6 @@ import 'package:loudly/models/group_poll_model.dart';
 import 'package:loudly/models/poll_data_model.dart';
 import 'package:loudly/models/user_vote_model.dart';
 import 'package:loudly/project_textconstants.dart';
-import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/resources/ws/message_models/general_message_format.dart';
 import 'package:loudly/resources/ws/message_store.dart';
 import 'package:loudly/resources/ws/websocket.dart';
@@ -261,7 +260,7 @@ class WSPollsModule {
         await getMyPollsInfoReply(genFormatMessage);
         break;
       case getMyVotesEvent:
-        await getMyVotesReply(genFormatMessage);
+        await getMyVotesInfoReply(genFormatMessage);
         break;
     }
   }
@@ -384,14 +383,14 @@ class WSPollsModule {
     }
   }
 
-  static Future<void> getMyVotesReply(
+  static Future<void> getMyVotesInfoReply(
       GeneralMessageFormat genFormatMessage) async {
     try {
       List<UserVoteModel> userVoteList =
           userVoteFromList(genFormatMessage.message.data);
       for (UserVoteModel userVote in userVoteList) {
         await UserVoteModel.insert(userVote);
-        PollStore.store.findById(pollid: userVote.pollid).voted = true;
+        await PollDataModel.markAsVoted(userVote.pollid);
       }
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);

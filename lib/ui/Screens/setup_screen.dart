@@ -10,7 +10,7 @@ import 'package:loudly/ui/Screens/home_screen.dart';
 import 'package:phone_number/phone_number.dart';
 
 class SetupScreen extends StatefulWidget {
-  static final String id = 'setup_screen';
+  static final String route = 'setup_screen';
 
   @override
   _SetupScreenState createState() => _SetupScreenState();
@@ -101,6 +101,6 @@ class _SetupScreenState extends State<SetupScreen> {
   _onCompleted() {
     print('completed');
     Navigator.pushNamedAndRemoveUntil(
-        context, HomeScreen.id, (Route<dynamic> route) => false);
+        context, HomeScreen.route, (Route<dynamic> route) => false);
   }
 }

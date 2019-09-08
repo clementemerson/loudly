@@ -38,7 +38,7 @@ Widget kSearchWidget(BuildContext context) {
   return IconButton(
     icon: Icon(Icons.search),
     onPressed: () {
-      Navigator.pushNamed(context, SearchScreen.id);
+      Navigator.pushNamed(context, SearchScreen.route);
     },
   );
 }
@@ -67,7 +67,7 @@ Widget kMainScreenPopupMenu(BuildContext context) {
         case PopupMenuValue.NewPoll:
           Navigator.pushNamed(
             context,
-            NewPollScreen.id,
+            NewPollScreen.route,
           );
           break;
         // case PopupMenuValue.NewCountPoll:
@@ -79,13 +79,13 @@ Widget kMainScreenPopupMenu(BuildContext context) {
         case PopupMenuValue.CreateNewGroup:
           Navigator.pushNamed(
             context,
-            NewGroupScreen.id,
+            NewGroupScreen.route,
           );
           break;
         case PopupMenuValue.Settings:
           Navigator.pushNamed(
             context,
-            SettingsScreen.id,
+            SettingsScreen.route,
           );
           break;
         default:
@@ -118,7 +118,7 @@ Widget kGroupScreenPopupMenu(BuildContext context) {
         case PopupMenuValue.NewPoll:
           Navigator.pushNamed(
             context,
-            NewPollScreen.id,
+            NewPollScreen.route,
           );
           break;
         // case PopupMenuValue.NewCountPoll:
@@ -130,13 +130,13 @@ Widget kGroupScreenPopupMenu(BuildContext context) {
         case PopupMenuValue.CreateNewGroup:
           Navigator.pushNamed(
             context,
-            NewGroupScreen.id,
+            NewGroupScreen.route,
           );
           break;
         case PopupMenuValue.Settings:
           Navigator.pushNamed(
             context,
-            SettingsScreen.id,
+            SettingsScreen.route,
           );
           break;
         default:

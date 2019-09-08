@@ -12,7 +12,7 @@ import 'package:loudly/ui/widgets/votetitle.dart';
 import 'package:provider/provider.dart';
 
 class PollVoteScreen extends StatefulWidget {
-  static final String id = 'pollvote_screen';
+  static final String route = 'pollvote_screen';
   static final String secretVoting = 'Secret Voting';
   static final String vote = 'Vote';
 
@@ -146,7 +146,7 @@ class _PollVoteScreenState extends State<PollVoteScreen> {
           : () {
               WSPollsModule.vote(poll.pollid, selectedOption, secretVoting,
                   callback: () {
-                Navigator.pushReplacementNamed(context, PollResultScreen.id,
+                Navigator.pushReplacementNamed(context, PollResultScreen.route,
                     arguments: poll.pollid);
               });
             },

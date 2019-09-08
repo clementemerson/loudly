@@ -7,6 +7,7 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/user.dart';
 import 'package:loudly/providers/user_store.dart';
+import 'package:loudly/ui/widgets/peopleavatarlist.dart';
 import 'package:provider/provider.dart';
 
 class ContactList extends StatefulWidget {
@@ -100,25 +101,8 @@ class _ContactListState extends State<ContactList> {
           keyboardType: TextInputType.text,
         ),
         widget.selectedUsers.isNotEmpty
-            ? Container(
-                height: 80.0,
-                child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    separatorBuilder: (context, index) => Divider(
-                          height: 4.0,
-                          color: Colors.grey,
-                        ),
-                    itemCount: widget.selectedUsers.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.brown.shade200,
-                          child:
-                              Text(widget.selectedUsers[index].displayName[0]),
-                        ),
-                      );
-                    }),
+            ? PeopleAvatarList(
+                selectedUsers: widget.selectedUsers,
               )
             : Container(
                 height: 0.0,
