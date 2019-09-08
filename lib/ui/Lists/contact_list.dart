@@ -7,13 +7,13 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/user.dart';
 import 'package:loudly/providers/user_store.dart';
-import 'package:loudly/ui/widgets/peopleavatarlist.dart';
+import 'package:loudly/ui/widgets/avatarlist.dart';
 import 'package:provider/provider.dart';
 
 class ContactList extends StatefulWidget {
   final ContactListType contactListType;
   final String groupId;
-  final ContactListAction actionRequired;
+  final ListAction actionRequired;
   final List<User> selectedUsers;
 
   ContactList(
@@ -28,11 +28,6 @@ class ContactList extends StatefulWidget {
 
 class _ContactListState extends State<ContactList> {
   String searchText = '';
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Widget _getParticipantsList(String searchText) {
     final userStore = Provider.of<UserStore>(context);
@@ -82,8 +77,9 @@ class _ContactListState extends State<ContactList> {
               });
             }),
         widget.selectedUsers.isNotEmpty
-            ? PeopleAvatarList(
-                selectedUsers: widget.selectedUsers,
+            ? AvatarList(
+                texts: List<String>.from(
+                    widget.selectedUsers.map((user) => user.displayName)),
               )
             : Container(
                 height: 0.0,
@@ -112,7 +108,7 @@ class _ContactListState extends State<ContactList> {
 }
 
 class ContactTile extends StatelessWidget {
-  final ContactListAction actionRequired;
+  final ListAction actionRequired;
   final bool isSelected;
   final Function onTap;
 
@@ -135,7 +131,7 @@ class ContactTile extends StatelessWidget {
         '${user.statusMsg}',
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: actionRequired == ContactListAction.Select
+      trailing: actionRequired == ListAction.Select
           ? Checkbox(
               value: isSelected,
               onChanged: (value) {},
@@ -144,7 +140,7 @@ class ContactTile extends StatelessWidget {
               width: 0,
               height: 0,
             ),
-      onTap: actionRequired == ContactListAction.Select
+      onTap: actionRequired == ListAction.Select
           ? () {
               if (onTap != null) onTap();
             }

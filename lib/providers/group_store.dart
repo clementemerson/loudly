@@ -30,6 +30,13 @@ class GroupStore with ChangeNotifier {
         orElse: () => null);
   }
 
+  List<Group> searchByText(searchText) {
+    return _groups
+        .where((group) =>
+            group.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+  }
+
   _initGroupList() async {
     List<GroupInfoModel> groupList = await GroupInfoModel.getAll();
     for (GroupInfoModel data in groupList) {

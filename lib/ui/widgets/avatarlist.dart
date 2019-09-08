@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/providers/user.dart';
 
-class PeopleAvatarList extends StatelessWidget {
-  const PeopleAvatarList({
+class AvatarList extends StatelessWidget {
+  const AvatarList({
     Key key,
-    @required List<User> selectedUsers,
-  })  : _selectedUsers = selectedUsers,
+    @required List<String> texts,
+  })  : _texts = texts,
         super(key: key);
 
-  final List<User> _selectedUsers;
+  final List<String> _texts;
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +19,13 @@ class PeopleAvatarList extends StatelessWidget {
                 height: 4.0,
                 color: Colors.grey,
               ),
-          itemCount: _selectedUsers.length,
+          itemCount: _texts.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: CircleAvatar(
                 backgroundColor: Colors.brown.shade200,
-                child: Text(_selectedUsers[index].displayName[0]),
+                child: Text(_texts[index][0]),
               ),
             );
           }),

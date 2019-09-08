@@ -18,7 +18,7 @@ enum ContactListType {
   Group,
 }
 
-enum ContactListAction {
+enum ListAction {
   None,
   Select,
 }

@@ -64,7 +64,7 @@ class WSPollsModule {
     }
   }
 
-  static Future<int> shareToGroup(int pollid, int groupid,
+  static Future<int> shareToGroup(int pollid, List<int> groupids,
       {Function callback}) async {
     try {
       int messageid = await WSUtility.getNextMessageId();
@@ -72,7 +72,7 @@ class WSPollsModule {
           module: WSUtility.pollModule,
           event: shareToGroupEvent,
           messageid: messageid,
-          data: {'pollid': pollid, 'groupid': groupid});
+          data: {'pollid': pollid, 'groupids': groupids});
       MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);

@@ -26,7 +26,7 @@ class GroupParticipantsScreen extends StatelessWidget {
   Widget _getParticipantsList() {
     return ContactList(
       contactListType: ContactListType.AllLoudly,
-      actionRequired: ContactListAction.Select,
+      actionRequired: ListAction.Select,
       selectedUsers: this.selectedUsers,
     );
   }

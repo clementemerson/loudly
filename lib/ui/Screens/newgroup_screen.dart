@@ -5,7 +5,7 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/providers/user.dart';
 import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/ui/Screens/groupparticipants_screen.dart';
-import 'package:loudly/ui/widgets/peopleavatarlist.dart';
+import 'package:loudly/ui/widgets/avatarlist.dart';
 
 class NewGroupScreen extends StatefulWidget {
   static final String route = 'newgroup_screen';
@@ -93,8 +93,9 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             ),
             _selectedUsers.isNotEmpty
                 ? Container(
-                    child: PeopleAvatarList(
-                      selectedUsers: _selectedUsers,
+                    child: AvatarList(
+                      texts: List<String>.from(
+                          _selectedUsers.map((user) => user.displayName)),
                     ),
                   )
                 : Container(
