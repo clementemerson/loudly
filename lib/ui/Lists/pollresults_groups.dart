@@ -10,7 +10,10 @@ class GroupPollResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Poll poll = Provider.of<Poll>(context);
-    return Column(children: [
+    return ListView(
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      children: [
       Center(
         child: Text(
           GroupPollResults.resultsFromGroup,
@@ -22,6 +25,7 @@ class GroupPollResults extends StatelessWidget {
       ),
       ListView.separated(
         shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
         separatorBuilder: (context, index) => Divider(
           height: 4.0,
           color: Colors.grey,

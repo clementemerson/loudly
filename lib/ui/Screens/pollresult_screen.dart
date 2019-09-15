@@ -27,6 +27,7 @@ class PollResultScreen extends StatelessWidget {
           right: 8.0,
         ),
         child: ListView(
+          shrinkWrap: true,
           children: [
             SizedBox(
               height: 10.0,
