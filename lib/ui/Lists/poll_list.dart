@@ -12,9 +12,9 @@ import 'package:provider/provider.dart';
 
 class PollList extends StatelessWidget {
   final PollListType pollListType;
-  final int groupId;
+  final int groupid;
 
-  PollList({@required this.pollListType, this.groupId});
+  PollList({@required this.pollListType, this.groupid});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class PollList extends StatelessWidget {
         pollList = pollStore.polls;
         break;
       case PollListType.Group:
-        pollList = pollStore.pollsInGroup(groupid: groupId);
+        pollList = pollStore.pollsInGroup(groupid: groupid);
         break;
       case PollListType.User:
         pollList = pollStore.pollsCreatedBy(userid: Globals.selfUserId);

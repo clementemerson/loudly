@@ -26,7 +26,8 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     print('state = $state');
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed &&
+        WebSocketHelper().connectionEstablished == false) {
       final String token = await SecureStorage().read(key: jwtToken);
       WebSocketHelper().initConnection(token: token);
     }

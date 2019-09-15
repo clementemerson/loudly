@@ -290,13 +290,19 @@ class WSPollsModule {
   static Future<void> shareToGroupReply(GeneralMessageFormat genFormatMessage,
       {@required Message sentMessage}) async {
     try {
-      GroupPollModel data = new GroupPollModel(
-          pollid: sentMessage.data['pollid'],
-          groupid: sentMessage.data['groupid'],
-          sharedBy: Globals.selfUserId,
-          createdAt: genFormatMessage.message.data.createdAt,
-          archived: false);
-      GroupPollModel.insert(data);
+      final groupids = genFormatMessage.message.data['sharedToOK'];
+      final pollid = sentMessage.data['pollid'];
+
+      for (var groupid in groupids) {
+        GroupPollModel data = new GroupPollModel(
+            pollid: pollid,
+            groupid: groupid,
+            sharedBy: Globals.selfUserId,
+            createdAt: genFormatMessage.message.data['createdAt'],
+            archived: false);
+        GroupPollModel.insert(data);
+      }
+      ToastGenerator.showBottomToast('Poll is shared...');
     } catch (Exception) {
       throw Exception(parsingWSMessageFailed);
     }

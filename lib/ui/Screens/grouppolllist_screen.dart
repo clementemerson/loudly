@@ -23,7 +23,7 @@ class GroupPollListScreen extends StatelessWidget {
         ),
         body: PollList(
           pollListType: PollListType.Group,
-          groupId: groupid,
+          groupid: groupid,
         ),
       ),
     );

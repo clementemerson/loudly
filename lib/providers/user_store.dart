@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/user_info_model.dart';
+import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/providers/user.dart';
 
 class UserStore with ChangeNotifier {
   // Create a singleton
   UserStore._() {
     _users = [];
-    _initUserList();
   }
 
   static final UserStore store = UserStore._();
@@ -35,6 +35,10 @@ class UserStore with ChangeNotifier {
         .where((user) =>
             user.displayName.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
+  }
+
+  init() async {
+    _initUserList();
   }
 
   _initUserList() async {

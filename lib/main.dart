@@ -22,7 +22,11 @@ import 'package:loudly/ui/Screens/sharecontent_screen.dart';
 import 'package:loudly/ui/Screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  UserStore.store.init();
+  PollStore.store.init();
+  // GroupStore.store.init();
+
   runApp(MyApp());
 }
 

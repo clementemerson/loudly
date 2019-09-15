@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/group_info_model.dart';
+import 'package:loudly/models/group_poll_model.dart';
 import 'package:loudly/providers/group.dart';
 
 class GroupStore with ChangeNotifier {
   // Create a singleton
   GroupStore._() {
-    _initGroupList();
+    _groups = [];
   }
 
   static final GroupStore store = GroupStore._();
 
-  List<Group> _groups = [];
+  List<Group> _groups;
 
   List<Group> get groups {
     return [..._groups];
@@ -37,6 +38,10 @@ class GroupStore with ChangeNotifier {
         .toList();
   }
 
+  init() async {
+    _initGroupList();
+  }
+
   _initGroupList() async {
     List<GroupInfoModel> groupList = await GroupInfoModel.getAll();
     for (GroupInfoModel data in groupList) {
@@ -48,6 +53,19 @@ class GroupStore with ChangeNotifier {
           createdAt: data.createdAt);
 
       this.addGroup(newGroup: group);
+      _initGroupPolls(data.groupid);
+    }
+  }
+
+  _initGroupPolls(int groupid) async {
+    List<int> pollids = await GroupPollModel.getPollIdsByGroup(groupid);
+    print('_initGroupPolls');
+    if (pollids.length == 0) return;
+
+print(pollids);
+    Group group = GroupStore.store.findById(id: groupid);
+    for (var pollid in pollids) {
+      group.addPoll(pollid: pollid);
     }
   }
 }

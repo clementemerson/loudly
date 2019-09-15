@@ -45,9 +45,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: TabBarView(
           children: [
-            PollList(pollListType: PollListType.All),
-            GroupList(),
-            PollList(pollListType: PollListType.User),
+            PollList(
+              pollListType: PollListType.All,
+            ),
+            GroupList(
+              actionRequired: ListAction.None,
+              selectedGroups: null,
+            ),
+            PollList(
+              pollListType: PollListType.User,
+            ),
           ],
         ),
       ),

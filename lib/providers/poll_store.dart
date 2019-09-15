@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/poll_data_model.dart';
+import 'package:loudly/providers/group_store.dart';
 import 'package:loudly/providers/poll.dart';
 import 'package:loudly/providers/poll_option.dart';
 
 class PollStore with ChangeNotifier {
   // Create a singleton
   PollStore._() {
-    _initPollList();
+    _polls = [];
   }
 
   static final PollStore store = PollStore._();
 
-  List<Poll> _polls = [];
+  List<Poll> _polls;
 
   List<Poll> get polls {
     return [..._polls];
@@ -37,6 +38,11 @@ class PollStore with ChangeNotifier {
 
   List<Poll> pollsInGroup({@required int groupid}) {
     return _polls.where((poll) => poll.isInGroup(groupid: groupid)).toList();
+  }
+
+  init() async {
+    await _initPollList();
+    GroupStore.store.init();
   }
 
   _initPollList() async {

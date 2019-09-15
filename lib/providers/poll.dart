@@ -87,6 +87,8 @@ class Poll with ChangeNotifier {
 
       _groupPollCatalog.add(groupPollInfo: groupPollInfo);
     }
+
+    notifyListeners();
   }
 
   removeFromGroup({@required int groupid}) {

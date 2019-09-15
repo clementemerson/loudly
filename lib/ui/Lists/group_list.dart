@@ -14,7 +14,7 @@ class GroupList extends StatefulWidget {
   final List<Group> selectedGroups;
   final String searchText;
 
-  GroupList({this.actionRequired, this.selectedGroups, this.searchText});
+  GroupList({this.actionRequired, this.selectedGroups, this.searchText = ''});
 
   @override
   _GroupListState createState() => _GroupListState();

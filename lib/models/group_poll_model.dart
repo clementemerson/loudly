@@ -110,4 +110,23 @@ class GroupPollModel {
       return maps[i][GroupPollModel.columnPollId];
     });
   }
+
+  static Future<List<int>> getPollIdsByGroup(int groupid) async {
+    // Get a reference to the database.
+    final Database db = await DBProvider.db.database;
+
+    // Query the table for all The dogs.
+    final List<Map<String, dynamic>> maps = await db.query(
+        GroupPollModel.tablename,
+        where: "${GroupPollModel.columnGroupId} = ?",
+        whereArgs: [groupid],
+        distinct: true,
+        columns: [GroupPollModel.columnPollId],
+        orderBy: '${GroupPollModel.columnCreatedAt} DESC');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return maps[i][GroupPollModel.columnPollId];
+    });
+  }
 }
