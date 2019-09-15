@@ -31,7 +31,11 @@ class WSGroupsModule {
           module: WSUtility.groupModule,
           event: createEvent,
           messageid: messageid,
-          data: {'name': groupName, 'desc': description, 'users': users.toList()});
+          data: {
+            'name': groupName,
+            'desc': description,
+            'userids': users.toList(),
+          });
       MessageStore().add(message);
 
       WebSocketHelper().sendMessage(message.toJson(), callback: callback);
