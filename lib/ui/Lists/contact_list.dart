@@ -7,6 +7,7 @@ import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/user.dart';
 import 'package:loudly/providers/user_store.dart';
+import 'package:loudly/ui/tiles/contact_tile.dart';
 import 'package:loudly/ui/widgets/avatarlist.dart';
 import 'package:provider/provider.dart';
 
@@ -104,47 +105,5 @@ class _ContactListState extends State<ContactList> {
       return userStore.searchByText(searchText);
     else
       return userStore.users;
-  }
-}
-
-class ContactTile extends StatelessWidget {
-  final ListAction actionRequired;
-  final bool isSelected;
-  final Function onTap;
-
-  ContactTile({
-    @required this.actionRequired,
-    @required this.isSelected,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-
-    return ListTile(
-      title: Text(
-        '${user.displayName}',
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Text(
-        '${user.statusMsg}',
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: actionRequired == ListAction.Select
-          ? Checkbox(
-              value: isSelected,
-              onChanged: (value) {},
-            )
-          : Container(
-              width: 0,
-              height: 0,
-            ),
-      onTap: actionRequired == ListAction.Select
-          ? () {
-              if (onTap != null) onTap();
-            }
-          : null,
-    );
   }
 }

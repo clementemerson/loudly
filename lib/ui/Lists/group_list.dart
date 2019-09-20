@@ -5,8 +5,8 @@ import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/group.dart';
 import 'package:loudly/providers/group_store.dart';
 import 'package:loudly/ui/Screens/grouppolllist_screen.dart';
+import 'package:loudly/ui/tiles/group_tile.dart';
 
-import 'package:loudly/ui/widgets/group_tile.dart';
 import 'package:provider/provider.dart';
 
 class GroupList extends StatefulWidget {

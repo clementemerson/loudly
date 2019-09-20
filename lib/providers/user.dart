@@ -6,12 +6,14 @@ class User with ChangeNotifier {
   int userid;
   String displayName;
   String statusMsg;
+  String phoneNumber;
   List<int> _groupIds = [];
 
   User(
       {@required this.userid,
       @required this.displayName,
-      @required this.statusMsg});
+      @required this.statusMsg,
+      @required this.phoneNumber});
 
   List<Group> get groups {
     return GroupStore.store.groups

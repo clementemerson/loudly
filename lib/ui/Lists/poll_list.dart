@@ -6,7 +6,7 @@ import 'package:loudly/providers/poll.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/ui/globals.dart';
-import 'package:loudly/ui/widgets/poll_tile.dart';
+import 'package:loudly/ui/tiles/poll_tile.dart';
 
 import 'package:provider/provider.dart';
 

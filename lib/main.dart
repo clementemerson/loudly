@@ -40,41 +40,39 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
         ChangeNotifierProvider.value(value: GroupStore.store),
         ChangeNotifierProvider.value(value: UserStore.store),
       ],
-      child: LifeCycleManager(
-        child: MaterialApp(
-          title: 'Loudly',
-          theme: ThemeData.dark(),
-          initialRoute: WelcomeScreen.route,
-          routes: {
-            WelcomeScreen.route: (context) => WelcomeScreen(),
-            GroupPollListScreen.route: (context) => GroupPollListScreen(),
-            HomeScreen.route: (context) => HomeScreen(),
-            ImagesScreen.route: (context) => ImagesScreen(),
-            NewGroupScreen.route: (context) => NewGroupScreen(),
-            NewPollScreen.route: (context) => NewPollScreen(),
-            PhoneLoginScreen.route: (context) => PhoneLoginScreen(),
-            PhoneVerifyScreen.route: (context) => PhoneVerifyScreen(),
-            PollResultScreen.route: (context) => PollResultScreen(),
-            PollVoteScreen.route: (context) => PollVoteScreen(),
-            SearchScreen.route: (context) => SearchScreen(),
-            SettingsScreen.route: (context) => SettingsScreen(),
-            ShareContentScreen.route: (context) => ShareContentScreen(),
-            SetupScreen.route: (context) => SetupScreen(),
-          },
-          onGenerateRoute: (settings) {
-            if (settings.name == GroupParticipantsScreen.route) {
-              final List<User> args = settings.arguments;
-              return MaterialPageRoute(
-                builder: (context) {
-                  return GroupParticipantsScreen(
-                    selectedUsers: args,
-                  );
-                },
-              );
-            }
-            return null;
-          },
-        ),
+      child: MaterialApp(
+        title: 'Loudly',
+        theme: ThemeData.dark(),
+        initialRoute: WelcomeScreen.route,
+        routes: {
+          WelcomeScreen.route: (context) => WelcomeScreen(),
+          GroupPollListScreen.route: (context) => GroupPollListScreen(),
+          HomeScreen.route: (context) => HomeScreen(),
+          ImagesScreen.route: (context) => ImagesScreen(),
+          NewGroupScreen.route: (context) => NewGroupScreen(),
+          NewPollScreen.route: (context) => NewPollScreen(),
+          PhoneLoginScreen.route: (context) => PhoneLoginScreen(),
+          PhoneVerifyScreen.route: (context) => PhoneVerifyScreen(),
+          PollResultScreen.route: (context) => PollResultScreen(),
+          PollVoteScreen.route: (context) => PollVoteScreen(),
+          SearchScreen.route: (context) => SearchScreen(),
+          SettingsScreen.route: (context) => SettingsScreen(),
+          ShareContentScreen.route: (context) => ShareContentScreen(),
+          SetupScreen.route: (context) => SetupScreen(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == GroupParticipantsScreen.route) {
+            final List<User> args = settings.arguments;
+            return MaterialPageRoute(
+              builder: (context) {
+                return GroupParticipantsScreen(
+                  selectedUsers: args,
+                );
+              },
+            );
+          }
+          return null;
+        },
       ),
     );
   }

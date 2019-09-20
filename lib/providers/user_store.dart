@@ -47,7 +47,8 @@ class UserStore with ChangeNotifier {
       User user = User(
           userid: data.userId,
           displayName: data.name,
-          statusMsg: data.statusMsg);
+          statusMsg: data.statusMsg,
+          phoneNumber: data.phoneNumber);
 
       this.addUser(newUser: user);
     }
