@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/project_enums.dart';
 import 'package:loudly/providers/group.dart';
+import 'package:loudly/ui/widgets/styledtext.dart';
 import 'package:provider/provider.dart';
 
 class GroupTile extends StatelessWidget {
   final ListAction actionRequired;
   final bool isSelected;
+  final String searchText;
   final Function onTap;
 
   GroupTile({
     @required this.actionRequired,
     @required this.isSelected,
+    @required this.searchText,
     this.onTap,
   });
 
@@ -19,10 +22,7 @@ class GroupTile extends StatelessWidget {
     final group = Provider.of<Group>(context);
 
     return ListTile(
-      title: Text(
-        '${group.title}',
-        overflow: TextOverflow.ellipsis,
-      ),
+      title: StyledText(group.title, searchText),
       subtitle: Text(
         '${group.desc}',
         overflow: TextOverflow.ellipsis,

@@ -41,6 +41,7 @@ class _GroupListState extends State<GroupList> {
         child: GroupTile(
           actionRequired: widget.actionRequired,
           isSelected: _isSelected(groupList[index]),
+          searchText: widget.searchText,
           onTap: (widget.actionRequired == ListAction.Select)
               ? () {
                   setState(() {

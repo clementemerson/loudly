@@ -60,7 +60,6 @@ class ContactsHelper {
       Iterable<Contact> contacts = await ContactsService.getContacts();
       for (var contact in contacts) {
         for (var phone in contact.phones) {
-          print(phone);
           String phoneNumber;
           try {
             dynamic phoneParsed =
