@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/project_textconstants.dart';
-import 'package:loudly/resources/phone_services/contacts_helper.dart';
-import 'package:loudly/resources/phone_services/secure_storage.dart';
-import 'package:loudly/resources/ws/websocket.dart';
 
 class LifeCycleManager extends StatefulWidget {
   final Widget child;

@@ -7,6 +7,8 @@ class User with ChangeNotifier {
   String displayName;
   String statusMsg;
   String phoneNumber;
+  String phoneName;
+
   List<int> _groupIds = [];
 
   User(
@@ -15,14 +17,10 @@ class User with ChangeNotifier {
       @required this.statusMsg,
       @required this.phoneNumber});
 
-  List<Group> get groups {
-    return GroupStore.store.groups
-        .where((group) => _groupIds.contains(group.groupid));
-  }
+  List<Group> get groups => GroupStore.store.groups
+      .where((group) => _groupIds.contains(group.groupid));
 
-  isInGroup({@required int groupid}) {
-    return _groupIds.contains(groupid);
-  }
+  isInGroup({@required int groupid}) => _groupIds.contains(groupid);
 
   bool addToGroup({@required int groupid}) {
     if (!_groupIds.contains(groupid)) {

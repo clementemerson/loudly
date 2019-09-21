@@ -45,6 +45,7 @@ class _ContactListState extends State<ContactList> {
         child: ContactTile(
           actionRequired: widget.actionRequired,
           isSelected: _isSelected(userList[index]),
+          searchText: searchText,
           onTap: () {
             setState(() {
               if (this.mounted == true) {

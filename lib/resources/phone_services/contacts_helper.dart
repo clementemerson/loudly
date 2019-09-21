@@ -38,8 +38,6 @@ class ContactsHelper {
           permissionGroup: PermissionGroup.contacts);
       if (hasPermission == true) {
         await _getPhoneContactsHelper();
-      } else {
-        throw Exception(failedGetContactsFromPhone);
       }
     } catch (Exception) {
       throw Exception(failedGetContactsFromPhone);

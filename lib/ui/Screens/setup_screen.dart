@@ -7,7 +7,6 @@ import 'package:loudly/resources/ws/event_handlers/groupmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/pollmodule.dart';
 import 'package:loudly/resources/ws/event_handlers/usermodule.dart';
 import 'package:loudly/ui/Screens/home_screen.dart';
-import 'package:phone_number/phone_number.dart';
 
 class SetupScreen extends StatefulWidget {
   static final String route = 'setup_screen';

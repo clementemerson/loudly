@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:loudly/data/database.dart';
 import 'package:loudly/providers/user.dart';
 import 'package:loudly/providers/user_store.dart';
+import 'package:loudly/resources/phone_services/contacts_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 List<UserInfoModel> userInfoFromJson(String str) =>
@@ -91,11 +92,14 @@ class UserInfoModel {
       print(Exception);
     }
 
-    UserStore.store.addUser(
-        newUser: User(
-            userid: data.userId,
-            displayName: data.name,
-            statusMsg: data.statusMsg));
+    User user = User(
+        userid: data.userId,
+        displayName: data.name,
+        statusMsg: data.statusMsg,
+        phoneNumber: data.phoneNumber);
+    user.phoneName = ContactsHelper.getUserNameInPhone(data.phoneNumber);
+
+    UserStore.store.addUser(newUser: user);
   }
 
   static Future<List<UserInfoModel>> getAll() async {

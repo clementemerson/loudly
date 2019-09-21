@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loudly/lifecycle_manager.dart';
 import 'package:loudly/providers/group_store.dart';
 import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/providers/user.dart';

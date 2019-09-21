@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loudly/models/user_info_model.dart';
-import 'package:loudly/providers/poll_store.dart';
 import 'package:loudly/providers/user.dart';
+import 'package:loudly/resources/phone_services/contacts_helper.dart';
 
 class UserStore with ChangeNotifier {
   // Create a singleton
@@ -31,10 +31,16 @@ class UserStore with ChangeNotifier {
   }
 
   List<User> searchByText(String searchText) {
-    return _users
-        .where((user) =>
-            user.displayName.toLowerCase().contains(searchText.toLowerCase()))
-        .toList();
+    String lowerCaseText = searchText.toLowerCase();
+    return _users.where((user) {
+      if (user.phoneName != null) {
+        return user.phoneName.toLowerCase().contains(lowerCaseText);
+      } else {
+        return user.displayName
+            .toLowerCase()
+            .contains(searchText.toLowerCase());
+      }
+    }).toList();
   }
 
   init() async {
@@ -43,12 +49,17 @@ class UserStore with ChangeNotifier {
 
   _initUserList() async {
     List<UserInfoModel> groupList = await UserInfoModel.getAll();
+    Map<String, PhoneContact> contacts =
+        await ContactsHelper.updatePhoneContacts();
     for (UserInfoModel data in groupList) {
       User user = User(
           userid: data.userId,
           displayName: data.name,
           statusMsg: data.statusMsg,
           phoneNumber: data.phoneNumber);
+      user.phoneName = contacts.isNotEmpty
+          ? ContactsHelper.getUserNameInPhone(user.phoneNumber)
+          : null;
 
       this.addUser(newUser: user);
     }
