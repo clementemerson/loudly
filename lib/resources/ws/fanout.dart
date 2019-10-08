@@ -9,10 +9,10 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'message_models/general_message_format.dart';
 
-class WebSocketHelper {
-  //static final String serverName = 'wss://loudly.loudspeakerdev.net:8080';
-  static final String serverName = 'ws://127.0.0.1:8080';
-  //static final String serverName = 'ws://10.0.2.2:8080';
+class FanoutHelper {
+  //static final String serverName = 'wss://loudly.loudspeakerdev.net:9080';
+  static final String serverName = 'ws://127.0.0.1:9080';
+  //static final String serverName = 'ws://10.0.2.2:9080';
 
   static final String wsConnectionDone = '';
   static final String wsConnectionClosed = 'ws close onDone';
@@ -25,11 +25,11 @@ class WebSocketHelper {
   bool _connIsBeingEstablished = false;
   final callbackRegister = new Map();
 
-  static final WebSocketHelper _instance = WebSocketHelper._internal();
-  factory WebSocketHelper() => _instance;
+  static final FanoutHelper _instance = FanoutHelper._internal();
+  factory FanoutHelper() => _instance;
   bool firstMessageReceived = false;
 
-  WebSocketHelper._internal() {
+  FanoutHelper._internal() {
     // init things inside this
     _connEstablished = false;
   }
@@ -44,7 +44,7 @@ class WebSocketHelper {
       _connIsBeingEstablished = true;
 
       //var headers = {'token': token};
-      String connectionString = WebSocketHelper.serverName + '?token=$token';
+      String connectionString = FanoutHelper.serverName + '?token=$token';
 
       WebSocket ws = await WebSocket.connect(connectionString);
       ws.listen(
@@ -75,20 +75,6 @@ class WebSocketHelper {
       _connEstablished = false;
       _connIsBeingEstablished = false;
       throw Exception(initWSConnectionFailed);
-    }
-  }
-
-  void sendMessage(var message, {Function callback}) {
-    try {
-      print('$sending: $message');
-      if (_connEstablished == true) {
-        callbackRegister[message[Message.jsonMessageId]] = callback;
-        channel.sink.add(json.encode(message));
-      } else {
-        throw Exception(noWSConnection);
-      }
-    } catch (Exception) {
-      throw Exception(sendingWSMessageFailed);
     }
   }
 

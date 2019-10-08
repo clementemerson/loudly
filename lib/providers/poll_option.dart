@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class PollOption {
   int optionIndex;
   String optionText;
-  int openVotes = -1;
-  int secretVotes = -1;
+  int openVotes = 0;
+  int secretVotes = 0;
 
   PollOption(
       {@required this.optionIndex,

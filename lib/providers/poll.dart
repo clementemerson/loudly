@@ -78,8 +78,8 @@ class Poll with ChangeNotifier {
         PollOption option = PollOption(
             optionIndex: pollOption.optionIndex,
             optionText: pollOption.optionText,
-            openVotes: -1,
-            secretVotes: -1);
+            openVotes: 0,
+            secretVotes: 0);
 
         pollOptions.add(option);
       }

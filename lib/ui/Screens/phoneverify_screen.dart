@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loudly/resources/phone_services/secure_storage.dart';
 
 import 'package:loudly/resources/rest/login_service.dart';
+import 'package:loudly/resources/ws/fanout.dart';
 import 'package:loudly/resources/ws/websocket.dart';
 import 'package:loudly/common_widgets.dart';
 import 'package:loudly/project_settings.dart';
@@ -37,10 +38,14 @@ class _PhoneVerifyScreenState extends State<PhoneVerifyScreen> {
       String token = data['token'];
       Globals.selfUserId = data['user_id'];
       await SecureStorage().write(key: jwtToken, value: token);
-      await SecureStorage().write(key: selfUser, value: Globals.selfUserId.toString());
-      
+      await SecureStorage()
+          .write(key: selfUser, value: Globals.selfUserId.toString());
+
       WebSocketHelper()
           .initConnection(token: token, initCallback: setupWebSocketConnection);
+
+      FanoutHelper()
+          .initConnection(token: token, initCallback: () => {});
 
       //Navigator.pushNamed(context, SetupScreen.id);
     } catch (Exception) {
